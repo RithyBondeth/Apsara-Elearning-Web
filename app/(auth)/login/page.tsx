@@ -16,6 +16,7 @@ import { BrandLogo } from "@/components/utils/brand-logo"
 import { TypographyH3 } from "@/components/utils/typography/typography-h3"
 import { TypographyMuted } from "@/components/utils/typography/typography-muted"
 import { loginRequest, resendVerificationRequest } from "@/lib/auth/client"
+import { safeNext, withNext } from "@/lib/auth/next-param"
 import { loginSchema, type TLoginInput } from "@/lib/validation/auth"
 
 function LoginInner() {
@@ -66,8 +67,7 @@ function LoginInner() {
     if (result.ok) {
       /* middleware bounces authed users off /login, so a full navigation to the
          intended destination re-runs it with the fresh cookie in place. */
-      const next = searchParams.get("next")
-      router.replace(next && next.startsWith("/") ? next : "/dashboard")
+      router.replace(safeNext(searchParams.get("next")) ?? "/dashboard")
       return
     }
 
@@ -204,7 +204,7 @@ function LoginInner() {
             <TypographyMuted className="text-center text-sm">
               {t("noAccount")}{" "}
               <Link
-                href="/register"
+                href={withNext("/register", searchParams.get("next"))}
                 className="font-semibold text-violet-600 hover:underline dark:text-violet-400"
               >
                 {t("signUp")}

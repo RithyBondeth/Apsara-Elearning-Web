@@ -12,6 +12,7 @@ import { BrandLogo } from "@/components/utils/brand-logo"
 import { TypographyH3 } from "@/components/utils/typography/typography-h3"
 import { TypographyMuted } from "@/components/utils/typography/typography-muted"
 import { verifyEmailRequest, resendVerificationRequest } from "@/lib/auth/client"
+import { withNext } from "@/lib/auth/next-param"
 
 type TStatus = "notice" | "checking" | "success" | "failed"
 
@@ -20,6 +21,9 @@ function VerifyEmailInner() {
   const params = useSearchParams()
   const email = params.get("email") ?? ""
   const urlToken = params.get("token")
+  /* Carried from register → verify so login can return the user to where the
+     middleware first bounced them. */
+  const loginHref = withNext("/login", params.get("next"))
 
   /* Two entry paths: a `?token=` link auto-verifies; otherwise we show the
      post-register notice with a paste box (the email delivers a raw token, not
@@ -73,7 +77,7 @@ function VerifyEmailInner() {
             <CheckCircle2 className="mx-auto size-12 text-emerald-500" />
             <TypographyH3 className="text-xl font-bold">{t("verifySuccess")}</TypographyH3>
             <Button asChild className="btn-shine w-full">
-              <Link href="/login">{t("goToLogin")}</Link>
+              <Link href={loginHref}>{t("goToLogin")}</Link>
             </Button>
           </>
         )}
@@ -122,7 +126,7 @@ function VerifyEmailInner() {
             </div>
 
             <TypographyMuted className="text-sm">
-              <Link href="/login" className="font-semibold text-violet-600 hover:underline dark:text-violet-400">
+              <Link href={loginHref} className="font-semibold text-violet-600 hover:underline dark:text-violet-400">
                 {t("goToLogin")}
               </Link>
             </TypographyMuted>

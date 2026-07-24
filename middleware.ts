@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server"
 
 import { REFRESH_COOKIE } from "@/lib/auth/cookie-names"
+import { NEXT_PARAM } from "@/lib/auth/next-param"
 
 /**
  * Routing-level session gating.
@@ -28,7 +29,7 @@ export function middleware(request: NextRequest) {
   if (PROTECTED.some((p) => pathname.startsWith(p)) && !hasSession) {
     const loginUrl = new URL("/login", request.url)
     /* Preserve the destination so login can return the user to it. */
-    loginUrl.searchParams.set("next", pathname)
+    loginUrl.searchParams.set(NEXT_PARAM, pathname)
     return NextResponse.redirect(loginUrl)
   }
 

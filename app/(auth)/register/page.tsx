@@ -1,8 +1,8 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { Suspense, useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -23,6 +23,7 @@ import { TypographyH3 } from "@/components/utils/typography/typography-h3"
 import { TypographyMuted } from "@/components/utils/typography/typography-muted"
 import { TypographySmall } from "@/components/utils/typography/typography-small"
 import { registerRequest } from "@/lib/auth/client"
+import { withNext } from "@/lib/auth/next-param"
 import { registerSchema, type TRegisterInput } from "@/lib/validation/auth"
 
 const BENEFITS = [
@@ -35,12 +36,13 @@ const BENEFITS = [
 const boxedField =
   "bg-background/70 backdrop-blur-sm transition-shadow duration-300 focus-within:shadow-[0_0_24px_-8px_rgba(35,131,226,0.5)]"
 
-export default function RegisterPage() {
+function RegisterInner() {
   const [passwordVisible, setPasswordVisible] = useState(false)
   const [confirmVisible, setConfirmVisible] = useState(false)
   const t = useTranslations("auth")
   const tv = useTranslations("auth.validation")
   const router = useRouter()
+  const searchParams = useSearchParams()
   const formRef = useRef<HTMLDivElement>(null)
 
   const {
@@ -75,8 +77,14 @@ export default function RegisterPage() {
     }
 
     /* Login is gated on email verification, so we can't start a session here —
-       send them to the verify notice with the address prefilled. */
-    router.replace(`/verify-email?email=${encodeURIComponent(values.email)}&sent=1`)
+       send them to the verify notice with the address prefilled. `next` is
+       carried through so it survives to the eventual login. */
+    router.replace(
+      withNext(
+        `/verify-email?email=${encodeURIComponent(values.email)}&sent=1`,
+        searchParams.get("next")
+      )
+    )
   }
 
   const errText = (key: keyof TRegisterInput) =>
@@ -270,7 +278,7 @@ export default function RegisterPage() {
             <TypographyMuted className="text-center text-sm">
               {t("alreadyHaveAccount")}{" "}
               <Link
-                href="/login"
+                href={withNext("/login", searchParams.get("next"))}
                 className="font-semibold text-violet-600 hover:underline dark:text-violet-400"
               >
                 {t("signIn")}
@@ -280,5 +288,13 @@ export default function RegisterPage() {
         </form>
       </div>
     </div>
+  )
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={null}>
+      <RegisterInner />
+    </Suspense>
   )
 }
