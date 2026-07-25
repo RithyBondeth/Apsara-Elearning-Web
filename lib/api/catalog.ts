@@ -16,6 +16,11 @@ export const getProgrammingCategories = () =>
   apiGet<IApiProgrammingCategory[]>("/programming-category")
 export const getFaculties = () => apiGet<IApiFaculty[]>("/faculty")
 export const getCourses = () => apiGet<IApiCourse[]>("/course/published")
+/** Keyword search over published courses. */
+export const searchCourses = (q: string, limit = 8) =>
+  apiGet<IApiCourse[]>(
+    `/course/search?q=${encodeURIComponent(q)}&limit=${limit}`
+  )
 export const getCourseBySlug = (slug: string) =>
   apiGet<IApiCourse>(`/course/slug/${slug}`)
 export const getCourseById = (id: string) => apiGet<IApiCourse>(`/course/${id}`)

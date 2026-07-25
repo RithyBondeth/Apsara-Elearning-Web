@@ -4,12 +4,13 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
-  Settings, Bell, Search,
+  Settings, Bell,
   LogOut, Home, BookOpen,
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Avatar } from "@/components/utils/avatar"
 import { BrandLogo } from "@/components/utils/brand-logo"
+import { CourseSearch } from "@/components/utils/course-search"
 import { ConfirmDialog } from "@/components/utils/confirm-dialog"
 import { ThemeToggle } from "@/components/utils/themes/theme-toggle"
 import { LanguageSwitcher } from "@/components/utils/language-switcher"
@@ -161,15 +162,7 @@ export function AppShell({ children }: IWithChildren) {
           </button>
 
           {/* Search */}
-          <div className="flex-1 max-w-sm">
-            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-muted/60 border border-border text-sm text-muted-foreground">
-              <Search className="size-4 shrink-0" />
-              <span>{tDash("search")}</span>
-              <kbd className="ml-auto text-[10px] px-1.5 py-0.5 rounded-md bg-background border border-border text-muted-foreground">
-                ⌘K
-              </kbd>
-            </div>
-          </div>
+          <CourseSearch label={tDash("search")} />
 
           {/* Right actions */}
           <div className="ml-auto flex items-center gap-2">
