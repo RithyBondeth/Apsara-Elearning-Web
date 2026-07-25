@@ -249,13 +249,29 @@ export default function CoursesPage() {
 
                 {/* Subject grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                  {catalog.subjects.map((subject, i) => {
+                  {(() => {
+                    const gradeLevelId = catalog.gradeLevels.find((g) => g.grade === grade)?.id
+                    // One card per subject — but a subject may offer several courses at
+                    // the same grade (e.g. Grade 12 maths splits into មូលដ្ឋាន / កម្រិតខ្ពស់),
+                    // so those fan out into one card per course variant.
+                    return catalog.subjects.flatMap((subject, i) => {
+                      const subjectCourses = catalog.courses.filter(
+                        (c) => c.programType === "k12" && c.subjectId === subject.id && c.gradeLevelId === gradeLevelId,
+                      )
+                      if (subjectCourses.length <= 1) return [{ subject, i, course: subjectCourses[0], variant: "" }]
+                      return subjectCourses.map((course) => {
+                        const tt = course.title ?? ""
+                        const variant = tt.includes("មូលដ្ឋាន")
+                          ? "មូលដ្ឋាន"
+                          : tt.includes("កម្រិតខ្ពស់")
+                            ? "កម្រិតខ្ពស់"
+                            : tt
+                        return { subject, i, course, variant }
+                      })
+                    })
+                  })().map(({ subject, i, course, variant }) => {
                     const colors = COLOR[colorFor(i)]
                     const Icon   = ICON_MAP[subject.icon ?? ""] ?? BookOpen
-                    const gradeLevelId = catalog.gradeLevels.find((g) => g.grade === grade)?.id
-                    const course = catalog.courses.find(
-                      (c) => c.programType === "k12" && c.subjectId === subject.id && c.gradeLevelId === gradeLevelId
-                    )
                     const available = Boolean(course)
                     const lessonCount = course ? (catalog.lessonCounts[course.id] ?? 0) : 0
                     const enrolled = course ? enrolledMap[course.id] : undefined
@@ -279,6 +295,7 @@ export default function CoursesPage() {
                         <div>
                           <h3 className={`font-semibold text-base leading-tight ${available ? "text-foreground" : "text-muted-foreground"}`}>
                             {nameOf(subject.name, subject.nameKm)}
+                            {variant && <span className="text-violet-600 dark:text-violet-400"> · {variant}</span>}
                           </h3>
                           {subject.nameKm && (
                             <p className="text-[11px] text-muted-foreground mt-0.5">{subject.nameKm}</p>
@@ -319,9 +336,9 @@ export default function CoursesPage() {
                     )
 
                     return available ? (
-                      <Link key={subject.id} href={`/courses/${course!.slug}`}>{card}</Link>
+                      <Link key={`${subject.id}:${course!.id}`} href={`/courses/${course!.slug}`}>{card}</Link>
                     ) : (
-                      <div key={subject.id}>{card}</div>
+                      <div key={`${subject.id}:none`}>{card}</div>
                     )
                   })}
                 </div>

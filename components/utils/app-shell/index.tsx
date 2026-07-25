@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
   Settings, Bell,
-  LogOut, Home, BookOpen,
+  LogOut, Home, BookOpen, Sparkles,
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Avatar } from "@/components/utils/avatar"
@@ -27,6 +27,7 @@ import type { IWithChildren } from "@/utils/interfaces"
 const NAV_ITEMS = [
   { icon: Home,     key: "dashboard", href: "/dashboard" },
   { icon: BookOpen, key: "courses",   href: "/courses"   },
+  { icon: Sparkles, key: "aiMentor",  href: "/tutor"     },
 ] as const
 
 /* ── Component ────────────────────────────────────────────────────────── */

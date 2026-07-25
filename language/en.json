@@ -693,5 +693,19 @@
     "resetFailed": "This reset token is invalid or has expired.",
     "resetSuccessTitle": "Password reset!",
     "resetSuccessBody": "Your password has been changed. You can sign in with it now."
+  },
+  "tutor": {
+    "title": "Apsara AI",
+    "subtitle": "Your personal AI tutor",
+    "newChat": "New chat",
+    "noConversations": "No conversations yet",
+    "placeholder": "Ask Apsara AI anything…",
+    "emptyTitle": "How can I help you learn today?",
+    "emptyDesc": "Ask a question about any lesson, concept, or exercise.",
+    "thinking": "Thinking…",
+    "deleteTitle": "Delete conversation?",
+    "deleteDesc": "This conversation and its messages will be permanently removed.",
+    "demoReply": "Demo reply",
+    "errorSend": "Couldn't send your message. Please try again."
   }
 }
