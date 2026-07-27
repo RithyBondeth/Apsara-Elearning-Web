@@ -145,6 +145,16 @@ const MARKDOWN_COMPONENTS: Components = {
   pre: ({ children, node }) => {
     const { lang, value } = readCodeBlock(node)
     if (lang === "graph") return <GraphPlot spec={value} />
+    // ```diagram fences carry trusted, seed-authored inline SVG (e.g. biology
+    // diagrams). Render it directly in a themed figure. Content is authored in
+    // scripts/content, never user input, so dangerouslySetInnerHTML is safe here.
+    if (lang === "diagram")
+      return (
+        <figure
+          className="my-4 flex justify-center overflow-x-auto rounded-xl border bg-white p-3 [&_svg]:h-auto [&_svg]:max-w-full"
+          dangerouslySetInnerHTML={{ __html: value }}
+        />
+      )
     return <pre>{children}</pre>
   },
   h1: ({ children }) => <h2 className="mt-8 mb-2 text-xl font-bold text-foreground leading-khmer">{children}</h2>,
