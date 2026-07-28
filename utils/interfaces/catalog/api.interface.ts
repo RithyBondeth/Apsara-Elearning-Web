@@ -16,6 +16,7 @@ export interface IApiCourse {
   estimatedHours?: number
   published?: boolean
   requiresSubscription?: boolean
+  requiredEntitlement?: "courses:premium" | "ai:tutor" | "certificates"
   createdAt: string
   updatedAt: string
 }

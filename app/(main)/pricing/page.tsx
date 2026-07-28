@@ -2,42 +2,49 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { CheckCircle2, CreditCard, Loader2, Sparkles } from "lucide-react"
-import { useTranslations } from "next-intl"
+import {
+  Award,
+  Bot,
+  CalendarDays,
+  Check,
+  CheckCircle2,
+  CreditCard,
+  GraduationCap,
+  Loader2,
+  Sparkles,
+} from "lucide-react"
+import { useLocale, useTranslations } from "next-intl"
 import { AppShell } from "@/components/utils/app-shell"
 import { ApiError } from "@/lib/api/client"
 import {
   createBillingPortalSession,
   createCheckoutSession,
-  getActiveSubscription,
-  getSubscriptionPlans,
 } from "@/lib/api/subscription"
-import type {
-  IApiActiveSubscription,
-  IApiPlan,
-} from "@/utils/interfaces/subscription/api.interface"
+import type { IApiPlan } from "@/utils/interfaces/subscription/api.interface"
+import { useSubscriptionStore } from "@/stores/subscriptions/subscription-store"
+
+const FEATURE_ICONS = {
+  "courses:premium": GraduationCap,
+  "ai:tutor": Bot,
+  certificates: Award,
+} as const
 
 export default function PricingPage() {
   const t = useTranslations("pricing")
+  const locale = useLocale()
   const router = useRouter()
-  const [plans, setPlans] = useState<IApiPlan[]>([])
-  const [active, setActive] = useState<IApiActiveSubscription | null>(null)
-  const [loading, setLoading] = useState(true)
+  const plans = useSubscriptionStore((state) => state.plans)
+  const active = useSubscriptionStore((state) => state.active)
+  const loading = useSubscriptionStore((state) => state.loading)
+  const loaded = useSubscriptionStore((state) => state.loaded)
+  const loadError = useSubscriptionStore((state) => state.error)
+  const hydrate = useSubscriptionStore((state) => state.hydrate)
   const [pending, setPending] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    Promise.all([
-      getSubscriptionPlans(),
-      getActiveSubscription().catch(() => null),
-    ])
-      .then(([availablePlans, current]) => {
-        setPlans(availablePlans)
-        setActive(current)
-      })
-      .catch(() => setError(t("loadError")))
-      .finally(() => setLoading(false))
-  }, [t])
+    void hydrate()
+  }, [hydrate])
 
   const checkout = async (plan: IApiPlan) => {
     setPending(plan.id)
@@ -67,6 +74,25 @@ export default function PricingPage() {
     }
   }
 
+  const subscription = active?.subscription
+  const renewalValue = subscription
+    ? subscription.status === "trialing"
+      ? (subscription.trialEndsAt ?? subscription.currentPeriodEnd)
+      : (subscription.graceEndsAt ?? subscription.currentPeriodEnd)
+    : null
+  const renewalDate = renewalValue
+    ? new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(
+        new Date(renewalValue)
+      )
+    : null
+  const renewalKey = subscription?.cancelAtPeriodEnd
+    ? "accessEnds"
+    : subscription?.status === "trialing"
+      ? "trialEnds"
+      : subscription?.graceEndsAt
+        ? "graceEnds"
+        : "renewsOn"
+
   return (
     <AppShell>
       <main className="mx-auto max-w-5xl px-4 py-12">
@@ -80,9 +106,17 @@ export default function PricingPage() {
 
         {active && (
           <div className="mx-auto mt-8 flex max-w-2xl flex-col items-center justify-between gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/60 p-4 sm:flex-row dark:border-emerald-500/25 dark:bg-emerald-500/10">
-            <div className="flex items-center gap-2 text-sm text-emerald-700 dark:text-emerald-300">
-              <CheckCircle2 className="size-4" />
-              {t("currentPlan", { plan: active.plan.name })}
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+                <CheckCircle2 className="size-4" />
+                {t("currentPlan", { plan: active.plan.name })}
+              </div>
+              {renewalDate && (
+                <div className="mt-1 flex items-center gap-1.5 pl-6 text-xs text-emerald-700/80 dark:text-emerald-300/80">
+                  <CalendarDays className="size-3.5" />
+                  {t(renewalKey, { date: renewalDate })}
+                </div>
+              )}
             </div>
             <button
               onClick={manageBilling}
@@ -94,18 +128,18 @@ export default function PricingPage() {
               ) : (
                 <CreditCard className="size-3.5" />
               )}
-              {t("manageBilling")}
+              {t("manageSubscription")}
             </button>
           </div>
         )}
 
-        {error && (
+        {(error || loadError) && (
           <p className="mx-auto mt-6 max-w-2xl text-center text-sm text-destructive">
-            {error}
+            {error ?? t("loadError")}
           </p>
         )}
 
-        {loading ? (
+        {loading && !loaded ? (
           <div className="flex justify-center py-20">
             <Loader2 className="size-6 animate-spin text-violet-500" />
           </div>
@@ -130,22 +164,52 @@ export default function PricingPage() {
                     <span className="text-3xl font-bold text-foreground">
                       ${plan.price.toFixed(2)}
                     </span>
-                    <span className="pb-1 text-xs text-muted-foreground">
-                      /{t(plan.billingPeriod === "yearly" ? "year" : "month")}
-                    </span>
+                    {plan.billingPeriod !== "lifetime" && (
+                      <span className="pb-1 text-xs text-muted-foreground">
+                        /{t(plan.billingPeriod === "yearly" ? "year" : "month")}
+                      </span>
+                    )}
                   </div>
+                  {plan.trialDays > 0 && (
+                    <p className="mt-2 text-xs font-medium text-violet-600 dark:text-violet-300">
+                      {t("trialOffer", { days: plan.trialDays })}
+                    </p>
+                  )}
+                  <ul className="mt-5 space-y-2.5">
+                    {(plan.entitlements ?? []).map((entitlement) => {
+                      const FeatureIcon = FEATURE_ICONS[entitlement]
+                      return (
+                        <li
+                          key={entitlement}
+                          className="flex items-center gap-2.5 text-sm text-foreground"
+                        >
+                          <span className="flex size-6 items-center justify-center rounded-lg bg-violet-100 text-violet-600 dark:bg-violet-500/15 dark:text-violet-300">
+                            {FeatureIcon ? (
+                              <FeatureIcon className="size-3.5" />
+                            ) : (
+                              <Check className="size-3.5" />
+                            )}
+                          </span>
+                          {t(`features.${entitlement}`)}
+                        </li>
+                      )
+                    })}
+                  </ul>
                   <button
                     onClick={() => (active ? manageBilling() : checkout(plan))}
                     disabled={pending !== null || !plan.stripePriceId}
                     className="gradient-bg-primary mt-6 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {pending === plan.id && (
+                    {(pending === plan.id ||
+                      (pending === "portal" && active)) && (
                       <Loader2 className="size-4 animate-spin" />
                     )}
                     {isCurrent
-                      ? t("current")
+                      ? t("manageSubscription")
                       : active
-                        ? t("manageBilling")
+                        ? plan.price > active.plan.price
+                          ? t("upgrade")
+                          : t("changePlan")
                         : plan.stripePriceId
                           ? t("choose")
                           : t("unavailable")}

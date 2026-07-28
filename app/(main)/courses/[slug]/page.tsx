@@ -12,6 +12,7 @@ import {
   Circle,
   Clock,
   GraduationCap,
+  Lock,
   School,
   Sparkles,
 } from "lucide-react"
@@ -208,6 +209,12 @@ function ApiCourseDetail({
   const totalLessons = structure.reduce((sum, m) => sum + m.lessons.length, 0)
   const gradeLevel = gradeLevels.find((g) => g.id === course.gradeLevelId)
   const colors = COLOR.violet
+  const premiumCourse = Boolean(
+    course.requiredEntitlement || course.requiresSubscription
+  )
+  const courseLocked = structure.some((module) =>
+    module.lessons.some((lesson) => lesson.locked)
+  )
 
   const placement =
     course.programType === "k12"
@@ -366,12 +373,20 @@ function ApiCourseDetail({
                             {mod.lessons.map((lesson) => (
                               <Link
                                 key={lesson.id}
-                                href={`/learn/${course.slug}/${lesson.slug}`}
+                                href={
+                                  lesson.locked
+                                    ? `/pricing?course=${encodeURIComponent(course.slug)}`
+                                    : `/learn/${course.slug}/${lesson.slug}`
+                                }
                               >
                                 <div className="flex cursor-pointer items-center gap-3 border-b border-border px-4 py-3 transition-colors last:border-b-0 hover:bg-muted/40 sm:px-5">
-                                  <BookOpen
-                                    className={`size-4 shrink-0 ${colors.icon}`}
-                                  />
+                                  {lesson.locked ? (
+                                    <Lock className="size-4 shrink-0 text-violet-500" />
+                                  ) : (
+                                    <BookOpen
+                                      className={`size-4 shrink-0 ${colors.icon}`}
+                                    />
+                                  )}
                                   <div className="min-w-0 flex-1">
                                     <div className="text-sm leading-tight text-foreground">
                                       {lesson.title}
@@ -383,7 +398,11 @@ function ApiCourseDetail({
                                       {lesson.estimatedMinutes} min
                                     </span>
                                   )}
-                                  {completedIds.has(lesson.id) ? (
+                                  {lesson.locked ? (
+                                    <span className="rounded-full bg-violet-100 px-2 py-0.5 text-[10px] font-semibold text-violet-700 dark:bg-violet-500/15 dark:text-violet-300">
+                                      {t("locked")}
+                                    </span>
+                                  ) : completedIds.has(lesson.id) ? (
                                     <CheckCircle2 className="size-4 shrink-0 text-emerald-500" />
                                   ) : (
                                     <Circle className="size-4 shrink-0 text-muted-foreground/50" />
@@ -411,11 +430,17 @@ function ApiCourseDetail({
             >
               <div className="flex items-baseline gap-2">
                 <span className="gradient-text text-2xl font-bold">
-                  {t("free")}
+                  {premiumCourse
+                    ? courseLocked
+                      ? t("premium")
+                      : t("includedInPlan")
+                    : t("free")}
                 </span>
-                <span className="text-xs text-muted-foreground">
-                  {t("freeNote")}
-                </span>
+                {!premiumCourse && (
+                  <span className="text-xs text-muted-foreground">
+                    {t("freeNote")}
+                  </span>
+                )}
               </div>
 
               {/* Progress (enrolled only) */}
@@ -446,7 +471,26 @@ function ApiCourseDetail({
                 </div>
               )}
 
-              {enrollment ? (
+              {courseLocked ? (
+                <div className="rounded-2xl border border-violet-200 bg-violet-50/70 p-4 text-center dark:border-violet-500/25 dark:bg-violet-500/10">
+                  <div className="mx-auto flex size-10 items-center justify-center rounded-xl bg-violet-100 text-violet-600 dark:bg-violet-500/20 dark:text-violet-300">
+                    <Lock className="size-5" />
+                  </div>
+                  <p className="mt-3 text-sm font-semibold text-foreground">
+                    {t("unlockTitle")}
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    {t("unlockDesc")}
+                  </p>
+                  <Link
+                    href={`/pricing?course=${encodeURIComponent(course.slug)}`}
+                    className="gradient-bg-primary mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                  >
+                    <Sparkles className="size-4" />
+                    {t("upgradeToUnlock")}
+                  </Link>
+                </div>
+              ) : enrollment ? (
                 <>
                   <Link href={`/learn/${course.slug}`} className="block">
                     <button className="gradient-bg-primary btn-shine flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-white transition-all hover:opacity-90">

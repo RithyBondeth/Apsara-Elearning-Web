@@ -2,8 +2,20 @@
 
 import { useEffect, useState } from "react"
 import {
-  Check, Flame, Globe, KeyRound, LogOut, Minus, Moon, Plus, Smile, Sun, Target,
-  Trophy, User, Zap,
+  Check,
+  Flame,
+  Globe,
+  KeyRound,
+  LogOut,
+  Minus,
+  Moon,
+  Plus,
+  Smile,
+  Sun,
+  Target,
+  Trophy,
+  User,
+  Zap,
 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useTranslations } from "next-intl"
@@ -11,10 +23,15 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select"
 import { Skeleton } from "@/components/ui/skeleton"
 import { AppShell } from "@/components/utils/app-shell"
+import { SubscriptionSummary } from "@/components/subscription/subscription-summary"
 import { Avatar } from "@/components/utils/avatar"
 import { ConfirmDialog } from "@/components/utils/confirm-dialog"
 import { ChangePasswordDialog } from "@/components/utils/change-password-dialog"
@@ -32,7 +49,10 @@ import { useLanguageStore } from "@/stores/languages/language-store"
 import { useSignOut } from "@/hooks/utils/use-sign-out"
 import { levelFromXp, xpForNextLevel } from "@/utils/functions/format"
 import { displayNameOf } from "@/utils/functions/user"
-import { AVATAR_PRESETS, toAvatarPreset } from "@/utils/constants/avatar.constant"
+import {
+  AVATAR_PRESETS,
+  toAvatarPreset,
+} from "@/utils/constants/avatar.constant"
 import type { TAvatarPreset } from "@/utils/constants/avatar.constant"
 import { getMe, updateMe, updateMyAvatar } from "@/lib/api/user"
 import type { IUpdateMePayload } from "@/lib/api/user"
@@ -162,9 +182,28 @@ export default function ProfilePage() {
   const currentAvatar = toAvatarPreset(profile.avatar)
 
   const stats = [
-    { icon: Trophy, label: t("statLevel"),  value: level,             color: "bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-400" },
-    { icon: Zap,    label: t("statXp"),     value: earnedStats.xp,     color: "bg-emerald-100 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400", locale: true },
-    { icon: Flame,  label: t("statStreak"), value: earnedStats.streak, color: "bg-amber-100 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400" },
+    {
+      icon: Trophy,
+      label: t("statLevel"),
+      value: level,
+      color:
+        "bg-violet-100 dark:bg-violet-500/15 text-violet-600 dark:text-violet-400",
+    },
+    {
+      icon: Zap,
+      label: t("statXp"),
+      value: earnedStats.xp,
+      color:
+        "bg-emerald-100 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400",
+      locale: true,
+    },
+    {
+      icon: Flame,
+      label: t("statStreak"),
+      value: earnedStats.streak,
+      color:
+        "bg-amber-100 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400",
+    },
   ]
 
   const field = (
@@ -173,7 +212,10 @@ export default function ProfilePage() {
     type = "text"
   ) => (
     <div>
-      <label htmlFor={key} className="text-xs font-medium text-muted-foreground mb-1.5 block">
+      <label
+        htmlFor={key}
+        className="mb-1.5 block text-xs font-medium text-muted-foreground"
+      >
         {label}
       </label>
       <Input
@@ -189,12 +231,11 @@ export default function ProfilePage() {
 
   return (
     <AppShell>
-      <div className="max-w-3xl mx-auto space-y-6">
-
+      <div className="mx-auto max-w-3xl space-y-6">
         {/* Page header */}
         <AnimateIn animation="fade-up" delay={0.05}>
           <div>
-            <TypographyH2 className="text-2xl font-bold text-foreground border-0 pb-0 mb-1">
+            <TypographyH2 className="mb-1 border-0 pb-0 text-2xl font-bold text-foreground">
               {t("pageTitle")}
             </TypographyH2>
             <TypographyMuted>{t("pageSubtitle")}</TypographyMuted>
@@ -203,30 +244,42 @@ export default function ProfilePage() {
 
         {/* Identity hero */}
         <AnimateIn animation="fade-up" delay={0.1}>
-          <Card className="rounded-2xl p-6 border-violet-200 dark:border-violet-500/20 flex-row items-center gap-5">
+          <Card className="flex-row items-center gap-5 rounded-2xl border-violet-200 p-6 dark:border-violet-500/20">
             <Avatar preset={profile.avatar} size="lg" />
             <div className="min-w-0">
-              <div className="text-lg font-bold text-foreground truncate">{profile.name}</div>
+              <div className="truncate text-lg font-bold text-foreground">
+                {profile.name}
+              </div>
               {profile.nameKh && (
-                <TypographyMuted className="text-xs truncate">{profile.nameKh}</TypographyMuted>
+                <TypographyMuted className="truncate text-xs">
+                  {profile.nameKh}
+                </TypographyMuted>
               )}
-              <TypographyMuted className="text-xs truncate mt-0.5">{profile.email}</TypographyMuted>
+              <TypographyMuted className="mt-0.5 truncate text-xs">
+                {profile.email}
+              </TypographyMuted>
             </div>
           </Card>
+        </AnimateIn>
+
+        <AnimateIn animation="fade-up" delay={0.12}>
+          <SubscriptionSummary />
         </AnimateIn>
 
         {/* Avatar picker — applies on click, like a Netflix profile */}
         <AnimateIn animation="fade-up" delay={0.13}>
           <Card className="rounded-2xl p-5">
-            <div className="flex items-center gap-2.5 mb-1">
+            <div className="mb-1 flex items-center gap-2.5">
               <Smile className="size-4 text-muted-foreground" />
-              <TypographyH3 className="font-semibold text-foreground text-base">
+              <TypographyH3 className="text-base font-semibold text-foreground">
                 {t("avatarTitle")}
               </TypographyH3>
             </div>
-            <TypographyMuted className="text-xs mb-4">{t("avatarDesc")}</TypographyMuted>
+            <TypographyMuted className="mb-4 text-xs">
+              {t("avatarDesc")}
+            </TypographyMuted>
 
-            <div className="grid grid-cols-4 sm:grid-cols-6 gap-3">
+            <div className="grid grid-cols-4 gap-3 sm:grid-cols-6">
               {AVATAR_PRESETS.map((preset) => {
                 const active = currentAvatar === preset
                 return (
@@ -237,8 +290,7 @@ export default function ProfilePage() {
                     aria-pressed={active}
                     aria-label={t(`avatars.${preset}`)}
                     title={t(`avatars.${preset}`)}
-                    className={`group relative rounded-2xl p-1 transition-all outline-none
-                                focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                    className={`group relative rounded-2xl p-1 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
                       active
                         ? "ring-2 ring-primary"
                         : "ring-1 ring-transparent hover:ring-border"
@@ -247,11 +299,10 @@ export default function ProfilePage() {
                     <Avatar
                       preset={preset}
                       size="lg"
-                      className="size-full aspect-square rounded-xl transition-transform duration-300 motion-safe:group-hover:scale-105"
+                      className="aspect-square size-full rounded-xl transition-transform duration-300 motion-safe:group-hover:scale-105"
                     />
                     {active && (
-                      <span className="absolute -right-1 -top-1 size-5 rounded-full bg-primary
-                                       flex items-center justify-center ring-2 ring-background">
+                      <span className="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-primary ring-2 ring-background">
                         <Check className="size-3 text-white" />
                       </span>
                     )}
@@ -265,20 +316,29 @@ export default function ProfilePage() {
         {/* Learning stats */}
         <AnimateIn animation="fade-up" delay={0.15}>
           <Card className="rounded-2xl p-5">
-            <TypographyH3 className="font-semibold text-foreground text-base mb-4">
+            <TypographyH3 className="mb-4 text-base font-semibold text-foreground">
               {t("statsTitle")}
             </TypographyH3>
 
-            <div className="grid grid-cols-3 gap-4 mb-5">
+            <div className="mb-5 grid grid-cols-3 gap-4">
               {stats.map(({ icon: Icon, label, value, color, locale }) => (
                 <div key={label} className="flex items-center gap-3">
-                  <div className={`size-9 rounded-xl flex items-center justify-center shrink-0 ${color}`}>
+                  <div
+                    className={`flex size-9 shrink-0 items-center justify-center rounded-xl ${color}`}
+                  >
                     <Icon className="size-4" />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-wide">{label}</div>
+                    <div className="text-[10px] tracking-wide text-muted-foreground uppercase">
+                      {label}
+                    </div>
                     <div className="text-lg font-bold text-foreground">
-                      <CountUp to={value} duration={1.2} ease="power3.out" locale={locale} />
+                      <CountUp
+                        to={value}
+                        duration={1.2}
+                        ease="power3.out"
+                        locale={locale}
+                      />
                     </div>
                   </div>
                 </div>
@@ -286,7 +346,7 @@ export default function ProfilePage() {
             </div>
 
             {/* XP toward the next level */}
-            <div className="flex items-center justify-between text-xs mb-1.5">
+            <div className="mb-1.5 flex items-center justify-between text-xs">
               <span className="text-muted-foreground">
                 {t("xpProgress", { level: level + 1 })}
               </span>
@@ -294,8 +354,12 @@ export default function ProfilePage() {
                 {earnedStats.xp.toLocaleString()} / {xpNext.toLocaleString()}
               </span>
             </div>
-            <div className="h-2 rounded-full bg-muted overflow-hidden">
-              <GrowBar to={xpPct} delay={0.3} className="h-full rounded-full gradient-bg-primary" />
+            <div className="h-2 overflow-hidden rounded-full bg-muted">
+              <GrowBar
+                to={xpPct}
+                delay={0.3}
+                className="gradient-bg-primary h-full rounded-full"
+              />
             </div>
           </Card>
         </AnimateIn>
@@ -303,27 +367,29 @@ export default function ProfilePage() {
         {/* Profile information */}
         <AnimateIn animation="fade-up" delay={0.2}>
           <Card className="rounded-2xl p-5">
-            <div className="flex items-center gap-2.5 mb-1">
+            <div className="mb-1 flex items-center gap-2.5">
               <User className="size-4 text-muted-foreground" />
-              <TypographyH3 className="font-semibold text-foreground text-base">
+              <TypographyH3 className="text-base font-semibold text-foreground">
                 {t("infoTitle")}
               </TypographyH3>
             </div>
-            <TypographyMuted className="text-xs mb-4">{t("infoDesc")}</TypographyMuted>
+            <TypographyMuted className="mb-4 text-xs">
+              {t("infoDesc")}
+            </TypographyMuted>
 
             {form === null ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <Skeleton className="h-16 rounded-xl" />
                 <Skeleton className="h-16 rounded-xl" />
                 <Skeleton className="h-16 rounded-xl" />
                 <Skeleton className="h-16 rounded-xl" />
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {field("firstName", t("fieldFirstName"))}
                 {field("lastName", t("fieldLastName"))}
                 <div>
-                  <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+                  <label className="mb-1.5 block text-xs font-medium text-muted-foreground">
                     {t("fieldGender")}
                   </label>
                   <Select
@@ -335,7 +401,9 @@ export default function ProfilePage() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="Male">{t("gender_male")}</SelectItem>
-                      <SelectItem value="Female">{t("gender_female")}</SelectItem>
+                      <SelectItem value="Female">
+                        {t("gender_female")}
+                      </SelectItem>
                       <SelectItem value="Other">{t("gender_other")}</SelectItem>
                     </SelectContent>
                   </Select>
@@ -345,8 +413,12 @@ export default function ProfilePage() {
               </div>
             )}
 
-            <div className="flex items-center gap-3 mt-5">
-              <Button onClick={save} disabled={!dirty || saving} className="btn-shine">
+            <div className="mt-5 flex items-center gap-3">
+              <Button
+                onClick={save}
+                disabled={!dirty || saving}
+                className="btn-shine"
+              >
                 {saving ? t("saving") : t("save")}
               </Button>
               {dirty && !saving && (
@@ -365,7 +437,9 @@ export default function ProfilePage() {
                 </span>
               )}
               {saveError && (
-                <span className="text-sm text-destructive">{t("saveError")}</span>
+                <span className="text-sm text-destructive">
+                  {t("saveError")}
+                </span>
               )}
             </div>
           </Card>
@@ -374,13 +448,15 @@ export default function ProfilePage() {
         {/* Weekly goal */}
         <AnimateIn animation="fade-up" delay={0.25}>
           <Card className="rounded-2xl p-5">
-            <div className="flex items-center gap-2.5 mb-1">
+            <div className="mb-1 flex items-center gap-2.5">
               <Target className="size-4 text-muted-foreground" />
-              <TypographyH3 className="font-semibold text-foreground text-base">
+              <TypographyH3 className="text-base font-semibold text-foreground">
                 {t("goalTitle")}
               </TypographyH3>
             </div>
-            <TypographyMuted className="text-xs mb-4">{t("goalDesc")}</TypographyMuted>
+            <TypographyMuted className="mb-4 text-xs">
+              {t("goalDesc")}
+            </TypographyMuted>
 
             <div className="flex items-center gap-4">
               <Button
@@ -394,9 +470,13 @@ export default function ProfilePage() {
                 <Minus className="size-4" />
               </Button>
 
-              <div className="text-center min-w-24">
-                <div className="text-3xl font-bold gradient-text leading-none">{profile.weeklyGoal}</div>
-                <TypographyMuted className="text-[11px] mt-1">{t("goalUnit")}</TypographyMuted>
+              <div className="min-w-24 text-center">
+                <div className="gradient-text text-3xl leading-none font-bold">
+                  {profile.weeklyGoal}
+                </div>
+                <TypographyMuted className="mt-1 text-[11px]">
+                  {t("goalUnit")}
+                </TypographyMuted>
               </div>
 
               <Button
@@ -415,21 +495,23 @@ export default function ProfilePage() {
 
         {/* Preferences */}
         <AnimateIn animation="fade-up" delay={0.3}>
-          <Card className="rounded-2xl p-5 space-y-5">
+          <Card className="space-y-5 rounded-2xl p-5">
             <div>
-              <div className="flex items-center gap-2.5 mb-1">
+              <div className="mb-1 flex items-center gap-2.5">
                 <Globe className="size-4 text-muted-foreground" />
-                <TypographyH3 className="font-semibold text-foreground text-base">
+                <TypographyH3 className="text-base font-semibold text-foreground">
                   {t("prefsTitle")}
                 </TypographyH3>
               </div>
-              <TypographyMuted className="text-xs">{t("prefsDesc")}</TypographyMuted>
+              <TypographyMuted className="text-xs">
+                {t("prefsDesc")}
+              </TypographyMuted>
             </div>
 
             {/* Language */}
             <div className="flex items-center justify-between gap-4">
               <span className="text-sm text-foreground">{t("language")}</span>
-              <div className="flex gap-1.5 p-1 rounded-xl bg-muted shrink-0">
+              <div className="flex shrink-0 gap-1.5 rounded-xl bg-muted p-1">
                 {(["en", "km"] as const).map((code) => (
                   <Button
                     key={code}
@@ -451,11 +533,13 @@ export default function ProfilePage() {
             {/* Theme */}
             <div className="flex items-center justify-between gap-4">
               <span className="text-sm text-foreground">{t("theme")}</span>
-              <div className="flex gap-1.5 p-1 rounded-xl bg-muted shrink-0">
-                {([
-                  { key: "light", icon: Sun,  active: hydrated &&!isDark },
-                  { key: "dark",  icon: Moon, active: hydrated &&isDark  },
-                ] as const).map(({ key, icon: Icon, active }) => (
+              <div className="flex shrink-0 gap-1.5 rounded-xl bg-muted p-1">
+                {(
+                  [
+                    { key: "light", icon: Sun, active: hydrated && !isDark },
+                    { key: "dark", icon: Moon, active: hydrated && isDark },
+                  ] as const
+                ).map(({ key, icon: Icon, active }) => (
                   <Button
                     key={key}
                     onClick={() => setTheme(key)}
@@ -479,13 +563,15 @@ export default function ProfilePage() {
         {/* Account */}
         <AnimateIn animation="fade-up" delay={0.35}>
           <Card className="rounded-2xl p-5">
-            <div className="flex items-center gap-2.5 mb-1">
+            <div className="mb-1 flex items-center gap-2.5">
               <KeyRound className="size-4 text-muted-foreground" />
-              <TypographyH3 className="font-semibold text-foreground text-base">
+              <TypographyH3 className="text-base font-semibold text-foreground">
                 {t("accountTitle")}
               </TypographyH3>
             </div>
-            <TypographyMuted className="text-xs mb-4">{t("accountDesc")}</TypographyMuted>
+            <TypographyMuted className="mb-4 text-xs">
+              {t("accountDesc")}
+            </TypographyMuted>
 
             <div className="flex flex-wrap items-center gap-3">
               <ChangePasswordDialog>
@@ -513,7 +599,6 @@ export default function ProfilePage() {
             </div>
           </Card>
         </AnimateIn>
-
       </div>
     </AppShell>
   )

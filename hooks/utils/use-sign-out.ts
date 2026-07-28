@@ -6,6 +6,7 @@ import { useProfileStore } from "@/stores/profiles/profile-store"
 import { resetUserStatsFetchFlag } from "@/hooks/utils/use-hydrate-user-stats"
 import { resetLessonsDoneCache } from "@/hooks/utils/use-lessons-done"
 import { useEntitlementStore } from "@/stores/entitlements/entitlement-store"
+import { useSubscriptionStore } from "@/stores/subscriptions/subscription-store"
 
 /**
  * Clears the session cookies (via the BFF), the persisted profile store, and
@@ -22,6 +23,7 @@ export function useSignOut() {
     resetUserStatsFetchFlag()
     resetLessonsDoneCache()
     useEntitlementStore.getState().clear()
+    useSubscriptionStore.getState().clear()
     resetProfile()
     router.push("/login")
   }
