@@ -15,7 +15,9 @@ import {
  * Shared by the `/api/auth/refresh` route and the API proxy, so a 401 mid-request
  * can be recovered without a round-trip back through the browser.
  */
-export async function refreshSession(): Promise<string | null> {
+export async function refreshSession({
+  clearOnFailure = true,
+}: { clearOnFailure?: boolean } = {}): Promise<string | null> {
   const refreshToken = await getRefreshToken()
   if (!refreshToken) return null
 
@@ -24,7 +26,7 @@ export async function refreshSession(): Promise<string | null> {
   })
 
   if (!result.ok || !result.data) {
-    await clearSessionCookies()
+    if (clearOnFailure) await clearSessionCookies()
     return null
   }
 

@@ -5,5 +5,7 @@
  *
  * Follows the existing `apsara-elearning-*` cookie/storage convention.
  */
-export const ACCESS_COOKIE = "apsara-elearning-access"
-export const REFRESH_COOKIE = "apsara-elearning-refresh"
+const prefix = process.env.NODE_ENV === "production" ? "__Host-" : ""
+
+export const ACCESS_COOKIE = `${prefix}apsara-elearning-access`
+export const REFRESH_COOKIE = `${prefix}apsara-elearning-refresh`

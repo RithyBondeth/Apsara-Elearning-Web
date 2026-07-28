@@ -26,6 +26,7 @@ const baseCookie = {
   path: "/",
   /* Secure breaks plain-http localhost, so it tracks NODE_ENV. */
   secure: process.env.NODE_ENV === "production",
+  priority: "high",
 } as const
 
 /** Persist a freshly issued token pair. Called after login, register and refresh. */
@@ -35,7 +36,10 @@ export async function setSessionCookies({
 }: ISessionTokens) {
   const jar = await cookies()
   jar.set(ACCESS_COOKIE, accessToken, { ...baseCookie, maxAge: ACCESS_MAX_AGE })
-  jar.set(REFRESH_COOKIE, refreshToken, { ...baseCookie, maxAge: REFRESH_MAX_AGE })
+  jar.set(REFRESH_COOKIE, refreshToken, {
+    ...baseCookie,
+    maxAge: REFRESH_MAX_AGE,
+  })
 }
 
 export async function clearSessionCookies() {

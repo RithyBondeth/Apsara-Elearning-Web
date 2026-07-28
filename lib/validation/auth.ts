@@ -11,13 +11,27 @@ import { z } from "zod"
 
 const email = z.string().min(1, "required").email("emailInvalid")
 
-/* MinLength(8) on the API side — matching it here avoids a pointless round-trip. */
-const password = z.string().min(8, "passwordTooShort")
+/* Bcrypt consumes at most 72 bytes; the API applies the same bounded policy. */
+const password = z
+  .string()
+  .min(12, "passwordTooShort")
+  .refine(
+    (value) => new TextEncoder().encode(value).length <= 72,
+    "passwordTooLong"
+  )
+
+const existingPassword = z
+  .string()
+  .min(1, "required")
+  .refine(
+    (value) => new TextEncoder().encode(value).length <= 72,
+    "passwordTooLong"
+  )
 
 export const loginSchema = z.object({
   email,
   /* Login only checks presence; the strength rule belongs to registration. */
-  password: z.string().min(1, "required"),
+  password: existingPassword,
 })
 
 export const registerSchema = z
@@ -46,7 +60,7 @@ export const registerSchema = z
 
 export const forgotPasswordSchema = z.object({ email })
 
-/* MinLength(8) on the API side (ResetPasswordRequestDTO) — matched here. */
+/* Password policy is shared with ResetPasswordRequestDTO. */
 export const resetPasswordSchema = z
   .object({
     newPassword: password,
@@ -57,10 +71,10 @@ export const resetPasswordSchema = z
     path: ["confirmPassword"],
   })
 
-/* MinLength(8) on the API side (ChangePasswordRequestDTO) — matched here. */
+/* Password policy is shared with ChangePasswordRequestDTO. */
 export const changePasswordSchema = z
   .object({
-    currentPassword: z.string().min(1, "required"),
+    currentPassword: existingPassword,
     newPassword: password,
     confirmPassword: z.string().min(1, "required"),
   })

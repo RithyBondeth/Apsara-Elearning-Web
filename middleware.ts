@@ -26,6 +26,25 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const hasSession = Boolean(request.cookies.get(REFRESH_COOKIE)?.value)
 
+  /* Cookie-authenticated mutations must originate from this exact origin.
+     SameSite=Lax is a strong baseline, but sibling subdomains are still
+     considered same-site by browsers and therefore need an origin check. */
+  const isSessionMutation =
+    request.method !== "GET" &&
+    request.method !== "HEAD" &&
+    (pathname.startsWith("/api/auth/") || pathname.startsWith("/api/proxy/"))
+
+  if (isSessionMutation) {
+    const origin = request.headers.get("origin")
+    const allowMissingOrigin = process.env.NODE_ENV !== "production" && !origin
+    if (!allowMissingOrigin && origin !== request.nextUrl.origin) {
+      return NextResponse.json(
+        { message: "Invalid request origin" },
+        { status: 403 }
+      )
+    }
+  }
+
   if (PROTECTED.some((p) => pathname.startsWith(p)) && !hasSession) {
     const loginUrl = new URL("/login", request.url)
     /* Preserve the destination so login can return the user to it. */
@@ -41,7 +60,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  /* Skip Next internals, the BFF auth routes (which must run while signed out),
-     and anything with a file extension. */
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\.).*)"],
+  /* Include API routes for CSRF checks; page gating ignores routes not listed
+     above. Static assets and files remain excluded. */
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.).*)"],
 }

@@ -1,17 +1,17 @@
 import { NextResponse } from "next/server"
 import { callGateway } from "@/lib/auth/gateway"
-import { clearSessionCookies, getAccessToken } from "@/lib/auth/session"
+import { clearSessionCookies, getRefreshToken } from "@/lib/auth/session"
 
 /**
- * Tells the gateway to invalidate the stored refresh token, then drops the
- * cookies. Cookies are cleared even if the gateway call fails — otherwise a
- * server blip would leave the user stuck in a session they asked to end.
+ * Tells the gateway to invalidate the refresh token itself, so logout still
+ * revokes the server-side session when the short-lived access token has expired.
+ * Local cookies are cleared even if the gateway is temporarily unreachable.
  */
 export async function POST() {
-  const accessToken = await getAccessToken()
+  const refreshToken = await getRefreshToken()
 
-  if (accessToken) {
-    await callGateway("/auth/logout", { accessToken })
+  if (refreshToken) {
+    await callGateway("/auth/logout", { body: { refreshToken } })
   }
 
   await clearSessionCookies()

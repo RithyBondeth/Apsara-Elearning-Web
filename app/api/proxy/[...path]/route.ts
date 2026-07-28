@@ -52,10 +52,15 @@ async function proxy(request: NextRequest, segments: string[]) {
     res = await send(token)
 
     if (res.status === 401) {
-      token = await refreshSession()
+      /* Do not delete cookies here: another concurrent request may already
+         have rotated the same single-use refresh token successfully. */
+      token = await refreshSession({ clearOnFailure: false })
       /* No refresh token, or the gateway rejected it — the session is over. */
       if (!token) {
-        return NextResponse.json({ message: "Session expired" }, { status: 401 })
+        return NextResponse.json(
+          { message: "Session expired" },
+          { status: 401 }
+        )
       }
       res = await send(token)
     }

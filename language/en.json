@@ -644,7 +644,8 @@
     "validation": {
       "required": "This field is required",
       "emailInvalid": "Enter a valid email address",
-      "passwordTooShort": "Password must be at least 8 characters",
+      "passwordTooShort": "Password must be at least 12 characters",
+      "passwordTooLong": "Password must be at most 72 bytes",
       "passwordMismatch": "Passwords do not match",
       "genderRequired": "Please select your gender",
       "dateInvalid": "Enter a valid date",
