@@ -46,12 +46,7 @@
           "breadcrumb": "Mathematics · Functions",
           "lesson": "Lesson 12 · Quadratic Functions",
           "question": "f(x) = x² − 4x + 3 — what is the <b>minimum value</b> of f(x)?",
-          "options": [
-            "f(x) = −1",
-            "f(x) = 1",
-            "f(x) = 3",
-            "f(x) = −3"
-          ],
+          "options": ["f(x) = −1", "f(x) = 1", "f(x) = 3", "f(x) = −3"],
           "explanation": "✓ Correct! Complete the square: f(x) = (x − 2)² − 1, so the minimum is −1 at x = 2.",
           "tutorQ": "ហេតុអ្វីតម្លៃអប្បបរមានៅ x = 2?",
           "tutorA": "Complete the square: <m>f(x) = (x − 2)² − 1</m> — the vertex is at (2, −1), so the minimum is −1. 🎯"
@@ -61,12 +56,7 @@
           "breadcrumb": "Physics · Kinematics",
           "lesson": "Lesson 8 · Free Fall",
           "question": "A ball is dropped from a height of 20 m. How long does it take to <b>reach the ground</b>? (g = 10 m/s²)",
-          "options": [
-            "t = 1 s",
-            "t = 2 s",
-            "t = 3 s",
-            "t = 4 s"
-          ],
+          "options": ["t = 1 s", "t = 2 s", "t = 3 s", "t = 4 s"],
           "explanation": "✓ Correct! h = ½gt² → t = √(2h/g) = √(2×20/10) = 2 s.",
           "tutorQ": "ហេតុអ្វី t = 2 s?",
           "tutorA": "Use <m>h = ½gt²</m> → t = √(2h/g) = √(2 × 20 / 10) = 2 s. 🎯"
@@ -76,12 +66,7 @@
           "breadcrumb": "Chemistry · Solutions",
           "lesson": "Lesson 5 · Acids & Bases",
           "question": "What is the <b>pH</b> of a 0.01 M HCl solution?",
-          "options": [
-            "pH = 1",
-            "pH = 7",
-            "pH = 2",
-            "pH = 12"
-          ],
+          "options": ["pH = 1", "pH = 7", "pH = 2", "pH = 12"],
           "explanation": "✓ Correct! HCl dissociates completely: pH = −log(0.01) = 2.",
           "tutorQ": "ហេតុអ្វី pH = 2?",
           "tutorA": "HCl is a strong acid, so <m>[H⁺] = 0.01 M</m> and pH = −log(0.01) = 2. 🎯"
@@ -597,6 +582,9 @@
     "markComplete": "Mark as complete",
     "xpEarned": "+{xp} XP",
     "enrollToTrack": "Enroll in this course to track your progress",
+    "subscriptionRequired": "Subscription required",
+    "subscriptionRequiredDesc": "This lesson is part of a premium course. Activate a subscription to access its content and activities.",
+    "viewCourseOptions": "View course options",
     "noPractice": "No coding exercise for this lesson.",
     "noChallenge": "No challenge for this lesson.",
     "readTheory": "Read the theory →",

@@ -15,6 +15,7 @@ export interface IApiCourse {
   difficulty?: "beginner" | "intermediate" | "advanced"
   estimatedHours?: number
   published?: boolean
+  requiresSubscription?: boolean
   createdAt: string
   updatedAt: string
 }
@@ -89,6 +90,7 @@ export interface IApiLesson {
   videoUrl?: string
   order?: number
   estimatedMinutes?: number
+  locked?: boolean
 }
 
 /** A module with its lessons attached, sorted by `order`. */
