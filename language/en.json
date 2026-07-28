@@ -683,6 +683,20 @@
     "resetSuccessTitle": "Password reset!",
     "resetSuccessBody": "Your password has been changed. You can sign in with it now."
   },
+  "pricing": {
+    "title": "Choose your learning plan",
+    "subtitle": "Unlock premium courses with secure billing managed by Stripe.",
+    "currentPlan": "Your current plan is {plan}",
+    "manageBilling": "Manage billing",
+    "current": "Current plan",
+    "choose": "Choose plan",
+    "unavailable": "Coming soon",
+    "month": "month",
+    "year": "year",
+    "loadError": "We couldn't load the available plans.",
+    "checkoutError": "We couldn't start checkout.",
+    "portalError": "We couldn't open your billing portal."
+  },
   "tutor": {
     "title": "Apsara AI",
     "subtitle": "Your personal AI tutor",

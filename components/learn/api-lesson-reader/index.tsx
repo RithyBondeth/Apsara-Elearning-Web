@@ -370,7 +370,7 @@ export function ApiLessonReader({
                   {t("subscriptionRequiredDesc")}
                 </p>
                 <Link
-                  href={`/courses/${slug}`}
+                  href={`/pricing?course=${encodeURIComponent(slug)}`}
                   className="gradient-bg-primary mt-5 inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white hover:opacity-90"
                 >
                   {t("viewCourseOptions")}
