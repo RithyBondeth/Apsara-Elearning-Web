@@ -59,12 +59,13 @@ function VerifyEmailInner() {
   }
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center px-8 py-12">
-      <div className="mb-8">
-        <BrandLogo size="lg" />
-      </div>
+    <div className="flex min-h-svh w-full items-center justify-center px-4 py-6 sm:px-6">
+      <div className="auth-compact-card p-7 sm:p-10">
+        <div className="mb-8 flex justify-center">
+          <BrandLogo size="lg" />
+        </div>
 
-      <div className="w-full max-w-sm space-y-6 text-center">
+        <div className="mx-auto w-full max-w-sm space-y-6 text-center">
         {status === "checking" && (
           <>
             <Loader2 className="mx-auto size-10 animate-spin text-violet-500" />
@@ -132,6 +133,7 @@ function VerifyEmailInner() {
             </TypographyMuted>
           </>
         )}
+        </div>
       </div>
     </div>
   )

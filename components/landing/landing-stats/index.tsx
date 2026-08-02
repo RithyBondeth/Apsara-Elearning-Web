@@ -11,7 +11,7 @@ export function LandingStats() {
   const t = useTranslations("stats")
 
   return (
-    <section className="relative border-y border-border bg-muted/30 py-12 overflow-hidden">
+    <section className="landing-section-tinted relative overflow-hidden border-y border-border py-12">
       {/* Faint moving gradient wash behind the numbers */}
       <div
         aria-hidden
@@ -28,7 +28,7 @@ export function LandingStats() {
             animation="bounce-in"
             delay={i * 0.1}
           >
-            <SpotlightCard className="group rounded-2xl border border-transparent px-4 py-5 text-center transition-all duration-300 hover:border-border hover:bg-card hover:shadow-lg hover:-translate-y-1">
+            <SpotlightCard className="landing-interactive-card group rounded-2xl border border-transparent px-4 py-5 text-center hover:bg-card">
               <div className="gradient-text mb-1 text-3xl font-bold md:text-4xl">
                 <CountUp
                   to={stat.count}
@@ -43,7 +43,7 @@ export function LandingStats() {
               <TypographySmall className="font-medium text-foreground block">
                 {t(stat.key as Parameters<typeof t>[0])}
               </TypographySmall>
-              <div className="mx-auto mt-3 h-0.5 w-8 origin-center scale-x-0 rounded-full gradient-bg-primary transition-transform duration-500 group-hover:scale-x-100" />
+              <div className="mx-auto mt-3 h-0.5 w-8 origin-center scale-x-0 rounded-full gradient-bg-primary transition-transform duration-300 group-hover:scale-x-100" />
             </SpotlightCard>
           </AnimateIn>
         ))}

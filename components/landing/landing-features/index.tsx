@@ -44,10 +44,10 @@ export function LandingFeatures() {
                 delay={i * 0.1}
               >
                 <SpotlightCard
-                  className={`group card-surface h-full cursor-default rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl ${c.border}`}
+                  className={`landing-interactive-card group card-surface h-full cursor-default rounded-2xl border p-6 ${c.border}`}
                 >
                   <div
-                    className={`inline-flex size-11 rounded-xl ${c.bg} mb-4 items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6`}
+                    className={`landing-card-icon inline-flex size-11 rounded-xl ${c.bg} mb-4 items-center justify-center`}
                   >
                     <feature.icon className={`size-5 ${c.icon}`} />
                   </div>

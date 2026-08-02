@@ -26,12 +26,7 @@ import { registerRequest } from "@/lib/auth/client"
 import { withNext } from "@/lib/auth/next-param"
 import { registerSchema, type TRegisterInput } from "@/lib/validation/auth"
 
-const BENEFITS = [
-  { icon: Check, text: "Free forever for students" },
-  { icon: Globe, text: "Every subject, from Grade 1 to university" },
-  { icon: Bot, text: "Personal AI tutor that speaks Khmer" },
-  { icon: Trophy, text: "Certificates and national exam prep" },
-]
+const BENEFIT_ICONS = [Check, Globe, Bot, Trophy]
 
 const boxedField =
   "bg-background/70 backdrop-blur-sm transition-shadow duration-300 focus-within:shadow-[0_0_24px_-8px_rgba(35,131,226,0.5)]"
@@ -44,6 +39,7 @@ function RegisterInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const formRef = useRef<HTMLDivElement>(null)
+  const benefits = t.raw("registerBenefits") as string[]
 
   const {
     register,
@@ -99,38 +95,36 @@ function RegisterInner() {
     errors[key] ? tv(errors[key]!.message as string) : undefined
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden">
-      {/* ── Decorative panel (left on register, right on login) ── */}
-      <AuthShowcase
-        side="left"
-        icon={<Rocket className="relative size-9 text-white" />}
-        title="Start learning today"
-        description="Join 12,000+ Cambodian students — from primary school to university — learning with AI-powered lessons in Khmer."
-      >
-        <div className="flex w-full flex-col gap-3">
-          {BENEFITS.map((item) => (
-            <div
-              key={item.text}
-              className="flex items-center gap-3 rounded-xl bg-white/10 px-4 py-2.5 text-left text-sm backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:translate-x-1"
-            >
-              <item.icon className="size-4 shrink-0 text-white" />
-              <span className="text-white/90">{item.text}</span>
-            </div>
-          ))}
-        </div>
-      </AuthShowcase>
+    <div className="flex min-h-svh w-full items-center justify-center px-4 py-6 sm:px-6">
+      <div className="auth-shell flex">
+        {/* ── Decorative panel (left on register, right on login) ── */}
+        <AuthShowcase
+          side="left"
+          icon={<Rocket className="relative size-8 text-white" />}
+          title={t("registerShowcaseTitle")}
+          description={t("registerShowcaseDescription")}
+        >
+          <div className="flex w-full flex-col gap-2.5">
+            {benefits.map((benefit, index) => {
+              const BenefitIcon = BENEFIT_ICONS[index] ?? Check
+              return (
+              <div
+                key={benefit}
+                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/10 px-3.5 py-2.5 text-left text-xs backdrop-blur-sm transition-colors duration-200 hover:bg-white/15"
+              >
+                <BenefitIcon className="size-4 shrink-0 text-cyan-200" />
+                <span className="text-blue-50/85">{benefit}</span>
+              </div>
+              )
+            })}
+          </div>
+        </AuthShowcase>
 
-      {/* ── Form panel ── */}
-      <div
-        ref={formRef}
-        className="relative flex flex-1 flex-col items-center justify-center overflow-y-auto bg-background px-8 py-12"
-      >
-        {/* Soft ambient background behind the form */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          {/* Grid comes from the auth layout's <PaperGrid />, not from here. */}
-          <div className="aurora-orb aurora-violet size-80 -top-24 -right-24" />
-          <div className="aurora-orb aurora-cyan size-72 -bottom-24 -left-16" style={{ animationDelay: "-14s" }} />
-        </div>
+        {/* ── Form panel ── */}
+        <div
+          ref={formRef}
+          className="auth-form-panel relative flex flex-1 flex-col items-center justify-center px-7 py-10 sm:px-10"
+        >
 
         <div data-auth-logo className="relative mb-8">
           <BrandLogo size="lg" />
@@ -294,6 +288,7 @@ function RegisterInner() {
             </TypographyMuted>
           </div>
         </form>
+        </div>
       </div>
     </div>
   )

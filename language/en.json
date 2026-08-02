@@ -642,6 +642,18 @@
     "submitError": "We couldn't grade this submission. Please try again."
   },
   "auth": {
+    "showcaseFooter": "AI-powered learning, built for Cambodia",
+    "loginShowcaseTitle": "Welcome back!",
+    "loginShowcaseDescription": "Continue your learning journey with Apsara Elearning — Cambodia's AI-powered platform for every subject.",
+    "loginShowcaseSubjects": ["Mathematics", "Physics", "Khmer", "English"],
+    "registerShowcaseTitle": "Start learning today",
+    "registerShowcaseDescription": "Join 12,000+ Cambodian students learning with AI-powered lessons in Khmer.",
+    "registerBenefits": [
+      "Free forever for students",
+      "Every subject, from Grade 1 to university",
+      "Personal AI tutor that speaks Khmer",
+      "Certificates and national exam preparation"
+    ],
     "loginTitle": "Login to Your Account",
     "emailPlaceholder": "Enter your email...",
     "passwordPlaceholder": "Enter your password...",
@@ -712,6 +724,34 @@
   "pricing": {
     "title": "Choose your learning plan",
     "subtitle": "Unlock premium courses with secure billing managed by Stripe.",
+    "landing": {
+      "badge": "Simple, student-friendly pricing",
+      "headingPart1": "Start free. Go further when",
+      "headingHighlight": "you are ready.",
+      "subtitle": "Learn the essentials for free, then unlock the complete Apsara experience with one straightforward plan.",
+      "freeEyebrow": "For every learner",
+      "freePlan": "Student Free",
+      "forever": "forever",
+      "freeDesc": "Explore core lessons and build a daily learning habit without a credit card.",
+      "freeFeatures": [
+        "Free lessons across core subjects",
+        "Practice quizzes and progress tracking",
+        "Khmer and English learning experience"
+      ],
+      "premiumEyebrow": "The complete experience",
+      "premiumPlan": "Apsara Plus",
+      "premiumDesc": "Premium courses, personal AI support, and certificates for serious progress.",
+      "premiumFeatures": [
+        "All premium courses",
+        "Personal AI tutor",
+        "Course certificates"
+      ],
+      "popular": "Most popular",
+      "flexiblePricing": "Flexible plans",
+      "startFree": "Create free account",
+      "viewPlans": "View plans and trial",
+      "secure": "Secure checkout · Cancel anytime · Your free access stays free"
+    },
     "currentPlan": "Your current plan is {plan}",
     "manageBilling": "Manage billing",
     "manageSubscription": "Manage subscription",

@@ -29,6 +29,7 @@ function LoginInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const formRef = useRef<HTMLDivElement>(null)
+  const showcaseSubjects = t.raw("loginShowcaseSubjects") as string[]
 
   const {
     register,
@@ -85,24 +86,13 @@ function LoginInner() {
   }
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden">
-      {/* ── Form panel ── */}
-      <div
-        ref={formRef}
-        className="relative flex flex-1 flex-col items-center justify-center bg-background px-8 py-12"
-      >
-        {/* Soft ambient background behind the form */}
+    <div className="flex min-h-svh w-full items-center justify-center px-4 py-6 sm:px-6">
+      <div className="auth-shell flex min-h-[42rem]">
+        {/* ── Form panel ── */}
         <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 overflow-hidden"
+          ref={formRef}
+          className="auth-form-panel relative flex flex-1 flex-col items-center justify-center px-7 py-10 sm:px-10"
         >
-          {/* Grid comes from the auth layout's <PaperGrid />, not from here. */}
-          <div className="aurora-orb aurora-blue -top-24 -left-24 size-80" />
-          <div
-            className="aurora-orb aurora-violet -right-16 -bottom-24 size-72"
-            style={{ animationDelay: "-14s" }}
-          />
-        </div>
 
         <div data-auth-logo className="relative mb-10">
           <BrandLogo size="lg" />
@@ -212,27 +202,27 @@ function LoginInner() {
             </TypographyMuted>
           </div>
         </form>
-      </div>
-
-      {/* ── Decorative panel ── */}
-      <AuthShowcase
-        side="right"
-        icon={<Globe className="relative size-9 text-white" />}
-        title="Welcome back!"
-        description="Continue your learning journey with Apsara Elearning — Cambodia's AI-powered learning platform for every subject."
-      >
-        <div className="flex flex-wrap justify-center gap-3">
-          {["Mathematics", "Physics", "Khmer", "English"].map((tag, i) => (
-            <span
-              key={tag}
-              className="animate-bob rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium backdrop-blur-sm"
-              style={{ animationDelay: `${i * 0.5}s` }}
-            >
-              {tag}
-            </span>
-          ))}
         </div>
-      </AuthShowcase>
+
+        {/* ── Decorative panel ── */}
+        <AuthShowcase
+          side="right"
+          icon={<Globe className="relative size-8 text-white" />}
+          title={t("loginShowcaseTitle")}
+          description={t("loginShowcaseDescription")}
+        >
+          <div className="flex flex-wrap gap-2">
+            {showcaseSubjects.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-medium text-blue-50 backdrop-blur-sm"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </AuthShowcase>
+      </div>
     </div>
   )
 }

@@ -123,13 +123,15 @@ function ResetPasswordInner() {
 
 export default function ResetPasswordPage() {
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center px-8 py-12">
-      <div className="mb-8">
-        <BrandLogo size="lg" />
+    <div className="flex min-h-svh w-full items-center justify-center px-4 py-6 sm:px-6">
+      <div className="auth-compact-card p-7 sm:p-10">
+        <div className="mb-8 flex justify-center">
+          <BrandLogo size="lg" />
+        </div>
+        <Suspense fallback={null}>
+          <ResetPasswordInner />
+        </Suspense>
       </div>
-      <Suspense fallback={null}>
-        <ResetPasswordInner />
-      </Suspense>
     </div>
   )
 }

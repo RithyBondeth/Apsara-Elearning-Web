@@ -32,8 +32,8 @@ export function TiltCard({ children, className, maxTilt = 8, glare = true }: Til
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
     if (window.matchMedia("(hover: none)").matches) return
 
-    const rxTo = gsap.quickTo(card, "rotationX", { duration: 0.6, ease: "power3.out" })
-    const ryTo = gsap.quickTo(card, "rotationY", { duration: 0.6, ease: "power3.out" })
+    const rxTo = gsap.quickTo(card, "rotationX", { duration: 0.38, ease: "power3.out" })
+    const ryTo = gsap.quickTo(card, "rotationY", { duration: 0.38, ease: "power3.out" })
 
     const onMove = (e: MouseEvent) => {
       const rect = wrap.getBoundingClientRect()
@@ -46,14 +46,17 @@ export function TiltCard({ children, className, maxTilt = 8, glare = true }: Til
           opacity: 0.5,
           x: `${(px - 0.5) * 120}%`,
           y: `${(py - 0.5) * 120}%`,
-          duration: 0.4,
+          duration: 0.3,
+          ease: "power3.out",
         })
       }
     }
     const onLeave = () => {
       rxTo(0)
       ryTo(0)
-      if (glareRef.current) gsap.to(glareRef.current, { opacity: 0, duration: 0.6 })
+      if (glareRef.current) {
+        gsap.to(glareRef.current, { opacity: 0, duration: 0.38, ease: "power3.out" })
+      }
     }
 
     wrap.addEventListener("mousemove", onMove)

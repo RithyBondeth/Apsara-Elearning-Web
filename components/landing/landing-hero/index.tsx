@@ -14,7 +14,6 @@ import { AnimateIn } from "@/components/utils/animations/animate-in"
 import { MokotMark } from "@/components/utils/brand-logo"
 import { AuroraBackground } from "@/components/utils/animations/aurora-background"
 import { TextReveal } from "@/components/utils/animations/text-reveal"
-import { Magnetic } from "@/components/utils/animations/magnetic"
 import { TiltCard } from "@/components/utils/animations/tilt-card"
 import { TypographyH1 } from "@/components/utils/typography/typography-h1"
 import { TypographyLead } from "@/components/utils/typography/typography-lead"
@@ -229,14 +228,18 @@ export function LandingHero() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex flex-col items-center justify-center px-6 pt-36 pb-24 text-center min-h-screen overflow-hidden"
+      className="landing-hero relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pb-24 pt-36 text-center"
     >
       {/* Grid off: the page-level <PaperGrid /> already covers this section, and
           stacking the two would double the ruling. */}
-      <AuroraBackground grid={false} />
+      <AuroraBackground grid={false} className="landing-hero-decoration" />
+
+      {/* A quiet reading field keeps the decorative backdrop visible at the
+          edges while protecting headline and body-copy contrast. */}
+      <div aria-hidden className="hero-reading-halo landing-hero-decoration absolute inset-0" />
 
       {/* Floating subject symbols */}
-      <div ref={glyphsRef} aria-hidden className="pointer-events-none absolute inset-0 hidden md:block">
+      <div ref={glyphsRef} aria-hidden className="landing-hero-decoration pointer-events-none absolute inset-0 hidden md:block">
         {GLYPHS.map((g, i) => {
           const Icon = g.icon
           return (
@@ -287,26 +290,21 @@ export function LandingHero() {
 
       <AnimateIn animation="fade-up" delay={0.8} className="relative">
         <div className="flex flex-col sm:flex-row items-center gap-4 mb-16">
-          <Magnetic>
-            <Link href="/dashboard">
-              <button className="btn-shine group flex items-center gap-2.5 px-8 py-4 text-base font-semibold rounded-2xl gradient-bg-primary transition-all text-white shadow-xl hover:shadow-[0_0_40px_-8px_rgba(35,131,226,0.7)]">
-                <GraduationCap className="size-5" />
-                {t("startLearning")}
-                <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </Link>
-          </Magnetic>
-          <Magnetic strength={0.25}>
-            <Link href="/learn">
-              <button className="group flex items-center gap-2.5 px-8 py-4 text-base font-medium rounded-2xl glass border border-border hover:border-violet-300 dark:hover:border-violet-500/30 transition-all text-foreground/80 hover:text-foreground">
-                <span className="relative flex items-center justify-center">
-                  <span className="absolute size-6 rounded-full bg-violet-400/20 animate-ping group-hover:bg-violet-400/30" />
-                  <Play className="size-4 fill-current opacity-60 relative" />
-                </span>
-                {t("watchDemo")}
-              </button>
-            </Link>
-          </Magnetic>
+          <Link href="/dashboard">
+            <button className="landing-action btn-shine group flex items-center gap-2.5 rounded-2xl gradient-bg-primary px-8 py-4 text-base font-semibold text-white shadow-xl">
+              <GraduationCap className="size-5" />
+              {t("startLearning")}
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+            </button>
+          </Link>
+          <Link href="/learn">
+            <button className="landing-action glass group flex items-center gap-2.5 rounded-2xl border border-border px-8 py-4 text-base font-medium text-foreground/80 hover:border-violet-300 hover:text-foreground dark:hover:border-violet-500/30">
+              <span className="relative flex items-center justify-center">
+                <Play className="relative size-4 fill-current opacity-60" />
+              </span>
+              {t("watchDemo")}
+            </button>
+          </Link>
         </div>
       </AnimateIn>
 

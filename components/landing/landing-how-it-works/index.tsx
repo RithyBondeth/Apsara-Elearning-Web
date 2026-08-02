@@ -74,12 +74,12 @@ export function LandingHowItWorks() {
               const key = item.key as Parameters<typeof t>[0]
               return (
                 <AnimateIn key={item.step} animation="flip-up" delay={i * 0.18}>
-                  <SpotlightCard className="group card-surface relative rounded-2xl p-6 h-full transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                  <SpotlightCard className="landing-interactive-card group card-surface relative h-full rounded-2xl p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <span className="gradient-text text-5xl font-black opacity-25 transition-opacity duration-300 group-hover:opacity-60 select-none">
                         {item.step}
                       </span>
-                      <div className={`size-10 rounded-xl flex items-center justify-center ${c.bg} border ${c.border} transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6`}>
+                      <div className={`landing-card-icon flex size-10 items-center justify-center rounded-xl border ${c.bg} ${c.border}`}>
                         <item.icon className={`size-5 ${c.icon}`} />
                       </div>
                     </div>

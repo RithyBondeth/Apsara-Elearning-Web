@@ -73,7 +73,7 @@ export function LandingNavbar({ menuOpen, onMenuToggle }: LandingNavbarProps) {
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled
           ? "border-b border-border bg-background/75 backdrop-blur-xl shadow-[0_8px_30px_-12px_rgba(35,131,226,0.15)]"
-          : "border-b border-transparent bg-transparent"
+          : "border-b border-transparent bg-background/55 backdrop-blur-md"
       )}
     >
       <div
@@ -107,14 +107,14 @@ export function LandingNavbar({ menuOpen, onMenuToggle }: LandingNavbarProps) {
             {t("signIn")}
           </Link>
           <Link href="/register">
-            <button className="btn-shine px-5 py-2.5 text-sm font-semibold rounded-xl gradient-bg-primary text-white transition-all hover:shadow-[0_0_24px_-4px_rgba(35,131,226,0.6)] hover:-translate-y-0.5">
+            <button className="landing-action btn-shine rounded-xl gradient-bg-primary px-5 py-2.5 text-sm font-semibold text-white">
               {t("startFree")} →
             </button>
           </Link>
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
-          <LanguageSwitcher />
+          <LanguageSwitcher size="sm" />
           <ThemeToggle size="sm" />
           <button
             className="p-2 text-muted-foreground hover:text-foreground"

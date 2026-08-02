@@ -34,12 +34,13 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center px-8 py-12">
-      <div className="mb-8">
-        <BrandLogo size="lg" />
-      </div>
+    <div className="flex min-h-svh w-full items-center justify-center px-4 py-6 sm:px-6">
+      <div className="auth-compact-card p-7 sm:p-10">
+        <div className="mb-8 flex justify-center">
+          <BrandLogo size="lg" />
+        </div>
 
-      {sentTo ? (
+        {sentTo ? (
         <div className="w-full max-w-sm space-y-6 text-center">
           <MailCheck className="mx-auto size-12 text-violet-500" />
           <TypographyH3 className="text-xl font-bold">{t("forgotSentTitle")}</TypographyH3>
@@ -57,7 +58,7 @@ export default function ForgotPasswordPage() {
             </Link>
           </TypographyMuted>
         </div>
-      ) : (
+        ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-sm space-y-6">
           <div className="text-center">
             <TypographyH3 className="text-2xl font-bold">{t("forgotTitle")}</TypographyH3>
@@ -88,7 +89,8 @@ export default function ForgotPasswordPage() {
             </Link>
           </TypographyMuted>
         </form>
-      )}
+        )}
+      </div>
     </div>
   )
 }
