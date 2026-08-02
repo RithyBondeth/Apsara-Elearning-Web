@@ -4,7 +4,9 @@
     "cancel": "Cancel",
     "signOutTitle": "Sign out of Apsara Elearning?",
     "signOutDesc": "Your progress and streak are saved. You'll need to sign in again to keep learning.",
-    "signOutConfirm": "Sign out"
+    "signOutConfirm": "Sign out",
+    "guestTitle": "You're browsing as a guest",
+    "guestPrompt": "Sign in to save your progress and unlock your courses."
   },
   "nav": {
     "courses": "Courses",

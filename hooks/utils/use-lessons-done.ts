@@ -18,12 +18,15 @@ export function resetLessonsDoneCache() {
 /**
  * Total lessons the student has completed, across all courses — the count of
  * completed `GET /lesson-progress` records. Returns `null` until resolved.
+ *
+ * Pass `enabled: false` for anonymous visitors: `/lesson-progress` is guarded,
+ * so there is no progress to count and the call would only 401.
  */
-export function useLessonsDone(): number | null {
+export function useLessonsDone(enabled = true): number | null {
   const [count, setCount] = useState<number | null>(cached)
 
   useEffect(() => {
-    if (cached !== null) return
+    if (!enabled || cached !== null) return
     inFlight ??= getMyLessonProgress()
       .then((progress) => {
         cached = progress.filter((p) => p.completed).length
@@ -34,7 +37,7 @@ export function useLessonsDone(): number | null {
         return 0
       })
     inFlight.then((n) => setCount(n))
-  }, [])
+  }, [enabled])
 
   return count
 }

@@ -25,13 +25,16 @@ export function resetUserStatsFetchFlag() {
  *
  * `weeklyGoal` is deliberately left alone — it has no API column, so the
  * store's persisted value is the source of truth for it.
+ *
+ * Pass `enabled: false` for anonymous visitors: `/user/me` is guarded, so the
+ * call is a guaranteed 401 on the public pages the shell also renders.
  */
-export function useHydrateUserStats() {
+export function useHydrateUserStats(enabled = true) {
   const setStats = useProfileStore((s) => s.setStats)
   const updateProfile = useProfileStore((s) => s.updateProfile)
 
   useEffect(() => {
-    if (hasFetched) return
+    if (!enabled || hasFetched) return
     hasFetched = true
 
     getMe()
@@ -50,5 +53,5 @@ export function useHydrateUserStats() {
            via middleware on next navigation; stale stats just stay put. */
         hasFetched = false
       })
-  }, [setStats, updateProfile])
+  }, [enabled, setStats, updateProfile])
 }
