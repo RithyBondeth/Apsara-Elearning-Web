@@ -83,7 +83,6 @@ export function CodeTyper({
   const [codeProgress, setCodeProgress] = useState(0)
   const [outputProgress, setOutputProgress] = useState(-1)
   const [cursorVisible, setCursorVisible] = useState(true)
-  const [done, setDone] = useState(false)
   const prevActive = useRef(active)
 
   useEffect(() => {
@@ -94,7 +93,6 @@ export function CodeTyper({
   const restart = useCallback(() => {
     setCodeProgress(0)
     setOutputProgress(-1)
-    setDone(false)
   }, [])
 
   useEffect(() => {
@@ -124,12 +122,11 @@ export function CodeTyper({
       ? codeProgress >= code.length
       : outputProgress >= output.length
 
-    if (loop && allDone && !done) {
-      setDone(true)
+    if (loop && allDone) {
       const timer = setTimeout(restart, loopDelay)
       return () => clearTimeout(timer)
     }
-  }, [active, codeProgress, outputProgress, code, output, typingSpeed, outputDelay, loop, loopDelay, done, restart])
+  }, [active, codeProgress, outputProgress, code, output, typingSpeed, outputDelay, loop, loopDelay, restart])
 
   const isTypingCode = codeProgress < code.length
   const isAfterCode = codeProgress >= code.length

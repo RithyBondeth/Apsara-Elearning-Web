@@ -27,6 +27,8 @@ export function LanguageProviderClient({ children, initialLang }: IProps) {
       // First hydration: keep server-rendered language unless user
       // previously saved a non-default preference in localStorage
       if (storedLanguage !== language && storedLanguage !== "en") {
+        // Sync the server locale with the persisted browser preference.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setLanguage(storedLanguage)
         document.documentElement.lang = storedLanguage
       }

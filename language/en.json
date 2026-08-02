@@ -623,6 +623,24 @@
     "correctAnswer": "Correct answer",
     "tryAgain": "Try again"
   },
+  "challenge": {
+    "title": "Coding challenge",
+    "earnXp": "Earn {xp} XP on your first solution",
+    "example": "Example {n}",
+    "input": "Input",
+    "output": "Expected output",
+    "language": "Language",
+    "editorLabel": "Challenge code editor",
+    "reset": "Reset code",
+    "run": "Run tests",
+    "running": "Running tests…",
+    "passed": "All tests passed",
+    "notPassed": "Some tests did not pass",
+    "testsPassed": "{passed} of {total} tests passed",
+    "mockNotice": "Development grading is active. Configure Judge0 for secure code execution.",
+    "loadError": "We couldn't load this coding challenge.",
+    "submitError": "We couldn't grade this submission. Please try again."
+  },
   "auth": {
     "loginTitle": "Login to Your Account",
     "emailPlaceholder": "Enter your email...",
@@ -717,6 +735,7 @@
     "unavailable": "Coming soon",
     "month": "month",
     "year": "year",
+    "noPlans": "No subscription plans are available yet.",
     "loadError": "We couldn't load the available plans.",
     "checkoutError": "We couldn't start checkout.",
     "portalError": "We couldn't open your billing portal."
