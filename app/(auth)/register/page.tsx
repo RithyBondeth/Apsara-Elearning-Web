@@ -68,7 +68,15 @@ function RegisterInner() {
 
   const onSubmit = async (values: TRegisterInput) => {
     /* confirmPassword is client-only — the gateway DTO doesn't accept it. */
-    const { confirmPassword: _confirm, ...payload } = values
+    const payload = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password,
+      gender: values.gender,
+      phone: values.phone,
+      dateOfBirth: values.dateOfBirth,
+    }
     const result = await registerRequest(payload)
 
     if (!result.ok) {

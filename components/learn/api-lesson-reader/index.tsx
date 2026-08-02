@@ -30,6 +30,7 @@ import {
   markLessonComplete,
 } from "@/lib/api/lesson-progress"
 import { QuizRunner } from "@/components/learn/quiz-runner"
+import { ChallengeRunner } from "@/components/learn/challenge-runner"
 import { LessonContent } from "@/components/learn/lesson-content"
 import type {
   IApiCourse,
@@ -388,6 +389,10 @@ export function ApiLessonReader({
                 in; the runner shows nothing when a lesson has no quiz. */}
             {!currentLesson.locked && (
               <QuizRunner lessonId={currentLesson.id} />
+            )}
+
+            {!currentLesson.locked && (
+              <ChallengeRunner lessonId={currentLesson.id} />
             )}
 
             {/* Completion — enrolled students track progress; others get a nudge */}

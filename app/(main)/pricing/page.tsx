@@ -145,6 +145,10 @@ export default function PricingPage() {
           <div className="flex justify-center py-20">
             <Loader2 className="size-6 animate-spin text-violet-500" />
           </div>
+        ) : loaded && plans.length === 0 ? (
+          <p className="mx-auto mt-10 max-w-2xl rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+            {t("noPlans")}
+          </p>
         ) : (
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {plans.map((plan) => {
