@@ -10,12 +10,14 @@ import { LandingHowItWorks } from "@/components/landing/landing-how-it-works"
 import { LandingTestimonials } from "@/components/landing/landing-testimonials"
 import { LandingCta } from "@/components/landing/landing-cta"
 import { LandingFooter } from "@/components/landing/landing-footer"
+import { PaperGrid } from "@/components/utils/paper-grid"
 
 export default function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <div className="min-h-screen overflow-x-hidden text-foreground">
+      <PaperGrid />
       <LandingNavbar
         menuOpen={menuOpen}
         onMenuToggle={() => setMenuOpen(!menuOpen)}

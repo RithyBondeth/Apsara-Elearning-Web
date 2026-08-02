@@ -3,6 +3,8 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 import type { TLanguage } from "@/utils/types/app"
+import { STORE_PERSIST_KEYS } from "@/stores/shared/persist-keys"
+import { safePersistStorage } from "@/stores/shared/persist-storage"
 
 interface ILanguageState {
   language: TLanguage
@@ -18,6 +20,6 @@ export const useLanguageStore = create<ILanguageState>()(
         set({ language })
       },
     }),
-    { name: "apsara-elearning-language" }
+    { name: STORE_PERSIST_KEYS.language, storage: safePersistStorage }
   )
 )

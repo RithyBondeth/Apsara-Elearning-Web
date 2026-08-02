@@ -5,7 +5,8 @@ import Link from "next/link"
 import {
   Sparkles, ArrowRight, Play, Brain, Star, ChevronRight, GraduationCap,
   Flame, Trophy, BadgeCheck, ChevronDown, Calculator, Atom, FlaskConical,
-  Languages, BookOpen, Check,
+  Languages, BookOpen, Check, Braces, Dna, Scale, Code2, Leaf, Microscope,
+  Globe2,
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import gsap from "gsap"
@@ -19,13 +20,67 @@ import { TypographyH1 } from "@/components/utils/typography/typography-h1"
 import { TypographyLead } from "@/components/utils/typography/typography-lead"
 import { TypographyMuted } from "@/components/utils/typography/typography-muted"
 
-/** Floating subject symbols scattered around the hero, moved by mouse parallax */
-const GLYPHS = [
-  { char: "π", className: "top-[18%] left-[8%] text-blue-400/40 text-3xl", depth: 30 },
-  { char: "∑", className: "top-[30%] right-[10%] text-violet-400/40 text-3xl", depth: 50 },
-  { char: "√x", className: "top-[55%] left-[5%] text-cyan-400/40 text-2xl", depth: 40 },
-  { char: "H₂O", className: "top-[12%] right-[22%] text-emerald-400/30 text-xl", depth: 25 },
-  { char: "A+", className: "top-[62%] right-[6%] text-amber-400/30 text-2xl", depth: 60 },
+interface Glyph {
+  /** Text symbol — preferred where the subject has a readable notation. */
+  char?: string
+  /** Icon, for subjects with no good Unicode (biology, law, coding). */
+  icon?: React.ElementType
+  /** Position + colour. */
+  className: string
+  /** Text size for `char`, box size for `icon`. */
+  size: string
+  /** Mouse-parallax strength; vary it so the field doesn't move as one sheet. */
+  depth: number
+}
+
+/**
+ * Floating subject symbols scattered around the hero, moved by mouse parallax.
+ * These are the page's educational motif, so they're pitched to be read rather
+ * than to sit at the edge of visibility, and they span the curriculum: maths,
+ * coding, physics, chemistry, biology, law, languages, geography.
+ *
+ * Layout rule: the centered headline and lead sit in a max-w-4xl column, which
+ * is roughly 19–81% of the viewport at desktop widths. Every glyph therefore
+ * stays outside an 18–82% band, except the few pinned above the headline or
+ * below the CTA where the column is empty anyway.
+ *
+ * Note: `violet-*` is remapped to neutral gray in globals.css, so accents here
+ * use amber/rose/indigo rather than violet.
+ */
+const GLYPHS: Glyph[] = [
+  /* ── Maths ── */
+  { char: "π",     className: "top-[18%] left-[8%]   text-blue-500/60    dark:text-blue-400/50",    size: "text-4xl", depth: 30 },
+  { char: "∑",     className: "top-[30%] right-[10%] text-amber-500/60   dark:text-amber-400/45",   size: "text-4xl", depth: 50 },
+  { char: "√x",    className: "top-[55%] left-[5%]   text-cyan-500/55    dark:text-cyan-400/45",    size: "text-3xl", depth: 40 },
+  { char: "∫",     className: "top-[74%] left-[14%]  text-blue-500/45    dark:text-blue-400/35",    size: "text-3xl", depth: 45 },
+  { char: "Δ",     className: "top-[42%] left-[15%]  text-rose-500/45    dark:text-rose-400/35",    size: "text-2xl", depth: 35 },
+  { char: "∞",     className: "top-[88%] right-[19%] text-cyan-500/40    dark:text-cyan-400/30",    size: "text-3xl", depth: 28 },
+
+  /* ── Coding ── */
+  { icon: Braces,  className: "top-[31%] left-[9%]   text-indigo-500/50  dark:text-indigo-400/40",  size: "size-8",   depth: 52 },
+  { icon: Code2,   className: "top-[22%] right-[16%] text-indigo-500/45  dark:text-indigo-400/35",  size: "size-7",   depth: 55 },
+
+  /* ── Physics ── */
+  { icon: Atom,    className: "top-[44%] right-[5%]  text-sky-500/50     dark:text-sky-400/40",     size: "size-9",   depth: 42 },
+  { char: "E=mc²", className: "top-[90%] left-[6%]   text-blue-500/40    dark:text-blue-400/32",    size: "text-xl",  depth: 30 },
+  { char: "Ω",     className: "top-[64%] left-[11%]  text-amber-500/45   dark:text-amber-400/35",   size: "text-2xl", depth: 26 },
+
+  /* ── Chemistry ── */
+  { char: "H₂O",   className: "top-[10%] right-[17%] text-emerald-500/50 dark:text-emerald-400/40", size: "text-2xl", depth: 25 },
+  { icon: FlaskConical, className: "top-[78%] right-[13%] text-teal-500/45 dark:text-teal-400/35",  size: "size-8",   depth: 36 },
+
+  /* ── Biology ── */
+  { icon: Dna,     className: "top-[86%] left-[4%]   text-emerald-500/45 dark:text-emerald-400/35", size: "size-8",   depth: 38 },
+  { icon: Leaf,    className: "top-[70%] right-[4%]  text-green-500/45   dark:text-green-400/35",   size: "size-7",   depth: 27 },
+  { icon: Microscope, className: "top-[8%] left-[16%] text-teal-500/40   dark:text-teal-400/32",    size: "size-7",   depth: 33 },
+
+  /* ── Law ── */
+  { icon: Scale,   className: "top-[9%]  left-[4%]   text-stone-500/45   dark:text-stone-400/35",   size: "size-7",   depth: 22 },
+  { char: "§",     className: "top-[52%] right-[12%] text-stone-500/40   dark:text-stone-400/32",   size: "text-2xl", depth: 34 },
+
+  /* ── Languages & geography ── */
+  { char: "ក",     className: "top-[62%] right-[7%]  text-amber-500/50   dark:text-amber-400/40",   size: "text-3xl", depth: 60 },
+  { icon: Globe2,  className: "top-[36%] left-[3%]   text-sky-500/40     dark:text-sky-400/32",     size: "size-7",   depth: 24 },
 ]
 
 /**
@@ -176,20 +231,25 @@ export function LandingHero() {
       ref={sectionRef}
       className="relative flex flex-col items-center justify-center px-6 pt-36 pb-24 text-center min-h-screen overflow-hidden"
     >
-      <AuroraBackground />
+      {/* Grid off: the page-level <PaperGrid /> already covers this section, and
+          stacking the two would double the ruling. */}
+      <AuroraBackground grid={false} />
 
       {/* Floating subject symbols */}
       <div ref={glyphsRef} aria-hidden className="pointer-events-none absolute inset-0 hidden md:block">
-        {GLYPHS.map((g, i) => (
-          <span
-            key={i}
-            data-depth={g.depth}
-            className={`absolute font-bold select-none animate-bob ${g.className}`}
-            style={{ animationDelay: `${i * 0.7}s` }}
-          >
-            {g.char}
-          </span>
-        ))}
+        {GLYPHS.map((g, i) => {
+          const Icon = g.icon
+          return (
+            <span
+              key={i}
+              data-depth={g.depth}
+              className={`absolute font-bold select-none animate-bob ${g.className} ${Icon ? "" : g.size}`}
+              style={{ animationDelay: `${(i % 7) * 0.7}s` }}
+            >
+              {Icon ? <Icon className={g.size} strokeWidth={2.25} /> : g.char}
+            </span>
+          )
+        })}
       </div>
 
       <AnimateIn animation="fade-down" delay={0.05} className="relative mb-8">
@@ -200,7 +260,7 @@ export function LandingHero() {
         </div>
       </AnimateIn>
 
-      <TypographyH1 className="relative text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] max-w-4xl mb-6">
+      <TypographyH1 className="relative text-5xl md:text-7xl font-bold tracking-tight max-w-4xl mb-6">
         <span className="block mb-1">
           <TextReveal text={t("titleKh")} wordClassName="gradient-text-animated" delay={0.15} />
         </span>

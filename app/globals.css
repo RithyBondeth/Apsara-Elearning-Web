@@ -290,6 +290,115 @@ html {
         border-color: var(--ring);
     }
 
+    /* ── Study surface — the reading canvas behind lessons and the dashboard.
+       Deliberately flat and opaque: no dots, no gradients, nothing competing
+       with the content a student is trying to concentrate on. Sits one step
+       away from --card so cards read as raised in both themes. ── */
+    .study-surface {
+        background: #f7f6f3;
+    }
+    .dark .study-surface {
+        background: #191919;
+    }
+
+    /* ── Lesson prose — the rendered markdown of a lesson's theory ──────────
+       Tuned for study: math-heavy Khmer content where the *formulas* matter
+       most. Authors write display formulas as indented blocks (→ <pre><code>),
+       so those are styled as prominent "formula cards" rather than the cramped
+       inline code-pills they'd otherwise fall back to. Keeps whitespace so
+       aligned math stays aligned, and scrolls sideways rather than reflowing a
+       formula. Inline `code` (rare here, common in the coding courses) keeps a
+       subtle pill so the two never look alike. */
+    .lesson-prose pre {
+        margin-block: 0.25rem;
+        overflow-x: auto;
+        border-radius: 0.75rem;
+        border: 1px solid var(--border);
+        background: var(--card);
+        padding: 0.9rem 1.15rem;
+    }
+    .lesson-prose pre code {
+        display: block;
+        background: none;
+        padding: 0;
+        color: var(--foreground);
+        font-size: 1.02rem;
+        /* Khmer stacks below the baseline; give formula rows room to breathe. */
+        line-height: 1.9;
+        white-space: pre;
+    }
+    .lesson-prose :not(pre) > code {
+        border-radius: 0.3rem;
+        padding: 0.05rem 0.35rem;
+        font-size: 0.85em;
+        background: color-mix(in oklab, var(--primary) 12%, transparent);
+        color: var(--primary);
+    }
+    /* KaTeX display equations ($$…$$) render as prominent "formula cards" —
+       the same treatment the old indented formula blocks had — while inline
+       math ($…$) flows with the Khmer prose. Cards scroll sideways rather than
+       overflowing on narrow screens, and KaTeX inherits `currentColor` so it
+       tracks the foreground in both light and dark themes. */
+    .lesson-prose .katex-display {
+        margin-block: 0.35rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-radius: 0.75rem;
+        border: 1px solid var(--border);
+        background: var(--card);
+        padding: 0.9rem 1.15rem;
+        color: var(--foreground);
+    }
+    .lesson-prose .katex {
+        font-size: 1.05em;
+    }
+    /* GFM tables — reference grids like the derivative rules. Scrolls sideways
+       on narrow screens rather than squashing the columns. */
+    .lesson-prose table {
+        display: block;
+        width: max-content;
+        max-width: 100%;
+        overflow-x: auto;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+    }
+    .lesson-prose th,
+    .lesson-prose td {
+        border: 1px solid var(--border);
+        padding: 0.5rem 0.85rem;
+        text-align: left;
+        vertical-align: top;
+        line-height: 1.7;
+    }
+    .lesson-prose th {
+        background: var(--muted);
+        font-weight: 600;
+        color: var(--foreground);
+    }
+    .lesson-prose td {
+        color: var(--muted-foreground);
+    }
+
+    /* Khmer stacks coeng (subscript consonants) and below-base vowels under the
+       baseline, so its ink runs ~1.34x the font size — a display `leading-[1.1]`
+       tuned for Latin cannot contain it. Use this on any heading that may hold
+       Khmer; it is the minimum safe leading plus headroom. Latin reads slightly
+       looser at display sizes, which is the correct trade for a bilingual UI. */
+    .leading-khmer {
+        line-height: 1.4;
+    }
+
+    /* `background-clip: text` paints the glyphs from the element's background,
+       which stops at the box edge. Any glyph hanging below that box — Khmer
+       coeng and below-base vowels, Latin descenders at tight leading — gets no
+       paint and reads as a hard horizontal cut. Extend the paint box downward
+       and pull the layout back by the same amount so nothing shifts. */
+    .gradient-text,
+    .gradient-text-animated {
+        padding-bottom: 0.18em;
+        margin-bottom: -0.18em;
+    }
+
     .gradient-text {
         background: linear-gradient(135deg, #2383e2 0%, #4a9eff 100%);
         -webkit-background-clip: text;
@@ -315,15 +424,6 @@ html {
     }
     .dark .bg-spotlight {
         background: radial-gradient(ellipse 70% 55% at 50% 35%, rgba(74, 158, 255, 0.06) 0%, transparent 60%);
-    }
-
-    .dot-pattern {
-        background-image: radial-gradient(circle, currentColor 0.8px, transparent 0.8px);
-        background-size: 20px 20px;
-        color: var(--muted-foreground);
-    }
-    .dark .dot-pattern {
-        color: rgba(255, 255, 255, 0.12);
     }
 
     .animate-scale-in {
@@ -369,18 +469,46 @@ html {
     .aurora-blue   { background: rgba(35, 131, 226, 0.16); }
     .aurora-violet { background: rgba(124, 92, 255, 0.14); }
     .aurora-cyan   { background: rgba(34, 201, 221, 0.12); }
+    /* Warm accent — an all-cool palette reads technical; the amber is what
+       keeps the marketing pages feeling like a school rather than a console. */
+    .aurora-amber  { background: rgba(245, 166, 35, 0.16); }
     .dark .aurora-blue   { background: rgba(74, 158, 255, 0.14); }
     .dark .aurora-violet { background: rgba(139, 108, 255, 0.13); }
     .dark .aurora-cyan   { background: rgba(45, 212, 231, 0.10); }
+    .dark .aurora-amber  { background: rgba(251, 191, 36, 0.10); }
 
-    /* ── Grid pattern with radial mask ── */
+    /* ── Graph-paper grid ──────────────────────────────────────────────
+       Styled as a squared exercise book, not a blueprint: small 24px cells
+       with a heavier rule every 5th line, in a warm low-contrast ink. The
+       cell size and warmth are what separate "notebook" from "dashboard" —
+       a large cool 56px grid reads as developer tooling.
+
+       Texture only, deliberately unmasked so it composes: pair it with
+       .grid-mask-radial (vignette, for full-bleed sections) or
+       .grid-mask-top (fades down the page, for long scrolling surfaces).
+       Override --grid-line to re-ink it on a colored panel. ── */
     .grid-pattern {
+        --grid-line: rgba(55, 53, 45, 0.07);
+        --grid-line-major: rgba(55, 53, 45, 0.11);
         background-image:
-            linear-gradient(to right, var(--border) 1px, transparent 1px),
-            linear-gradient(to bottom, var(--border) 1px, transparent 1px);
-        background-size: 56px 56px;
+            linear-gradient(to right, var(--grid-line-major) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--grid-line-major) 1px, transparent 1px),
+            linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+        background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+    }
+    .dark .grid-pattern {
+        --grid-line: rgba(255, 255, 255, 0.05);
+        --grid-line-major: rgba(255, 255, 255, 0.08);
+    }
+
+    .grid-mask-radial {
         mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 75%);
         -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 75%);
+    }
+    .grid-mask-top {
+        mask-image: linear-gradient(to bottom, black 0%, black 20%, transparent 60%);
+        -webkit-mask-image: linear-gradient(to bottom, black 0%, black 20%, transparent 60%);
     }
 
     /* ── Infinite marquee ── */

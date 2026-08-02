@@ -75,7 +75,15 @@ export function AuthShowcase({
     >
       {/* Backdrop layers */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="grid-pattern absolute inset-0 opacity-20" style={{ "--border": "rgba(255,255,255,0.35)" } as React.CSSProperties} />
+        {/* Re-inked white for the saturated blue panel — this is the one place
+            the grid sits on a colored surface rather than the page background. */}
+        <div
+          className="grid-pattern absolute inset-0"
+          style={{
+            "--grid-line": "rgba(255,255,255,0.05)",
+            "--grid-line-major": "rgba(255,255,255,0.09)",
+          } as React.CSSProperties}
+        />
         <div className={cn("aurora-orb size-96 -top-32 bg-blue-400/25", side === "right" ? "-right-32" : "-left-32")} />
         <div className={cn("aurora-orb size-72 -bottom-20 bg-violet-400/20", side === "right" ? "-left-20" : "-right-20")} style={{ animationDelay: "-12s" }} />
         <div className="aurora-orb size-64 top-1/3 left-1/3 bg-cyan-300/15" style={{ animationDelay: "-6s", animationDuration: "32s" }} />

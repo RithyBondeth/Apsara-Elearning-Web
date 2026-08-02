@@ -9,7 +9,7 @@ export const TypographyH4 = forwardRef<
     <h4
       ref={ref}
       className={cn(
-        "scroll-m-20 text-xl font-semibold tracking-tight",
+        "scroll-m-20 text-xl font-semibold tracking-tight leading-khmer",
         className,
       )}
       {...props}

@@ -22,7 +22,7 @@ export function LandingCta() {
             <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="aurora-orb aurora-blue size-72 -top-24 -left-16" />
               <div className="aurora-orb aurora-violet size-72 -bottom-24 -right-16" style={{ animationDelay: "-10s" }} />
-              <div className="grid-pattern absolute inset-0 opacity-50 dark:opacity-30" />
+              <div className="grid-pattern grid-mask-radial absolute inset-0" />
             </div>
             <div className="relative">
               <div className="mb-6">

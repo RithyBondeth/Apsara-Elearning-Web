@@ -84,31 +84,6 @@ const ALGORITHMS_SYLLABUS: ISyllabusModule[] = [
   },
 ]
 
-/* ── Grade 12 Mathematics syllabus (first modules — BacII track) ─────── */
-
-const MATH_SYLLABUS: ISyllabusModule[] = [
-  {
-    section: "Module 1: Functions & Limits",
-    sectionKh: "ម៉ូឌុល ១: អនុគមន៍ & លីមីត",
-    lessons: [
-      { id: 1, title: "Understanding Functions",     titleKh: "ស្វែងយល់អនុគមន៍",          type: "theory",    duration: "14 min", xpReward: 50 },
-      { id: 2, title: "Limits & Continuity",         titleKh: "លីមីត & ភាពជាប់",           type: "theory",    duration: "16 min", xpReward: 50 },
-      { id: 3, title: "Limits Practice",             titleKh: "អនុវត្ត — លីមីត",            type: "practice",  duration: "20 min", xpReward: 100 },
-      { id: 4, title: "Functions Quiz",              titleKh: "ការប្រឡង — អនុគមន៍",        type: "challenge", duration: "25 min", xpReward: 200 },
-    ],
-  },
-  {
-    section: "Module 2: Derivatives",
-    sectionKh: "ម៉ូឌុល ២: ដេរីវេ",
-    lessons: [
-      { id: 5, title: "Rules of Differentiation",    titleKh: "ក្បួនដេរីវេ",               type: "theory",    duration: "18 min", xpReward: 50,  locked: true },
-      { id: 6, title: "Applications of Derivatives", titleKh: "ការអនុវត្តដេរីវេ",           type: "theory",    duration: "16 min", xpReward: 50,  locked: true },
-      { id: 7, title: "Derivatives Practice",        titleKh: "អនុវត្ត — ដេរីវេ",           type: "practice",  duration: "20 min", xpReward: 100, locked: true },
-      { id: 8, title: "BacII-style Problems",        titleKh: "លំហាត់បែបបាក់ឌុប",          type: "challenge", duration: "30 min", xpReward: 200, locked: true },
-    ],
-  },
-]
-
 /* ── Grade 11 Physics syllabus (first modules) ───────────────────────── */
 
 const PHYSICS_SYLLABUS: ISyllabusModule[] = [
@@ -159,22 +134,13 @@ const ENGLISH_SYLLABUS: ISyllabusModule[] = [
   },
 ]
 
-/* ── Course details, keyed by catalog slug ───────────────────────────── */
+/* ── Course details, keyed by catalog slug ─────────────────────────────
+ * "math" (Grade 12 Mathematics) is deliberately absent — it's seeded as a
+ * real course on the API under the same slug, so courses/[slug]/page.tsx
+ * fetches it live instead of falling back to this mock table.
+ */
 
 export const COURSE_DETAILS: Record<string, ICourseDetail> = {
-  math: {
-    key: "math",
-    track: "k12",
-    grade: 12,
-    color: "violet" as TColorKey,
-    icon: "Calculator",
-    totalLessons: 48,
-    totalXp: 4800,
-    hours: 40,
-    students: 5120,
-    outcomes: 4,
-    syllabus: MATH_SYLLABUS,
-  },
   physics: {
     key: "physics",
     track: "k12",

@@ -25,13 +25,31 @@ export function truncate(str: string, max: number): string {
   return str.length > max ? `${str.slice(0, max)}…` : str
 }
 
+/** XP required to advance one level. */
+const XP_PER_LEVEL = 300
+
+/**
+ * Convert XP points to a level number.
+ * @example levelFromXp(2450) → 9
+ */
+export function levelFromXp(xp: number): number {
+  return Math.floor(xp / XP_PER_LEVEL) + 1
+}
+
+/**
+ * Total XP required to reach the level after the given XP total.
+ * @example xpForNextLevel(2450) → 2700
+ */
+export function xpForNextLevel(xp: number): number {
+  return levelFromXp(xp) * XP_PER_LEVEL
+}
+
 /**
  * Convert XP points to a human-readable level label.
- * @example xpToLevel(2450) → "Level 8"
+ * @example xpToLevel(2450) → "Level 9"
  */
 export function xpToLevel(xp: number): string {
-  const level = Math.floor(xp / 300) + 1
-  return `Level ${level}`
+  return `Level ${levelFromXp(xp)}`
 }
 
 /**

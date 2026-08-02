@@ -10,6 +10,9 @@ import {
   Calculator, Atom, Languages, Zap,
 } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/utils/themes/theme-toggle"
 import { LanguageSwitcher } from "@/components/utils/language-switcher"
 import { AnimateIn } from "@/components/utils/animations/animate-in"
@@ -313,13 +316,13 @@ export function LearnPlayer({ slug, initialLessonId }: LearnPlayerProps) {
 
         {/* XP badge */}
         <div className="shrink-0 border-t border-border px-4 py-3">
-          <div className="card-surface flex items-center justify-between rounded-xl border border-violet-200 p-3 dark:border-violet-500/20">
+          <Card className="flex-row items-center justify-between rounded-xl border-violet-200 p-3 dark:border-violet-500/20">
             <div className="flex items-center gap-2">
               <Zap className="size-4 text-violet-600 dark:text-violet-400" />
               <span className="text-xs font-medium text-foreground">{t("thisLesson")}</span>
             </div>
             <span className="gradient-text text-sm font-bold">+{currentLesson.xpReward} XP</span>
-          </div>
+          </Card>
         </div>
       </aside>
 
@@ -353,20 +356,18 @@ export function LearnPlayer({ slug, initialLessonId }: LearnPlayerProps) {
           {lessonReady && (
             <div className="flex items-center rounded-xl border border-border bg-muted p-0.5">
               {(["theory", "practice", "challenge"] as const).map((tab) => (
-                <button
+                <Button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-medium capitalize transition-all ${
-                    activeTab === tab
-                      ? "gradient-bg-primary text-white shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
+                  variant={activeTab === tab ? "default" : "ghost"}
+                  size="sm"
+                  className="h-auto rounded-lg px-3 py-1.5 capitalize"
                 >
-                  {tab === "theory"    && <BookOpen className="mr-1.5 inline size-3" />}
-                  {tab === "practice"  && <Code2 className="mr-1.5 inline size-3" />}
-                  {tab === "challenge" && <Trophy className="mr-1.5 inline size-3" />}
+                  {tab === "theory"    && <BookOpen className="size-3" />}
+                  {tab === "practice"  && <Code2 className="size-3" />}
+                  {tab === "challenge" && <Trophy className="size-3" />}
                   {t(tab)}
-                </button>
+                </Button>
               ))}
             </div>
           )}
@@ -376,22 +377,26 @@ export function LearnPlayer({ slug, initialLessonId }: LearnPlayerProps) {
             <ThemeToggle size="sm" />
             {/* Prev / Next */}
             {prevLesson && (
-              <button
+              <Button
                 onClick={() => switchLesson(prevLesson)}
-                className="hidden items-center gap-1 rounded-xl border border-border bg-muted px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground sm:flex transition-all"
+                variant="secondary"
+                size="sm"
+                className="hidden h-auto rounded-xl px-2.5 py-1.5 sm:flex"
                 title={prevLesson.title}
               >
                 <ChevronLeft className="size-3.5" />
-              </button>
+              </Button>
             )}
             {nextLesson && (
-              <button
+              <Button
                 onClick={() => switchLesson(nextLesson)}
                 disabled={nextLesson.locked}
-                className="hidden items-center gap-1.5 rounded-xl border border-border bg-muted px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground sm:flex transition-all disabled:opacity-40"
+                variant="secondary"
+                size="sm"
+                className="hidden h-auto rounded-xl px-3 py-1.5 sm:flex"
               >
                 {t("lesson")} <ChevronRight className="size-3.5" />
-              </button>
+              </Button>
             )}
           </div>
         </header>
@@ -414,16 +419,12 @@ export function LearnPlayer({ slug, initialLessonId }: LearnPlayerProps) {
                     {t("notReadyDesc")}
                   </TypographyMuted>
                   <div className="mt-5 flex items-center justify-center gap-2">
-                    <Link href={`/courses/${slug}`}>
-                      <button className="rounded-xl border border-border bg-muted px-4 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground transition-all">
-                        {t("backToCourse")}
-                      </button>
-                    </Link>
-                    <Link href="/learn/python">
-                      <button className="gradient-bg-primary rounded-xl px-4 py-2 text-xs font-semibold text-white hover:opacity-90 transition-all">
-                        {t("tryPython")}
-                      </button>
-                    </Link>
+                    <Button asChild variant="secondary" size="sm" className="h-auto px-4 py-2">
+                      <Link href={`/courses/${slug}`}>{t("backToCourse")}</Link>
+                    </Button>
+                    <Button asChild size="sm" className="h-auto px-4 py-2">
+                      <Link href="/learn/python">{t("tryPython")}</Link>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -446,7 +447,7 @@ export function LearnPlayer({ slug, initialLessonId }: LearnPlayerProps) {
                     <TheoryRenderer blocks={currentLesson.theory} />
                   ) : currentLesson.task ? (
                     <AnimateIn animation="fade-up" delay={0.1}>
-                      <div className="card-surface rounded-2xl p-5">
+                      <Card className="rounded-2xl p-5">
                         <TypographyH4 className="mb-3 text-foreground flex items-center gap-2">
                           <Code2 className="size-4 text-violet-500" /> {t("task")}
                         </TypographyH4>
@@ -459,7 +460,7 @@ export function LearnPlayer({ slug, initialLessonId }: LearnPlayerProps) {
                         >
                           {t("openEditor")} <ChevronRight className="size-3" />
                         </button>
-                      </div>
+                      </Card>
                     </AnimateIn>
                   ) : (
                     <div className="flex items-center justify-center h-48 text-muted-foreground text-sm">
@@ -522,14 +523,15 @@ export function LearnPlayer({ slug, initialLessonId }: LearnPlayerProps) {
                           <button className="rounded-lg p-1.5 text-white/30 hover:bg-white/5 hover:text-white/60 transition-all">
                             <Maximize2 className="size-3.5" />
                           </button>
-                          <button
+                          <Button
                             onClick={runCode}
                             disabled={running}
-                            className="gradient-bg-primary flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-white hover:opacity-90 disabled:opacity-40 transition-all"
+                            size="sm"
+                            className="h-auto rounded-lg px-3 py-1.5"
                           >
                             {running ? <Loader2 className="size-3.5 animate-spin" /> : <Play className="size-3.5 fill-white" />}
                             {t("runCode")}
-                          </button>
+                          </Button>
                         </div>
                       </div>
 
@@ -601,7 +603,7 @@ export function LearnPlayer({ slug, initialLessonId }: LearnPlayerProps) {
                   {currentLesson.challenge ? (
                     <>
                       <AnimateIn animation="bounce-in" delay={0.05}>
-                        <div className="card-surface mb-6 rounded-2xl border border-amber-200 bg-amber-50/40 p-6 dark:border-amber-500/25 dark:bg-amber-500/5">
+                        <Card className="mb-6 rounded-2xl border-amber-200 bg-amber-50/40 p-6 dark:border-amber-500/25 dark:bg-amber-500/5">
                           <div className="mb-4 flex items-center gap-3">
                             <div className="flex size-10 items-center justify-center rounded-xl border border-amber-200 bg-amber-100 dark:border-amber-500/30 dark:bg-amber-500/20">
                               <Trophy className="size-5 text-amber-600 dark:text-amber-400" />
@@ -611,9 +613,9 @@ export function LearnPlayer({ slug, initialLessonId }: LearnPlayerProps) {
                                 {currentLesson.challenge.title}
                               </TypographyH3>
                               <div className="mt-0.5 flex items-center gap-2">
-                                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700 dark:bg-amber-500/20 dark:text-amber-400">
+                                <Badge className="bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400">
                                   {currentLesson.challenge.difficulty}
-                                </span>
+                                </Badge>
                                 <span className="text-xs font-semibold text-amber-600 dark:text-amber-400">
                                   +{currentLesson.challenge.xp} XP
                                 </span>
@@ -631,28 +633,28 @@ export function LearnPlayer({ slug, initialLessonId }: LearnPlayerProps) {
                               <div key={line} className="text-emerald-400/70">{line}</div>
                             ))}
                           </div>
-                        </div>
+                        </Card>
                       </AnimateIn>
 
                       {/* Requirements checklist */}
                       <div className="mb-6 space-y-3">
                         {currentLesson.challenge.requirements.map((req, i) => (
                           <AnimateIn key={req} animation="fade-right" delay={0.15 + i * 0.07}>
-                            <div className="card-surface flex items-center gap-3 rounded-xl px-4 py-3">
+                            <Card className="flex-row items-center gap-3 rounded-xl px-4 py-3">
                               <Circle className="size-4 shrink-0 text-muted-foreground/40" />
                               <span className="text-sm text-muted-foreground">{req}</span>
-                            </div>
+                            </Card>
                           </AnimateIn>
                         ))}
                       </div>
 
                       <AnimateIn animation="fade-up" delay={0.45}>
-                        <button
+                        <Button
                           onClick={() => setActiveTab("practice")}
-                          className="gradient-bg-primary w-full rounded-xl py-3 text-sm font-semibold text-white hover:opacity-90 transition-all"
+                          className="w-full py-3"
                         >
                           {t("startChallenge")}
-                        </button>
+                        </Button>
                       </AnimateIn>
                     </>
                   ) : (
@@ -771,13 +773,14 @@ export function LearnPlayer({ slug, initialLessonId }: LearnPlayerProps) {
                     className="w-full resize-none bg-transparent text-xs leading-relaxed text-foreground outline-none placeholder:text-muted-foreground"
                   />
                 </div>
-                <button
+                <Button
                   onClick={() => sendMessage(input)}
                   disabled={!input.trim() || aiTyping}
-                  className="gradient-bg-primary flex size-9 shrink-0 items-center justify-center rounded-xl hover:opacity-90 disabled:opacity-30 transition-all"
+                  size="icon"
+                  className="size-9 shrink-0 rounded-xl"
                 >
-                  <Send className="size-3.5 text-white" />
-                </button>
+                  <Send className="size-3.5" />
+                </Button>
               </div>
               <div className="mt-1.5 text-center text-[9px] text-muted-foreground">
                 {t("inputHint")}

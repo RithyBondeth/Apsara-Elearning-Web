@@ -1,19 +1,30 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { Suspense, useEffect, useRef, useState } from "react"
 import Link from "next/link"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
+import { useForm, Controller } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { toast } from "sonner"
 import gsap from "gsap"
 import {
-  EyeIcon, EyeClosedIcon, LockIcon, MailIcon, UserIcon, Rocket,
-  Check, Globe, Bot, Trophy,
+  EyeIcon, EyeClosedIcon, LockIcon, MailIcon, UserIcon, PhoneIcon,
+  Rocket, Check, Globe, Bot, Trophy, Loader2,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select"
 import { AuthShowcase } from "@/components/auth/auth-showcase"
 import { BrandLogo } from "@/components/utils/brand-logo"
 import { TypographyH3 } from "@/components/utils/typography/typography-h3"
 import { TypographyMuted } from "@/components/utils/typography/typography-muted"
+import { TypographySmall } from "@/components/utils/typography/typography-small"
+import { registerRequest } from "@/lib/auth/client"
+import { withNext } from "@/lib/auth/next-param"
+import { registerSchema, type TRegisterInput } from "@/lib/validation/auth"
 
 const BENEFITS = [
   { icon: Check, text: "Free forever for students" },
@@ -22,11 +33,24 @@ const BENEFITS = [
   { icon: Trophy, text: "Certificates and national exam prep" },
 ]
 
-export default function RegisterPage() {
+const boxedField =
+  "bg-background/70 backdrop-blur-sm transition-shadow duration-300 focus-within:shadow-[0_0_24px_-8px_rgba(35,131,226,0.5)]"
+
+function RegisterInner() {
   const [passwordVisible, setPasswordVisible] = useState(false)
   const [confirmVisible, setConfirmVisible] = useState(false)
   const t = useTranslations("auth")
+  const tv = useTranslations("auth.validation")
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const formRef = useRef<HTMLDivElement>(null)
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm<TRegisterInput>({ resolver: zodResolver(registerSchema) })
 
   /* Entrance timeline — logo pops, then the form cascades up */
   useEffect(() => {
@@ -41,6 +65,30 @@ export default function RegisterPage() {
     }, root)
     return () => ctx.revert()
   }, [])
+
+  const onSubmit = async (values: TRegisterInput) => {
+    /* confirmPassword is client-only — the gateway DTO doesn't accept it. */
+    const { confirmPassword: _confirm, ...payload } = values
+    const result = await registerRequest(payload)
+
+    if (!result.ok) {
+      toast.error(result.message || t("registerFailed"))
+      return
+    }
+
+    /* Login is gated on email verification, so we can't start a session here —
+       send them to the verify notice with the address prefilled. `next` is
+       carried through so it survives to the eventual login. */
+    router.replace(
+      withNext(
+        `/verify-email?email=${encodeURIComponent(values.email)}&sent=1`,
+        searchParams.get("next")
+      )
+    )
+  }
+
+  const errText = (key: keyof TRegisterInput) =>
+    errors[key] ? tv(errors[key]!.message as string) : undefined
 
   return (
     <div className="flex h-screen w-screen overflow-hidden">
@@ -71,7 +119,7 @@ export default function RegisterPage() {
       >
         {/* Soft ambient background behind the form */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="grid-pattern absolute inset-0 opacity-50 dark:opacity-30" />
+          {/* Grid comes from the auth layout's <PaperGrid />, not from here. */}
           <div className="aurora-orb aurora-violet size-80 -top-24 -right-24" />
           <div className="aurora-orb aurora-cyan size-72 -bottom-24 -left-16" style={{ animationDelay: "-14s" }} />
         </div>
@@ -80,74 +128,148 @@ export default function RegisterPage() {
           <BrandLogo size="lg" />
         </div>
 
-        <div className="relative w-full max-w-sm space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="relative w-full max-w-sm space-y-6">
           <div data-auth-field className="text-center">
             <TypographyH3 className="text-2xl font-bold">{t("registerTitle")}</TypographyH3>
             <TypographyMuted className="mt-1 text-sm">{t("registerSubtitle")}</TypographyMuted>
           </div>
 
           <div className="space-y-3">
-            <div data-auth-field>
+            {/* First + last name */}
+            <div data-auth-field className="flex gap-3">
               <Input
                 prefix={<UserIcon />}
-                placeholder={t("namePlaceholder")}
+                placeholder={t("firstNamePlaceholder")}
                 type="text"
-                className="bg-background/70 backdrop-blur-sm transition-shadow duration-300 focus-within:shadow-[0_0_24px_-8px_rgba(35,131,226,0.5)]"
+                autoComplete="given-name"
+                validationMessage={errText("firstName")}
+                className={boxedField}
+                {...register("firstName")}
+              />
+              <Input
+                placeholder={t("lastNamePlaceholder")}
+                type="text"
+                autoComplete="family-name"
+                validationMessage={errText("lastName")}
+                className={boxedField}
+                {...register("lastName")}
               />
             </div>
+
             <div data-auth-field>
               <Input
                 prefix={<MailIcon />}
                 placeholder={t("emailPlaceholder")}
                 type="email"
-                className="bg-background/70 backdrop-blur-sm transition-shadow duration-300 focus-within:shadow-[0_0_24px_-8px_rgba(35,131,226,0.5)]"
+                autoComplete="email"
+                validationMessage={errText("email")}
+                className={boxedField}
+                {...register("email")}
               />
             </div>
+
+            {/* Gender + date of birth */}
+            <div data-auth-field className="flex gap-3">
+              <div className="flex w-full flex-col items-start gap-1">
+                <Controller
+                  control={control}
+                  name="gender"
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger
+                        aria-invalid={Boolean(errors.gender)}
+                        className={`h-12 w-full rounded-md border border-input px-3 ${boxedField}`}
+                      >
+                        <SelectValue placeholder={t("genderPlaceholder")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Male">{t("male")}</SelectItem>
+                        <SelectItem value="Female">{t("female")}</SelectItem>
+                        <SelectItem value="Other">{t("other")}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.gender && (
+                  <TypographySmall className="text-xs text-red-500">
+                    {tv(errors.gender.message as string)}
+                  </TypographySmall>
+                )}
+              </div>
+
+              <Input
+                type="date"
+                aria-label={t("dateOfBirthLabel")}
+                validationMessage={errText("dateOfBirth")}
+                className={boxedField}
+                {...register("dateOfBirth")}
+              />
+            </div>
+
+            <div data-auth-field>
+              <Input
+                prefix={<PhoneIcon />}
+                placeholder={t("phonePlaceholder")}
+                type="tel"
+                autoComplete="tel"
+                validationMessage={errText("phone")}
+                className={boxedField}
+                {...register("phone")}
+              />
+            </div>
+
             <div data-auth-field>
               <Input
                 prefix={<LockIcon />}
                 placeholder={t("passwordPlaceholder")}
                 type={passwordVisible ? "text" : "password"}
-                className="bg-background/70 backdrop-blur-sm transition-shadow duration-300 focus-within:shadow-[0_0_24px_-8px_rgba(35,131,226,0.5)]"
+                autoComplete="new-password"
+                validationMessage={errText("password")}
+                className={boxedField}
+                {...register("password")}
                 suffix={
                   passwordVisible ? (
-                    <EyeClosedIcon
-                      onClick={() => setPasswordVisible(false)}
-                      className="cursor-pointer transition-transform hover:scale-110"
-                    />
+                    <EyeClosedIcon onClick={() => setPasswordVisible(false)} className="cursor-pointer transition-transform hover:scale-110" />
                   ) : (
-                    <EyeIcon
-                      onClick={() => setPasswordVisible(true)}
-                      className="cursor-pointer transition-transform hover:scale-110"
-                    />
+                    <EyeIcon onClick={() => setPasswordVisible(true)} className="cursor-pointer transition-transform hover:scale-110" />
                   )
                 }
               />
             </div>
+
             <div data-auth-field>
               <Input
                 prefix={<LockIcon />}
                 placeholder={t("confirmPasswordPlaceholder")}
                 type={confirmVisible ? "text" : "password"}
-                className="bg-background/70 backdrop-blur-sm transition-shadow duration-300 focus-within:shadow-[0_0_24px_-8px_rgba(35,131,226,0.5)]"
+                autoComplete="new-password"
+                validationMessage={errText("confirmPassword")}
+                className={boxedField}
+                {...register("confirmPassword")}
                 suffix={
                   confirmVisible ? (
-                    <EyeClosedIcon
-                      onClick={() => setConfirmVisible(false)}
-                      className="cursor-pointer transition-transform hover:scale-110"
-                    />
+                    <EyeClosedIcon onClick={() => setConfirmVisible(false)} className="cursor-pointer transition-transform hover:scale-110" />
                   ) : (
-                    <EyeIcon
-                      onClick={() => setConfirmVisible(true)}
-                      className="cursor-pointer transition-transform hover:scale-110"
-                    />
+                    <EyeIcon onClick={() => setConfirmVisible(true)} className="cursor-pointer transition-transform hover:scale-110" />
                   )
                 }
               />
             </div>
+
             <div data-auth-field>
-              <Button className="btn-shine w-full transition-all hover:shadow-[0_0_28px_-6px_rgba(35,131,226,0.6)] hover:-translate-y-0.5">
-                {t("registerButton")}
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-shine w-full transition-all hover:shadow-[0_0_28px_-6px_rgba(35,131,226,0.6)] hover:-translate-y-0.5"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="animate-spin" />
+                    {t("creatingAccount")}
+                  </>
+                ) : (
+                  t("registerButton")
+                )}
               </Button>
             </div>
           </div>
@@ -156,15 +278,23 @@ export default function RegisterPage() {
             <TypographyMuted className="text-center text-sm">
               {t("alreadyHaveAccount")}{" "}
               <Link
-                href="/login"
+                href={withNext("/login", searchParams.get("next"))}
                 className="font-semibold text-violet-600 hover:underline dark:text-violet-400"
               >
                 {t("signIn")}
               </Link>
             </TypographyMuted>
           </div>
-        </div>
+        </form>
       </div>
     </div>
+  )
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={null}>
+      <RegisterInner />
+    </Suspense>
   )
 }
