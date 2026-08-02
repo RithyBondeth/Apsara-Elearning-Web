@@ -25,6 +25,7 @@ import {
   getFaculties, getCourseLessonCount,
 } from "@/lib/api/catalog"
 import { getMyEnrollments } from "@/lib/api/enrollment"
+import { useHasSession } from "@/components/utils/session/session-provider"
 import type { IApiEnrollment } from "@/utils/interfaces/enrollment/api.interface"
 import type {
   IApiSubject, IApiGradeLevel, IApiProgrammingCategory, IApiCourse, IApiFaculty,
@@ -97,6 +98,7 @@ interface ICatalog {
 export default function CoursesPage() {
   const t = useTranslations("courses")
   const { language } = useLanguageStore()
+  const hasSession = useHasSession()
 
   const [track,    setTrack]    = useState<TCatalogTrack>("k12")
   const [grade,    setGrade]    = useState(12)
@@ -113,8 +115,12 @@ export default function CoursesPage() {
     try {
       const [subjects, gradeLevels, categories, courses, faculties, enrollments] = await Promise.all([
         getSubjects(), getGradeLevels(), getProgrammingCategories(), getCourses(), getFaculties(),
-        /* Guests can browse the catalog — a 401 here just means "not enrolled in anything". */
-        getMyEnrollments().catch(() => [] as IApiEnrollment[]),
+        /* Guests can browse the catalog, but they have no enrollments to fetch —
+           asking would be a guaranteed 401. The catch still covers an expired
+           session, where the presence check passes but the token does not. */
+        hasSession
+          ? getMyEnrollments().catch(() => [] as IApiEnrollment[])
+          : ([] as IApiEnrollment[]),
       ])
 
       const counts = await Promise.all(
@@ -130,7 +136,7 @@ export default function CoursesPage() {
     } finally {
       setLoading(false)
     }
-  }, [t])
+  }, [t, hasSession])
 
   useEffect(() => {
     load()
