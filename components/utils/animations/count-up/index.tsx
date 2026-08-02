@@ -66,6 +66,8 @@ export function CountUp({
 
     // Respect reduced-motion: jump straight to final value
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // This synchronizes rendered output with an external accessibility setting.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDisplay(to)
       return
     }

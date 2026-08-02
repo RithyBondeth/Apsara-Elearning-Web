@@ -42,6 +42,8 @@ export function QuizRunner({ lessonId }: QuizRunnerProps) {
   /* One quiz per lesson here — pick the first. Reset on lesson change. */
   useEffect(() => {
     let cancelled = false
+    // A new lesson starts a new server-backed quiz session.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPhase("loading")
     setAttemptId(null)
     setAnswers({})

@@ -7,7 +7,7 @@ import { NEXT_PARAM } from "@/lib/auth/next-param"
  * Routing-level session gating.
  *
  * This checks for the presence of the refresh cookie only — it does not verify
- * any signature. That is deliberate: middleware decides *where to send someone*,
+ * any signature. That is deliberate: the proxy decides *where to send someone*,
  * while real authorization is enforced by the gateway's JwtAuthGuard on every
  * request. Forging a cookie here buys you a redirect, not data.
  *
@@ -22,7 +22,7 @@ const PROTECTED = ["/dashboard", "/learn", "/profile"]
 /** Routes a signed-in user has no reason to see. */
 const AUTH_ROUTES = ["/login", "/register"]
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const hasSession = Boolean(request.cookies.get(REFRESH_COOKIE)?.value)
 
@@ -37,7 +37,16 @@ export function middleware(request: NextRequest) {
   if (isSessionMutation) {
     const origin = request.headers.get("origin")
     const allowMissingOrigin = process.env.NODE_ENV !== "production" && !origin
-    if (!allowMissingOrigin && origin !== request.nextUrl.origin) {
+    const configuredOrigin = process.env.APP_ORIGIN?.replace(/\/$/, "")
+    const host =
+      request.headers.get("x-forwarded-host") ?? request.headers.get("host")
+    const protocol =
+      request.headers.get("x-forwarded-proto") ??
+      request.nextUrl.protocol.replace(":", "")
+    const expectedOrigin =
+      configuredOrigin ?? (host ? `${protocol}://${host}` : request.nextUrl.origin)
+
+    if (!allowMissingOrigin && origin !== expectedOrigin) {
       return NextResponse.json(
         { message: "Invalid request origin" },
         { status: 403 }

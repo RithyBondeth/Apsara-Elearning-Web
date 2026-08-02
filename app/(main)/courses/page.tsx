@@ -133,6 +133,8 @@ export default function CoursesPage() {
   }, [t])
 
   useEffect(() => {
+    // The catalog is an external system; loading it is the synchronization.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     load()
   }, [load])
 
