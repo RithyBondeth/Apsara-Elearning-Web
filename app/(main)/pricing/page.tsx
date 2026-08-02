@@ -15,6 +15,7 @@ import {
 } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl"
 import { AppShell } from "@/components/utils/app-shell"
+import { useHasSession } from "@/components/utils/session/session-provider"
 import { ApiError } from "@/lib/api/client"
 import {
   createBillingPortalSession,
@@ -39,12 +40,13 @@ export default function PricingPage() {
   const loaded = useSubscriptionStore((state) => state.loaded)
   const loadError = useSubscriptionStore((state) => state.error)
   const hydrate = useSubscriptionStore((state) => state.hydrate)
+  const hasSession = useHasSession()
   const [pending, setPending] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    void hydrate()
-  }, [hydrate])
+    void hydrate({ authed: hasSession })
+  }, [hydrate, hasSession])
 
   const checkout = async (plan: IApiPlan) => {
     setPending(plan.id)

@@ -36,6 +36,7 @@ import {
   unenrollFromCourse,
 } from "@/lib/api/enrollment"
 import { getMyLessonProgress } from "@/lib/api/lesson-progress"
+import { useHasSession } from "@/components/utils/session/session-provider"
 import { ApiError } from "@/lib/api/client"
 import { ConfirmDialog } from "@/components/utils/confirm-dialog"
 import type {
@@ -139,6 +140,7 @@ function ApiCourseDetail({
   const t = useTranslations("courseDetail")
   const router = useRouter()
   const { language } = useLanguageStore()
+  const hasSession = useHasSession()
   const nameOf = (en: string, km?: string) =>
     language === "km" && km ? km : en
 
@@ -148,9 +150,12 @@ function ApiCourseDetail({
   const [justEnrolled, setJustEnrolled] = useState(false)
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set())
 
-  /* A guest (or expired session) simply sees the enroll CTA — the click
-     redirects to login, so the check failing is not an error state. */
+  /* A guest simply sees the enroll CTA — the click redirects to login. Both
+     endpoints are guarded, so a guest skips them entirely rather than firing
+     two 401s; the catches still cover an expired session, where the cookie is
+     present but the token is not accepted. */
   useEffect(() => {
+    if (!hasSession) return
     let cancelled = false
     Promise.all([
       checkEnrollment(course.id).catch(() => ({ enrollment: null })),
@@ -165,7 +170,7 @@ function ApiCourseDetail({
     return () => {
       cancelled = true
     }
-  }, [course.id])
+  }, [course.id, hasSession])
 
   const enroll = async () => {
     setEnrollPending(true)

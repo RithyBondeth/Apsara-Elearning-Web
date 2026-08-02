@@ -16,11 +16,25 @@ import { NEXT_PARAM } from "@/lib/auth/next-param"
  * gets silently refreshed instead of bounced to /login.
  */
 
-/** Routes that require a session. Prefix-matched. */
-const PROTECTED = ["/dashboard", "/learn", "/profile"]
+/**
+ * Routes that require a session. Prefix-matched.
+ *
+ * `/tutor` belongs here because every endpoint behind it is guarded by the
+ * gateway's JwtAuthGuard — without the redirect an anonymous visitor gets a
+ * signed-in-looking page that 401s on every request instead of a login prompt.
+ */
+const PROTECTED = ["/dashboard", "/learn", "/profile", "/tutor"]
 
-/** Routes a signed-in user has no reason to see. */
-const AUTH_ROUTES = ["/login", "/register"]
+/**
+ * Routes a signed-in user has no reason to see. `/verify-email` is deliberately
+ * absent: a signed-in-but-unverified user still needs to reach it.
+ */
+const AUTH_ROUTES = [
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/reset-password",
+]
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -69,7 +83,20 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  /* Include API routes for CSRF checks; page gating ignores routes not listed
-     above. Static assets and files remain excluded. */
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.).*)"],
+  /*
+   * Include API routes for CSRF checks; page gating ignores routes not listed
+   * above. Static assets remain excluded — but only by a real file extension
+   * anchored to the end of the path.
+   *
+   * The previous pattern excluded any path containing a dot *anywhere*, which
+   * quietly opted real routes out of the middleware: `/api/proxy/course/a.b`
+   * skipped the origin check above, and a lesson slug with a dot
+   * (`/learn/algebra-1.2`) skipped the session redirect.
+   *
+   * Must stay a literal — Next statically analyses this at build time and
+   * silently ignores an interpolated value.
+   */
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif|ico|css|js|mjs|map|txt|xml|json|woff2?|ttf|otf)$).*)",
+  ],
 }
