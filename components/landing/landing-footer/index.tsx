@@ -12,7 +12,7 @@ export function LandingFooter() {
   const t = useTranslations("footer")
 
   const LEGAL_LINKS = [
-    { key: "privacy" as const, href: "#" },
+    { key: "privacy" as const, href: "/privacy" },
     { key: "terms" as const, href: "/terms" },
     { key: "cookies" as const, href: "#" },
   ]
