@@ -820,6 +820,182 @@
       }
     }
   },
+  "contactPage": {
+    "eyebrow": "A real person is within reach",
+    "title": "Let’s solve it together.",
+    "subtitle": "Tell us what is getting in the way of your learning. We’ll help you find the right answer, whether it concerns your account, a lesson, AI, billing, or privacy.",
+    "channels": {
+      "email": {
+        "title": "Email support",
+        "body": "Write directly to {email}."
+      },
+      "help": {
+        "title": "Browse the Help Center",
+        "body": "Find quick answers and guided troubleshooting."
+      },
+      "billing": {
+        "title": "Plans and billing",
+        "body": "Review plans before asking about a subscription."
+      },
+      "privacy": {
+        "title": "Privacy requests",
+        "body": "Understand your data choices and request help."
+      }
+    },
+    "panel": {
+      "title": "Help us understand the full picture.",
+      "body": "A little context helps us solve your issue with fewer follow-up questions. Never include your password, verification code, or complete payment-card information.",
+      "points": {
+        "details": "Include the course, lesson, page, or action where the problem happened.",
+        "security": "Sensitive sign-in and payment details should always stay private.",
+        "reply": "Use the email connected to your account when the request concerns your profile or billing."
+      }
+    },
+    "form": {
+      "eyebrow": "Contact Apsara Support",
+      "title": "What can we help with?",
+      "note": "Submitting this form opens a prepared message in your email application. You can review it before sending.",
+      "name": "Your name",
+      "namePlaceholder": "Sokha Chan",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "category": "What is this about?",
+      "categoryPlaceholder": "Choose a topic",
+      "categories": {
+        "account": "Account and sign-in",
+        "learning": "Courses and learning",
+        "aiTutor": "AI tutor",
+        "billing": "Plans and billing",
+        "privacy": "Privacy and data",
+        "other": "Something else"
+      },
+      "subject": "Subject",
+      "subjectPlaceholder": "A short summary of the issue",
+      "message": "How can we help?",
+      "messagePlaceholder": "Describe what happened, what you expected, and any steps you already tried…",
+      "privacyNote": "Your message is handled according to our Privacy Policy.",
+      "submit": "Open email draft",
+      "draftOpened": "Your email application should now have a prepared message. Review it and press Send when ready."
+    }
+  },
+  "supportPage": {
+    "eyebrow": "Apsara Help Center",
+    "title": "How can we help you learn?",
+    "subtitle": "Search practical answers for your account, lessons, AI tutor, subscriptions, and privacy settings.",
+    "searchPlaceholder": "Search for an answer…",
+    "searchLabel": "Search the Help Center",
+    "clearSearch": "Clear search",
+    "quickLinks": {
+      "password": {
+        "title": "Reset your password",
+        "body": "Recover access securely by email."
+      },
+      "plans": {
+        "title": "Compare plans",
+        "body": "Understand free and Apsara Plus access."
+      },
+      "tutor": {
+        "title": "Open the AI tutor",
+        "body": "Start or continue a learning conversation."
+      },
+      "contact": {
+        "title": "Contact support",
+        "body": "Prepare a detailed message for our team."
+      }
+    },
+    "categoriesTitle": "Browse by topic",
+    "categories": {
+      "all": "All questions",
+      "account": "Account",
+      "learning": "Learning",
+      "ai": "AI tutor",
+      "billing": "Billing",
+      "privacy": "Privacy"
+    },
+    "faqEyebrow": "Frequently asked questions",
+    "faqTitle": "Helpful answers, without the wait.",
+    "results": "{count} answers",
+    "emptyTitle": "No matching answer yet",
+    "emptyBody": "Try a shorter search or another topic. If you still cannot find it, send our support team a message.",
+    "resetFilters": "Show all answers",
+    "contactCta": {
+      "title": "Still need a hand?",
+      "body": "Share the details with Apsara Support and we’ll point you toward the next useful step.",
+      "button": "Contact support"
+    },
+    "faqs": [
+      {
+        "category": "account",
+        "question": "Why do I need to verify my email?",
+        "answer": "Email verification confirms that the address belongs to you and helps protect account recovery. After registering, enter the verification code sent to your email. If it has expired, request a new code from the verification screen."
+      },
+      {
+        "category": "account",
+        "question": "I forgot my password. How do I get back in?",
+        "answer": "Open the password-reset page, enter the email connected to your account, and follow the instructions sent to you. For your security, Apsara will not tell another person whether a specific email has an account."
+      },
+      {
+        "category": "account",
+        "question": "How do I update my name or avatar?",
+        "answer": "Sign in, open your Profile, and use the edit controls for your display information or avatar. Earned progress such as XP and streaks cannot be edited manually."
+      },
+      {
+        "category": "learning",
+        "question": "How do I start a course?",
+        "answer": "Browse Courses, open the course you want, and choose the available start or enrollment action. Once enrolled, the course appears in your learning area and completed lessons contribute to your progress."
+      },
+      {
+        "category": "learning",
+        "question": "Why is my lesson progress not updating?",
+        "answer": "Make sure you are signed in and finish the lesson using its completion action. If the progress still looks unchanged, refresh once and confirm your internet connection. Contact support with the course and lesson names if it continues."
+      },
+      {
+        "category": "learning",
+        "question": "When do I receive a course certificate?",
+        "answer": "Certificates are available only for eligible courses and plans. Complete the required course activities first; the certificate option appears when all configured requirements have been satisfied."
+      },
+      {
+        "category": "ai",
+        "question": "Why can’t I access the AI tutor?",
+        "answer": "AI tutor access depends on your current plan and available entitlement. Confirm that you are signed in and that your plan includes personal AI tutoring. You can compare current access on the Pricing page."
+      },
+      {
+        "category": "ai",
+        "question": "Can the AI tutor give a wrong answer?",
+        "answer": "Yes. AI responses can be incomplete or incorrect. Use them as study support, check important explanations against the lesson or a trusted teacher, and never treat AI output as professional medical, legal, or financial advice."
+      },
+      {
+        "category": "ai",
+        "question": "Can I delete an AI conversation?",
+        "answer": "Yes. Open the AI tutor, find the conversation in your history, and use its delete action. Deleting a conversation removes its messages from your visible history and cannot be undone."
+      },
+      {
+        "category": "billing",
+        "question": "What stays free on Apsara Elearning?",
+        "answer": "A free account includes the core learning experience shown on the Pricing page. Apsara Plus unlocks the premium features listed there, which may include premium courses, personal AI support, and certificates."
+      },
+      {
+        "category": "billing",
+        "question": "How do I cancel a subscription?",
+        "answer": "Open your billing controls from the Pricing or account area and choose the cancellation option. Unless your checkout terms say otherwise, access continues until the end of the current paid period."
+      },
+      {
+        "category": "billing",
+        "question": "What should I do if a payment fails?",
+        "answer": "Open the billing portal and check that your payment method is current and has sufficient funds. Your bank may also need to approve the transaction. If the status remains incorrect, contact support without sending complete card details."
+      },
+      {
+        "category": "privacy",
+        "question": "How can I request a copy or deletion of my information?",
+        "answer": "Use the Contact page and choose Privacy and data. Send the request from the email connected to your account so we can verify it safely. Some information may need to be retained for security, payment records, or legal obligations."
+      },
+      {
+        "category": "privacy",
+        "question": "Does Apsara use advertising cookies?",
+        "answer": "Apsara currently uses secure sign-in cookies and browser storage for preferences such as language, theme, and profile display. It does not currently place third-party advertising or cross-site tracking cookies. Read the Cookie Policy for the current inventory."
+      }
+    ]
+  },
   "dashboard": {
     "greeting": "Good morning 👋",
     "welcomeBack": "Welcome back,",
