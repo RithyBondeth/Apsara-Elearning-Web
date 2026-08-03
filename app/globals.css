@@ -321,11 +321,6 @@ html {
         background: color-mix(in srgb, var(--muted) 48%, var(--background));
     }
 
-    .landing-cta-panel {
-        background:
-            linear-gradient(125deg, rgba(14, 104, 218, 0.98), rgba(35, 104, 207, 0.98) 52%, rgba(54, 74, 185, 0.98));
-    }
-
     .landing-pricing {
         background: color-mix(in srgb, var(--background) 94%, #2383e2 6%);
         border-block: 1px solid var(--border);

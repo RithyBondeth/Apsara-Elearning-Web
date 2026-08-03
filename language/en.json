@@ -386,13 +386,20 @@
     }
   },
   "cta": {
+    "eyebrow": "Built for Cambodian students",
     "headingPart1": "Ready to Start",
     "headingHighlight": "Learning",
     "headingPart2": "?",
     "subheading": "Join 12,000+ Cambodian students learning smarter — from primary school to university.",
     "free": "Free forever for students.",
     "createAccount": "Create Free Account",
-    "finePrint": "No credit card required • Always free for students"
+    "finePrint": "No credit card required • Always free for students",
+    "trustStudents": "12,000+ learners",
+    "trustLevels": "Primary to university",
+    "trustAi": "AI tutor in Khmer",
+    "cardTitle": "Your next lesson is ready.",
+    "cardBody": "Create your account and start learning any subject at your own pace today.",
+    "exploreCourses": "Explore courses first"
   },
   "footer": {
     "brand": "Cambodia's AI-powered learning platform — every subject from Grade 1 to university. Empowering the next generation of Khmer learners.",
