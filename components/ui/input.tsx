@@ -12,13 +12,16 @@ export interface IInputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "prefix" | "suffix"
 > {
+  label?: React.ReactNode
   prefix?: React.ReactNode
   suffix?: React.ReactNode
   validationMessage?: TRHFMessage
 }
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>(
-  ({ className, type, prefix, suffix, validationMessage, ...props }, ref) => {
+  ({ className, type, label, prefix, suffix, validationMessage, ...props }, ref) => {
+    const generatedId = React.useId()
+    const inputId = props.id ?? generatedId
     const message =
       typeof validationMessage === "string"
         ? validationMessage
@@ -26,6 +29,14 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
 
     return (
       <div className="flex w-full flex-col items-start gap-1">
+        {label && (
+          <label
+            htmlFor={inputId}
+            className="auth-field-label text-xs font-semibold text-foreground/80"
+          >
+            {label}
+          </label>
+        )}
         <div
           className={cn(
             "flex h-12 w-full items-center rounded-md border border-input bg-background px-3 text-base ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
@@ -43,6 +54,8 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
             )}
             ref={ref}
             {...props}
+            id={inputId}
+            aria-invalid={props["aria-invalid"] ?? Boolean(message)}
           />
           {suffix && (
             <span className="ml-2 text-muted-foreground">{suffix}</span>

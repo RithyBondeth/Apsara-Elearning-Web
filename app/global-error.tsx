@@ -15,7 +15,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
 
   return (
     <html lang="km">
-      <body style={{ margin: 0, background: "#06040f", display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", fontFamily: "sans-serif" }}>
+      <body className="font-sans" style={{ margin: 0, background: "#06040f", display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh" }}>
         <div style={{ textAlign: "center", padding: "2rem", maxWidth: "400px" }}>
           <div style={{ fontSize: "4rem", marginBottom: "1rem" }}>⚠️</div>
           <h2 style={{ color: "#f0f0f0", marginBottom: "0.75rem", fontSize: "1.5rem" }}>Critical error</h2>

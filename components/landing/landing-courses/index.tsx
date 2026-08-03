@@ -10,7 +10,6 @@ const ICON_MAP: Record<string, React.ElementType> = {
 }
 import { useTranslations } from "next-intl"
 import { AnimateIn } from "@/components/utils/animations/animate-in"
-import { TiltCard } from "@/components/utils/animations/tilt-card"
 import { FEATURED_SUBJECTS, COLOR } from "@/utils/constants/landing.constant"
 import { TypographyH2 } from "@/components/utils/typography/typography-h2"
 import { TypographyH3 } from "@/components/utils/typography/typography-h3"
@@ -19,7 +18,7 @@ export function LandingCourses() {
   const t = useTranslations("courses")
 
   return (
-    <section id="courses" className="py-28 px-6 bg-muted/20 scroll-mt-20">
+    <section id="courses" className="landing-section-tinted scroll-mt-20 px-6 py-28">
       <div className="max-w-7xl mx-auto">
         <AnimateIn animation="fade-up" className="mb-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -53,13 +52,12 @@ export function LandingCourses() {
                 animation={i === 0 ? "fade-right" : i === 1 ? "zoom" : "fade-left"}
                 delay={i * 0.12}
               >
-                <TiltCard maxTilt={6} className="h-full">
-                  <div className={`group card-surface btn-shine rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border ${c.border} h-full flex flex-col`}>
+                  <div className={`landing-interactive-card group card-surface btn-shine flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border ${c.border}`}>
                     {/* Animated top gradient bar */}
                     <div className="animate-gradient h-1 w-full bg-gradient-to-r from-[#2383e2] via-[#7c5cff] to-[#22c9dd] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="p-6 flex-1">
                       <div className="flex items-start justify-between mb-4">
-                        <div className={`size-14 rounded-2xl ${c.bg} flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-6`}>
+                        <div className={`landing-card-icon flex size-14 items-center justify-center rounded-2xl ${c.bg}`}>
                           {(() => {
                             const Icon = ICON_MAP[subject.icon]
                             return Icon ? <Icon className={`size-7 ${c.icon}`} /> : null
@@ -83,13 +81,12 @@ export function LandingCourses() {
                       </div>
                     </div>
                     <div className="px-6 pb-6">
-                      <button className="group/btn flex w-full items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-xl bg-muted hover:bg-muted/80 border border-border text-foreground/70 hover:text-foreground transition-all">
+                      <button className="landing-action group/btn flex w-full items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-xl bg-muted hover:bg-muted/80 border border-border text-foreground/70 hover:text-foreground">
                         {t("startCourse")}
                         <ArrowRight className="size-3.5 -ml-1 opacity-0 -translate-x-2 transition-all duration-300 group-hover/btn:opacity-100 group-hover/btn:translate-x-0" />
                       </button>
                     </div>
                   </div>
-                </TiltCard>
               </AnimateIn>
             )
           })}

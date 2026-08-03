@@ -121,6 +121,7 @@ export const NAV_LINKS = [
   { key: "features",     href: "/#features"     },
   { key: "howItWorks",   href: "/#how-it-works" },
   { key: "testimonials", href: "/#testimonials"  },
+  { key: "pricing",      href: "/#pricing"      },
 ] as const
 
 export const NAV_LINK_KEYS = NAV_LINKS.map((l) => l.key)

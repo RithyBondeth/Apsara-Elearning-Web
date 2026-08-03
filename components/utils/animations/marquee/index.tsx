@@ -37,7 +37,7 @@ export function Marquee({
     >
       <div
         className={cn(
-          "flex w-max",
+          "flex w-max py-4",
           direction === "left" ? "animate-marquee" : "animate-marquee-reverse"
         )}
         style={{ "--marquee-duration": `${duration}s` } as React.CSSProperties}

@@ -15,7 +15,7 @@ function TestimonialCard({ itemKey, avatar, stars }: { itemKey: string; avatar: 
   const key = itemKey as Parameters<typeof t>[0]
 
   return (
-    <div className="card-surface w-80 shrink-0 rounded-2xl p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <div className="landing-interactive-card card-surface flex w-80 shrink-0 flex-col rounded-2xl p-6">
       <div className="flex gap-0.5 mb-4">
         {[...Array(stars)].map((_, j) => (
           <Star key={j} className="size-4 fill-amber-400 text-amber-400" />
@@ -45,7 +45,7 @@ export function LandingTestimonials() {
   const t = useTranslations("testimonials")
 
   return (
-    <section id="testimonials" className="py-28 bg-muted/20 scroll-mt-20 overflow-hidden">
+    <section id="testimonials" className="landing-section-tinted scroll-mt-20 overflow-hidden py-28">
       <div className="max-w-6xl mx-auto px-6">
         <AnimateIn animation="fade-up" className="text-center mb-16">
           <TypographyH2 className="text-4xl font-bold tracking-tight mb-4 text-foreground border-0 pb-0">

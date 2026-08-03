@@ -1,4 +1,4 @@
-import { JetBrains_Mono, Roboto_Slab, Kantumruy_Pro } from "next/font/google"
+import { JetBrains_Mono, Kantumruy_Pro, Ubuntu } from "next/font/google"
 import type { Metadata } from "next"
 import { cookies } from "next/headers"
 import "./globals.css"
@@ -8,9 +8,10 @@ import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
 
-const robotoSlab = Roboto_Slab({
+const ubuntu = Ubuntu({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-ubuntu",
   display: "swap",
 })
 
@@ -24,12 +25,6 @@ const kantumruyPro = Kantumruy_Pro({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-  display: "swap",
-})
-
-const geistMonoHeading = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-heading",
   display: "swap",
 })
 
@@ -63,10 +58,9 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={cn(
         "antialiased",
-        robotoSlab.variable,
+        ubuntu.variable,
         kantumruyPro.variable,
         jetbrainsMono.variable,
-        geistMonoHeading.variable,
         "font-sans"
       )}
     >

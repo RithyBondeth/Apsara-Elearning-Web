@@ -5,12 +5,10 @@ import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { toast } from "sonner"
-import { CheckCircle2, MailCheck, XCircle, Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react"
+import { AuthCard } from "@/components/auth/auth-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { BrandLogo } from "@/components/utils/brand-logo"
-import { TypographyH3 } from "@/components/utils/typography/typography-h3"
-import { TypographyMuted } from "@/components/utils/typography/typography-muted"
 import { verifyEmailRequest, resendVerificationRequest } from "@/lib/auth/client"
 import { withNext } from "@/lib/auth/next-param"
 
@@ -58,65 +56,76 @@ function VerifyEmailInner() {
     toast.success(t("resent"))
   }
 
-  return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center px-8 py-12">
-      <div className="mb-8">
-        <BrandLogo size="lg" />
-      </div>
+  const cardTitle =
+    status === "success"
+      ? t("verifySuccess")
+      : status === "failed"
+        ? t("verifyFailed")
+        : status === "notice"
+          ? t("verifySentTitle")
+          : t("verifyTitle")
 
-      <div className="w-full max-w-sm space-y-6 text-center">
+  const cardSubtitle =
+    status === "checking"
+      ? t("verifyChecking")
+      : status === "notice"
+        ? t("verifySentBody", { email: email || "your email" })
+        : undefined
+
+  return (
+    <div className="flex h-svh w-full items-center justify-center px-4 pb-4 pt-20 sm:px-6">
+      <AuthCard
+        title={cardTitle}
+        subtitle={cardSubtitle}
+        footer={
+          status === "notice" ? (
+            <Link
+              href={loginHref}
+              className="font-semibold text-blue-600 hover:underline dark:text-blue-400"
+            >
+              {t("goToLogin")}
+            </Link>
+          ) : undefined
+        }
+      >
+        <div className="space-y-4 text-center">
         {status === "checking" && (
-          <>
-            <Loader2 className="mx-auto size-10 animate-spin text-violet-500" />
-            <TypographyMuted>{t("verifyChecking")}</TypographyMuted>
-          </>
+          <div className="h-1.5 overflow-hidden rounded-full bg-blue-100 dark:bg-blue-400/10">
+            <div className="h-full w-2/3 animate-pulse rounded-full bg-blue-500" />
+          </div>
         )}
 
         {status === "success" && (
-          <>
-            <CheckCircle2 className="mx-auto size-12 text-emerald-500" />
-            <TypographyH3 className="text-xl font-bold">{t("verifySuccess")}</TypographyH3>
-            <Button asChild className="btn-shine w-full">
+          <Button asChild className="auth-email-button w-full">
               <Link href={loginHref}>{t("goToLogin")}</Link>
-            </Button>
-          </>
+          </Button>
         )}
 
         {status === "failed" && (
-          <>
-            <XCircle className="mx-auto size-12 text-red-500" />
-            <TypographyH3 className="text-xl font-bold">{t("verifyFailed")}</TypographyH3>
-            <div className="space-y-2">
-              <Button onClick={resend} variant="outline" className="w-full">
+          <div className="space-y-2">
+              <Button onClick={resend} className="auth-email-button w-full">
                 {t("resendVerification")}
               </Button>
               {/* Let them re-paste a fresh token without leaving the page. */}
               <Button onClick={() => setStatus("notice")} variant="ghost" className="w-full">
                 {t("verifyTitle")}
               </Button>
-            </div>
-          </>
+          </div>
         )}
 
         {status === "notice" && (
-          <>
-            <MailCheck className="mx-auto size-12 text-violet-500" />
-            <TypographyH3 className="text-xl font-bold">{t("verifySentTitle")}</TypographyH3>
-            <TypographyMuted className="text-sm">
-              {t("verifySentBody", { email: email || "your email" })}
-            </TypographyMuted>
-
-            <div className="space-y-2 pt-2 text-left">
+            <div className="space-y-3 text-left">
               <Input
-                placeholder="Paste your verification token…"
+                label={t("verificationTokenLabel")}
+                placeholder={t("verifyTokenPlaceholder")}
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
-                className="bg-background/70"
+                className="auth-input"
               />
               <Button
                 onClick={submitToken}
                 disabled={submitting || !token.trim()}
-                className="btn-shine w-full"
+                className="auth-email-button w-full"
               >
                 {submitting ? <Loader2 className="animate-spin" /> : t("verifyTitle")}
               </Button>
@@ -124,15 +133,9 @@ function VerifyEmailInner() {
                 {t("resendVerification")}
               </Button>
             </div>
-
-            <TypographyMuted className="text-sm">
-              <Link href={loginHref} className="font-semibold text-violet-600 hover:underline dark:text-violet-400">
-                {t("goToLogin")}
-              </Link>
-            </TypographyMuted>
-          </>
         )}
-      </div>
+        </div>
+      </AuthCard>
     </div>
   )
 }
