@@ -418,10 +418,145 @@
     "community": "Community",
     "contact": "Contact",
     "status": "Status",
-    "copyright": "© 2025 Apsara Elearning. Built with ❤️ in Phnom Penh, Cambodia 🇰🇭",
+    "copyright": "© 2026 Apsara Elearning. Built with ❤️ in Phnom Penh, Cambodia 🇰🇭",
     "privacy": "Privacy",
     "terms": "Terms",
     "cookies": "Cookies"
+  },
+  "termsPage": {
+    "eyebrow": "Apsara Elearning legal",
+    "title": "Terms of Service",
+    "intro": "These terms explain the rules for learning with Apsara Elearning. We have written them in plain language so you can understand your rights and responsibilities.",
+    "effectiveDate": "Effective August 3, 2026",
+    "backHome": "Back to home",
+    "summaryTitle": "A fair learning space",
+    "summaryBody": "Learn responsibly, protect your account, respect other people, and use our AI tutor as a learning aid—not as a substitute for your own judgment.",
+    "toc": "On this page",
+    "readingNote": "Please read these Terms before creating an account or using Apsara Elearning.",
+    "closingTitle": "Ready to learn with Apsara?",
+    "closingBody": "By creating an account, you confirm that you have read and agree to these Terms of Service.",
+    "createAccount": "Create free account",
+    "sections": {
+      "acceptance": {
+        "title": "Accepting these Terms",
+        "paragraphs": [
+          "These Terms of Service form an agreement between you and Apsara Elearning when you access our website, courses, exercises, AI tutor, or related services. By using the platform, you agree to these Terms and our applicable policies.",
+          "If you do not agree, please do not create an account or use the services."
+        ],
+        "bullets": []
+      },
+      "eligibility": {
+        "title": "Eligibility and younger learners",
+        "paragraphs": [
+          "You must be able to enter into this agreement under the laws that apply to you. If you are under the legal age to agree on your own, a parent or legal guardian must review and accept these Terms for you.",
+          "Parents and guardians are responsible for supervising a younger learner's use of the platform and for any account created on their behalf."
+        ],
+        "bullets": []
+      },
+      "services": {
+        "title": "Our learning services",
+        "paragraphs": [
+          "Apsara Elearning provides courses, lessons, practice activities, progress tools, certificates, and AI-assisted learning features. The exact features available to you may depend on your account, learning level, plan, device, or location.",
+          "Our AI tutor can make mistakes or provide incomplete information. Its responses are for education and study support only and should not be treated as professional medical, legal, financial, or other expert advice. Verify important information with a qualified teacher or trusted source."
+        ],
+        "bullets": []
+      },
+      "accounts": {
+        "title": "Your account",
+        "paragraphs": [
+          "Provide accurate information when creating your account and keep it up to date. You are responsible for activity performed through your account and for keeping your password and login details secure.",
+          "Tell us promptly through our support channels if you believe your account has been accessed without permission."
+        ],
+        "bullets": [
+          "Do not share, sell, or transfer your account.",
+          "Use only one personal account unless we approve otherwise.",
+          "Do not impersonate another person or provide misleading account details."
+        ]
+      },
+      "acceptableUse": {
+        "title": "Acceptable use",
+        "paragraphs": [
+          "Use Apsara Elearning for lawful learning purposes and treat other learners, educators, and our team with respect."
+        ],
+        "bullets": [
+          "Do not harass others, upload harmful or unlawful material, or use the platform to cheat or misrepresent your work.",
+          "Do not bypass security, test vulnerabilities without permission, introduce malware, scrape the service, or interfere with normal operation.",
+          "Do not copy, resell, publicly distribute, or commercially exploit course materials or paid access without written permission.",
+          "Do not use automated systems to access the platform except where we have expressly allowed it."
+        ]
+      },
+      "content": {
+        "title": "Content and intellectual property",
+        "paragraphs": [
+          "Apsara Elearning and its licensors retain ownership of the platform, branding, software, lesson designs, videos, text, graphics, and other service content. We give you a limited, personal, non-exclusive, non-transferable right to use that content for your own learning while your access is active.",
+          "You keep ownership of original content you submit. You give us a limited permission to host, process, display, and use it only as needed to operate, secure, and improve the service. You must have the right to submit anything you upload."
+        ],
+        "bullets": []
+      },
+      "billing": {
+        "title": "Subscriptions and payments",
+        "paragraphs": [
+          "Some features are free and others require a paid subscription. Prices, billing periods, trial details, and included features are shown before you purchase. Payments may be processed by a third-party payment provider such as Stripe under its own terms and privacy practices.",
+          "Unless stated otherwise at checkout, subscriptions renew automatically for the selected billing period until cancelled. You authorize the applicable recurring charge and are responsible for taxes or fees required by law."
+        ],
+        "bullets": []
+      },
+      "cancellation": {
+        "title": "Cancellation and refunds",
+        "paragraphs": [
+          "You can cancel a paid subscription through the billing controls available in your account. Unless the checkout terms say otherwise, cancellation takes effect at the end of the current paid period and you keep access until then.",
+          "Payments are refundable when required by applicable law or when a specific offer expressly provides a refund. Ending or deleting your account does not automatically cancel an active subscription, so please cancel billing first."
+        ],
+        "bullets": []
+      },
+      "availability": {
+        "title": "Availability and service changes",
+        "paragraphs": [
+          "We work to keep Apsara Elearning reliable, but we do not promise uninterrupted or error-free access. Maintenance, security issues, internet conditions, third-party services, or events outside our control may affect availability.",
+          "We may improve, replace, limit, or discontinue features. If a material change negatively affects a paid service, we will provide reasonable notice when practical."
+        ],
+        "bullets": []
+      },
+      "termination": {
+        "title": "Suspension and termination",
+        "paragraphs": [
+          "You may stop using Apsara Elearning at any time. We may restrict, suspend, or close an account when we reasonably believe these Terms have been violated, payment is overdue, security is at risk, or action is needed to protect learners, the platform, or the law.",
+          "Where appropriate, we will explain the reason and provide a chance to resolve the issue. Serious abuse, fraud, or security threats may require immediate action."
+        ],
+        "bullets": []
+      },
+      "disclaimers": {
+        "title": "Disclaimers and responsibility",
+        "paragraphs": [
+          "To the maximum extent permitted by applicable law, the service is provided on an as-available basis. We do not guarantee particular grades, examination results, admission, employment, or other educational outcomes.",
+          "Apsara Elearning is not responsible for indirect or unforeseeable losses arising from use of the service. Nothing in these Terms excludes or limits rights or responsibilities that cannot legally be excluded, including liability caused by fraud or intentional misconduct."
+        ],
+        "bullets": []
+      },
+      "law": {
+        "title": "Governing law and disputes",
+        "paragraphs": [
+          "These Terms are governed by the laws of the Kingdom of Cambodia, without overriding any mandatory consumer protection that applies to you.",
+          "If a dispute arises, please contact us first so we can try to resolve it in good faith. If it cannot be resolved informally, it may be submitted to the competent courts in Phnom Penh, subject to applicable mandatory law."
+        ],
+        "bullets": []
+      },
+      "changes": {
+        "title": "Changes to these Terms",
+        "paragraphs": [
+          "We may update these Terms when the platform, our practices, or legal requirements change. We will post the updated version here and revise the effective date. For material changes, we will provide additional notice through the platform or your account when reasonable.",
+          "Continuing to use the service after updated Terms take effect means you accept them. If you do not agree, you should stop using the service and cancel any active subscription."
+        ],
+        "bullets": []
+      },
+      "contact": {
+        "title": "Contact us",
+        "paragraphs": [
+          "If you have a question about these Terms, your account, or a payment, contact us through the support channels listed on Apsara Elearning. Please include enough detail for us to understand and respond to your request."
+        ],
+        "bullets": []
+      }
+    }
   },
   "dashboard": {
     "greeting": "Good morning 👋",
