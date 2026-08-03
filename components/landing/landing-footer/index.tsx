@@ -14,7 +14,7 @@ export function LandingFooter() {
   const LEGAL_LINKS = [
     { key: "privacy" as const, href: "/privacy" },
     { key: "terms" as const, href: "/terms" },
-    { key: "cookies" as const, href: "#" },
+    { key: "cookies" as const, href: "/cookies" },
   ]
 
   const FOOTER_COLS = [
