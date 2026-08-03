@@ -1,15 +1,25 @@
 import type { ReactNode } from "react"
-import { AnimatedShaderBackground } from "@/components/ui/animated-shader-background"
+import { LanguageSwitcher } from "@/components/utils/language-switcher"
+import { ThemeToggle } from "@/components/utils/themes/theme-toggle"
+import { AuroraBackground } from "@/components/utils/animations/aurora-background"
+import { PaperGrid } from "@/components/utils/paper-grid"
+import { AuthFloatingGlyphs } from "@/components/auth/auth-floating-glyphs"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="auth-page relative min-h-svh overflow-x-hidden bg-[#f3f7ff] dark:bg-[#020817]">
-      <AnimatedShaderBackground />
+    <div className="auth-page landing-page relative h-svh overflow-hidden bg-background">
+      <PaperGrid />
+      <AuroraBackground grid={false} />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.02)_0%,rgba(219,234,254,0.08)_58%,rgba(191,219,254,0.28)_100%)] dark:bg-[radial-gradient(circle_at_50%_30%,transparent_0%,rgba(2,8,23,0.12)_48%,rgba(2,8,23,0.76)_100%)]"
+        className="hero-reading-halo pointer-events-none absolute inset-0 z-[1]"
       />
-      <div className="relative z-10 min-h-svh">{children}</div>
+      <AuthFloatingGlyphs />
+      <div className="fixed right-4 top-4 z-20 flex items-center gap-2 sm:right-6 sm:top-6">
+        <LanguageSwitcher className="auth-floating-control" />
+        <ThemeToggle className="auth-floating-control" />
+      </div>
+      <div className="relative z-10 h-svh">{children}</div>
     </div>
   )
 }

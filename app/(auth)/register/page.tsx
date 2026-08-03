@@ -1,7 +1,6 @@
 "use client"
 
 import { Suspense, useEffect, useRef, useState } from "react"
-import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import { useForm, Controller } from "react-hook-form"
@@ -9,29 +8,24 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
 import gsap from "gsap"
 import {
-  EyeIcon, EyeClosedIcon, LockIcon, MailIcon, UserIcon, PhoneIcon,
-  Rocket, Check, Globe, Bot, Trophy, Loader2,
+  ArrowLeft, ArrowRight, EyeIcon, EyeClosedIcon, LockIcon, MailIcon,
+  UserIcon, PhoneIcon, Loader2,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select"
-import { AuthShowcase } from "@/components/auth/auth-showcase"
-import { BrandLogo } from "@/components/utils/brand-logo"
-import { TypographyH3 } from "@/components/utils/typography/typography-h3"
-import { TypographyMuted } from "@/components/utils/typography/typography-muted"
+import ModernLoginSignup from "@/components/ui/modern-login-signup"
 import { TypographySmall } from "@/components/utils/typography/typography-small"
 import { registerRequest } from "@/lib/auth/client"
 import { withNext } from "@/lib/auth/next-param"
 import { registerSchema, type TRegisterInput } from "@/lib/validation/auth"
 
-const BENEFIT_ICONS = [Check, Globe, Bot, Trophy]
-
-const boxedField =
-  "bg-background/70 backdrop-blur-sm transition-shadow duration-300 focus-within:shadow-[0_0_24px_-8px_rgba(35,131,226,0.5)]"
+const boxedField = "auth-input"
 
 function RegisterInner() {
+  const [step, setStep] = useState<1 | 2>(1)
   const [passwordVisible, setPasswordVisible] = useState(false)
   const [confirmVisible, setConfirmVisible] = useState(false)
   const t = useTranslations("auth")
@@ -39,12 +33,13 @@ function RegisterInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const formRef = useRef<HTMLDivElement>(null)
-  const benefits = t.raw("registerBenefits") as string[]
 
   const {
     register,
     handleSubmit,
     control,
+    trigger,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<TRegisterInput>({ resolver: zodResolver(registerSchema) })
 
@@ -55,9 +50,13 @@ function RegisterInner() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
-      tl.from("[data-auth-logo]", { opacity: 0, scale: 0.7, y: -24, duration: 0.7, ease: "back.out(1.8)" })
-        .from("[data-auth-field]", { opacity: 0, y: 28, duration: 0.6, stagger: 0.09 }, "-=0.25")
+      gsap.from("[data-auth-field]", {
+        opacity: 0,
+        y: 20,
+        duration: 0.5,
+        stagger: 0.06,
+        ease: "power3.out",
+      })
     }, root)
     return () => ctx.revert()
   }, [])
@@ -94,72 +93,65 @@ function RegisterInner() {
   const errText = (key: keyof TRegisterInput) =>
     errors[key] ? tv(errors[key]!.message as string) : undefined
 
+  const password = watch("password", "")
+  const passwordStrength = [
+    password.length >= 8,
+    password.length >= 12,
+    /[A-Z]/.test(password) && /[a-z]/.test(password),
+    /\d|[^A-Za-z0-9]/.test(password),
+  ].filter(Boolean).length
+
+  const continueRegistration = async () => {
+    const valid = await trigger(
+      ["firstName", "lastName", "email", "phone"],
+      { shouldFocus: true }
+    )
+    if (valid) setStep(2)
+  }
+
   return (
-    <div className="flex min-h-svh w-full items-center justify-center px-4 py-6 sm:px-6">
-      <div className="auth-shell flex">
-        {/* ── Decorative panel (left on register, right on login) ── */}
-        <AuthShowcase
-          side="left"
-          icon={<Rocket className="relative size-8 text-white" />}
-          title={t("registerShowcaseTitle")}
-          description={t("registerShowcaseDescription")}
-        >
-          <div className="flex w-full flex-col gap-2.5">
-            {benefits.map((benefit, index) => {
-              const BenefitIcon = BENEFIT_ICONS[index] ?? Check
-              return (
-              <div
-                key={benefit}
-                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/10 px-3.5 py-2.5 text-left text-xs backdrop-blur-sm transition-colors duration-200 hover:bg-white/15"
-              >
-                <BenefitIcon className="size-4 shrink-0 text-cyan-200" />
-                <span className="text-blue-50/85">{benefit}</span>
-              </div>
-              )
-            })}
-          </div>
-        </AuthShowcase>
-
-        {/* ── Form panel ── */}
-        <div
-          ref={formRef}
-          className="auth-form-panel relative flex flex-1 flex-col items-center justify-center px-7 py-10 sm:px-10"
-        >
-
-        <div data-auth-logo className="relative mb-8">
-          <BrandLogo size="lg" />
-        </div>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="relative w-full max-w-sm space-y-6">
-          <div data-auth-field className="text-center">
-            <TypographyH3 className="text-2xl font-bold">{t("registerTitle")}</TypographyH3>
-            <TypographyMuted className="mt-1 text-sm">{t("registerSubtitle")}</TypographyMuted>
-          </div>
-
-          <div className="space-y-3">
-            {/* First + last name */}
-            <div data-auth-field className="flex gap-3">
-              <Input
-                prefix={<UserIcon />}
-                placeholder={t("firstNamePlaceholder")}
-                type="text"
-                autoComplete="given-name"
-                validationMessage={errText("firstName")}
-                className={boxedField}
-                {...register("firstName")}
-              />
-              <Input
-                placeholder={t("lastNamePlaceholder")}
-                type="text"
-                autoComplete="family-name"
-                validationMessage={errText("lastName")}
-                className={boxedField}
-                {...register("lastName")}
-              />
+    <div ref={formRef} className="flex h-svh w-full items-center justify-center px-4 pb-4 pt-20 sm:px-6">
+      <ModernLoginSignup
+        mode="signup"
+        switchHref={withNext("/login", searchParams.get("next"))}
+      >
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-3">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-xs font-semibold text-muted-foreground">
+              {t("stepProgress", { current: step, total: 2 })}
+            </span>
+            <div className="flex flex-1 justify-end gap-1.5" aria-hidden>
+              <span className="h-1.5 w-12 rounded-full bg-blue-500" />
+              <span className={`h-1.5 w-12 rounded-full transition-colors ${step === 2 ? "bg-blue-500" : "bg-muted"}`} />
             </div>
+          </div>
 
-            <div data-auth-field>
+          {step === 1 ? (
+            <div key="profile" className="animate-scale-in space-y-3">
+              <div data-auth-field className="grid grid-cols-2 gap-2.5">
+                <Input
+                  label={t("firstNameLabel")}
+                  prefix={<UserIcon />}
+                  placeholder={t("firstNamePlaceholder")}
+                  type="text"
+                  autoComplete="given-name"
+                  validationMessage={errText("firstName")}
+                  className={boxedField}
+                  {...register("firstName")}
+                />
+                <Input
+                  label={t("lastNameLabel")}
+                  placeholder={t("lastNamePlaceholder")}
+                  type="text"
+                  autoComplete="family-name"
+                  validationMessage={errText("lastName")}
+                  className={boxedField}
+                  {...register("lastName")}
+                />
+              </div>
+
               <Input
+                label={t("emailLabel")}
                 prefix={<MailIcon />}
                 placeholder={t("emailPlaceholder")}
                 type="email"
@@ -168,48 +160,9 @@ function RegisterInner() {
                 className={boxedField}
                 {...register("email")}
               />
-            </div>
-
-            {/* Gender + date of birth */}
-            <div data-auth-field className="flex gap-3">
-              <div className="flex w-full flex-col items-start gap-1">
-                <Controller
-                  control={control}
-                  name="gender"
-                  render={({ field }) => (
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger
-                        aria-invalid={Boolean(errors.gender)}
-                        className={`h-12 w-full rounded-md border border-input px-3 ${boxedField}`}
-                      >
-                        <SelectValue placeholder={t("genderPlaceholder")} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Male">{t("male")}</SelectItem>
-                        <SelectItem value="Female">{t("female")}</SelectItem>
-                        <SelectItem value="Other">{t("other")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-                {errors.gender && (
-                  <TypographySmall className="text-xs text-red-500">
-                    {tv(errors.gender.message as string)}
-                  </TypographySmall>
-                )}
-              </div>
 
               <Input
-                type="date"
-                aria-label={t("dateOfBirthLabel")}
-                validationMessage={errText("dateOfBirth")}
-                className={boxedField}
-                {...register("dateOfBirth")}
-              />
-            </div>
-
-            <div data-auth-field>
-              <Input
+                label={t("phoneLabel")}
                 prefix={<PhoneIcon />}
                 placeholder={t("phonePlaceholder")}
                 type="tel"
@@ -218,29 +171,107 @@ function RegisterInner() {
                 className={boxedField}
                 {...register("phone")}
               />
-            </div>
 
-            <div data-auth-field>
-              <Input
-                prefix={<LockIcon />}
-                placeholder={t("passwordPlaceholder")}
-                type={passwordVisible ? "text" : "password"}
-                autoComplete="new-password"
-                validationMessage={errText("password")}
-                className={boxedField}
-                {...register("password")}
-                suffix={
-                  passwordVisible ? (
-                    <EyeClosedIcon onClick={() => setPasswordVisible(false)} className="cursor-pointer transition-transform hover:scale-110" />
+              <Button
+                type="button"
+                onClick={continueRegistration}
+                className="auth-email-button w-full transition-transform hover:-translate-y-0.5"
+              >
+                {t("continue")}
+                <ArrowRight />
+              </Button>
+            </div>
+          ) : (
+            <div key="security" className="animate-scale-in space-y-3">
+              <div className="grid grid-cols-2 gap-2.5">
+                <div className="flex w-full flex-col items-start gap-1">
+                  <span className="auth-field-label text-xs font-semibold text-foreground/80">
+                    {t("genderLabel")}
+                  </span>
+                  <Controller
+                    control={control}
+                    name="gender"
+                    render={({ field }) => (
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger
+                          aria-invalid={Boolean(errors.gender)}
+                          className={`w-full border px-3 ${boxedField}`}
+                        >
+                          <SelectValue placeholder={t("genderPlaceholder")} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Male">{t("male")}</SelectItem>
+                          <SelectItem value="Female">{t("female")}</SelectItem>
+                          <SelectItem value="Other">{t("other")}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                  {errors.gender && (
+                    <TypographySmall className="text-xs text-red-500">
+                      {tv(errors.gender.message as string)}
+                    </TypographySmall>
+                  )}
+                </div>
+
+                <Input
+                  label={t("dateOfBirthLabel")}
+                  type="date"
+                  aria-label={t("dateOfBirthLabel")}
+                  validationMessage={errText("dateOfBirth")}
+                  className={boxedField}
+                  {...register("dateOfBirth")}
+                />
+              </div>
+
+              <div>
+                <Input
+                  label={t("passwordLabel")}
+                  prefix={<LockIcon />}
+                  placeholder={t("passwordPlaceholder")}
+                  type={passwordVisible ? "text" : "password"}
+                  autoComplete="new-password"
+                  validationMessage={errText("password")}
+                  className={boxedField}
+                  {...register("password")}
+                  suffix={passwordVisible ? (
+                    <button
+                      type="button"
+                      aria-label={t("hidePassword")}
+                      onClick={() => setPasswordVisible(false)}
+                      className="rounded-md p-0.5 hover:text-foreground"
+                    >
+                      <EyeClosedIcon className="size-4" />
+                    </button>
                   ) : (
-                    <EyeIcon onClick={() => setPasswordVisible(true)} className="cursor-pointer transition-transform hover:scale-110" />
-                  )
-                }
-              />
-            </div>
+                    <button
+                      type="button"
+                      aria-label={t("showPassword")}
+                      onClick={() => setPasswordVisible(true)}
+                      className="rounded-md p-0.5 hover:text-foreground"
+                    >
+                      <EyeIcon className="size-4" />
+                    </button>
+                  )}
+                />
+                <div className="mt-1.5 flex gap-1" aria-label={t("passwordStrength")}>
+                  {[1, 2, 3, 4].map((level) => (
+                    <span
+                      key={level}
+                      className={`h-1 flex-1 rounded-full transition-colors ${
+                        passwordStrength >= level
+                          ? level < 3
+                            ? "bg-amber-400"
+                            : "bg-emerald-500"
+                          : "bg-muted"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
 
-            <div data-auth-field>
               <Input
+                label={t("confirmPasswordLabel")}
                 prefix={<LockIcon />}
                 placeholder={t("confirmPasswordPlaceholder")}
                 type={confirmVisible ? "text" : "password"}
@@ -248,48 +279,51 @@ function RegisterInner() {
                 validationMessage={errText("confirmPassword")}
                 className={boxedField}
                 {...register("confirmPassword")}
-                suffix={
-                  confirmVisible ? (
-                    <EyeClosedIcon onClick={() => setConfirmVisible(false)} className="cursor-pointer transition-transform hover:scale-110" />
-                  ) : (
-                    <EyeIcon onClick={() => setConfirmVisible(true)} className="cursor-pointer transition-transform hover:scale-110" />
-                  )
-                }
-              />
-            </div>
-
-            <div data-auth-field>
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="btn-shine w-full transition-all hover:shadow-[0_0_28px_-6px_rgba(35,131,226,0.6)] hover:-translate-y-0.5"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="animate-spin" />
-                    {t("creatingAccount")}
-                  </>
+                suffix={confirmVisible ? (
+                  <button
+                    type="button"
+                    aria-label={t("hidePassword")}
+                    onClick={() => setConfirmVisible(false)}
+                    className="rounded-md p-0.5 hover:text-foreground"
+                  >
+                    <EyeClosedIcon className="size-4" />
+                  </button>
                 ) : (
-                  t("registerButton")
+                  <button
+                    type="button"
+                    aria-label={t("showPassword")}
+                    onClick={() => setConfirmVisible(true)}
+                    className="rounded-md p-0.5 hover:text-foreground"
+                  >
+                    <EyeIcon className="size-4" />
+                  </button>
                 )}
-              </Button>
-            </div>
-          </div>
+              />
 
-          <div data-auth-field>
-            <TypographyMuted className="text-center text-sm">
-              {t("alreadyHaveAccount")}{" "}
-              <Link
-                href={withNext("/login", searchParams.get("next"))}
-                className="font-semibold text-violet-600 hover:underline dark:text-violet-400"
-              >
-                {t("signIn")}
-              </Link>
-            </TypographyMuted>
-          </div>
+              <div className="grid grid-cols-[auto_1fr] gap-2.5">
+                <Button type="button" variant="outline" onClick={() => setStep(1)} className="h-[2.75rem] px-4">
+                  <ArrowLeft />
+                  <span className="hidden sm:inline">{t("back")}</span>
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="auth-email-button w-full transition-transform hover:-translate-y-0.5"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="animate-spin" />
+                      {t("creatingAccount")}
+                    </>
+                  ) : (
+                    t("registerButton")
+                  )}
+                </Button>
+              </div>
+            </div>
+          )}
         </form>
-        </div>
-      </div>
+      </ModernLoginSignup>
     </div>
   )
 }

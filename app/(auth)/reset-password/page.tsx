@@ -8,13 +8,11 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
 import {
-  CheckCircle2, EyeClosedIcon, EyeIcon, KeyRound, Loader2, LockIcon,
+  ArrowLeft, EyeClosedIcon, EyeIcon, KeyRound, Loader2, LockIcon,
 } from "lucide-react"
+import { AuthCard } from "@/components/auth/auth-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { BrandLogo } from "@/components/utils/brand-logo"
-import { TypographyH3 } from "@/components/utils/typography/typography-h3"
-import { TypographyMuted } from "@/components/utils/typography/typography-muted"
 import { resetPasswordRequest } from "@/lib/auth/client"
 import { resetPasswordSchema, type TResetPasswordInput } from "@/lib/validation/auth"
 
@@ -50,88 +48,100 @@ function ResetPasswordInner() {
 
   if (done) {
     return (
-      <div className="w-full max-w-sm space-y-6 text-center">
-        <CheckCircle2 className="mx-auto size-12 text-emerald-500" />
-        <TypographyH3 className="text-xl font-bold">{t("resetSuccessTitle")}</TypographyH3>
-        <TypographyMuted className="text-sm">{t("resetSuccessBody")}</TypographyMuted>
-        <Button asChild className="btn-shine w-full">
-          <Link href="/login">{t("goToLogin")}</Link>
-        </Button>
+      <div className="flex h-svh w-full items-center justify-center px-4 pb-4 pt-20 sm:px-6">
+        <AuthCard
+          title={t("resetSuccessTitle")}
+          subtitle={t("resetSuccessBody")}
+        >
+          <Button asChild className="auth-email-button w-full">
+            <Link href="/login">{t("goToLogin")}</Link>
+          </Button>
+        </AuthCard>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-sm space-y-5">
-      <div className="text-center">
-        <TypographyH3 className="text-2xl font-bold">{t("resetTitle")}</TypographyH3>
-        <TypographyMuted className="mt-1 text-sm">{t("resetSubtitle")}</TypographyMuted>
-      </div>
-
-      <div>
-        <label className="mb-1.5 block text-xs font-medium text-muted-foreground">
-          {t("resetTokenLabel")}
-        </label>
-        <Input
-          prefix={<KeyRound className="size-4" />}
-          placeholder={t("resetTokenPlaceholder")}
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
-          className="bg-background/70"
-        />
-      </div>
-
-      <Input
-        prefix={<LockIcon />}
-        placeholder={t("resetNewPasswordPlaceholder")}
-        type={visible ? "text" : "password"}
-        autoComplete="new-password"
-        validationMessage={errors.newPassword?.message ? tv(errors.newPassword.message) : undefined}
-        className="bg-background/70"
-        {...register("newPassword")}
-        suffix={
-          visible ? (
-            <EyeClosedIcon onClick={() => setVisible(false)} className="cursor-pointer" />
-          ) : (
-            <EyeIcon onClick={() => setVisible(true)} className="cursor-pointer" />
-          )
+    <div className="flex h-svh w-full items-center justify-center px-4 pb-4 pt-20 sm:px-6">
+      <AuthCard
+        title={t("resetTitle")}
+        subtitle={t("resetSubtitle")}
+        footer={
+          <Link
+            href="/login"
+            className="inline-flex items-center gap-1.5 font-semibold text-blue-600 hover:underline dark:text-blue-400"
+          >
+            <ArrowLeft className="size-3.5" />
+            {t("backToLogin")}
+          </Link>
         }
-      />
+      >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <Input
+            label={t("resetTokenLabel")}
+            prefix={<KeyRound className="size-4" />}
+            placeholder={t("resetTokenPlaceholder")}
+            value={token}
+            onChange={(e) => setToken(e.target.value)}
+            className="auth-input"
+          />
 
-      <Input
-        prefix={<LockIcon />}
-        placeholder={t("confirmPasswordPlaceholder")}
-        type={visible ? "text" : "password"}
-        autoComplete="new-password"
-        validationMessage={errors.confirmPassword?.message ? tv(errors.confirmPassword.message) : undefined}
-        className="bg-background/70"
-        {...register("confirmPassword")}
-      />
+          <Input
+            label={t("passwordLabel")}
+            prefix={<LockIcon />}
+            placeholder={t("resetNewPasswordPlaceholder")}
+            type={visible ? "text" : "password"}
+            autoComplete="new-password"
+            validationMessage={errors.newPassword?.message ? tv(errors.newPassword.message) : undefined}
+            className="auth-input"
+            {...register("newPassword")}
+            suffix={
+              visible ? (
+                <button
+                  type="button"
+                  aria-label={t("hidePassword")}
+                  onClick={() => setVisible(false)}
+                  className="rounded-md p-0.5 hover:text-foreground"
+                >
+                  <EyeClosedIcon className="size-4" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  aria-label={t("showPassword")}
+                  onClick={() => setVisible(true)}
+                  className="rounded-md p-0.5 hover:text-foreground"
+                >
+                  <EyeIcon className="size-4" />
+                </button>
+              )
+            }
+          />
 
-      <Button type="submit" disabled={isSubmitting} className="btn-shine w-full">
-        {isSubmitting ? <Loader2 className="animate-spin" /> : t("resetButton")}
-      </Button>
+          <Input
+            label={t("confirmPasswordLabel")}
+            prefix={<LockIcon />}
+            placeholder={t("confirmPasswordPlaceholder")}
+            type={visible ? "text" : "password"}
+            autoComplete="new-password"
+            validationMessage={errors.confirmPassword?.message ? tv(errors.confirmPassword.message) : undefined}
+            className="auth-input"
+            {...register("confirmPassword")}
+          />
 
-      <TypographyMuted className="text-center text-sm">
-        <Link href="/login" className="font-semibold text-violet-600 hover:underline dark:text-violet-400">
-          {t("backToLogin")}
-        </Link>
-      </TypographyMuted>
-    </form>
+          <Button type="submit" disabled={isSubmitting} className="auth-email-button w-full">
+            {isSubmitting ? <Loader2 className="animate-spin" /> : t("resetButton")}
+          </Button>
+        </form>
+      </AuthCard>
+    </div>
   )
 }
 
 export default function ResetPasswordPage() {
   return (
-    <div className="flex min-h-svh w-full items-center justify-center px-4 py-6 sm:px-6">
-      <div className="auth-compact-card p-7 sm:p-10">
-        <div className="mb-8 flex justify-center">
-          <BrandLogo size="lg" />
-        </div>
-        <Suspense fallback={null}>
-          <ResetPasswordInner />
-        </Suspense>
-      </div>
-    </div>
+    <Suspense fallback={null}>
+      <ResetPasswordInner />
+    </Suspense>
   )
 }

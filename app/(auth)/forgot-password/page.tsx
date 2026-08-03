@@ -5,12 +5,10 @@ import Link from "next/link"
 import { useTranslations } from "next-intl"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowLeft, Loader2, MailCheck, MailIcon } from "lucide-react"
+import { ArrowLeft, Loader2, MailIcon } from "lucide-react"
+import { AuthCard } from "@/components/auth/auth-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { BrandLogo } from "@/components/utils/brand-logo"
-import { TypographyH3 } from "@/components/utils/typography/typography-h3"
-import { TypographyMuted } from "@/components/utils/typography/typography-muted"
 import { forgotPasswordRequest } from "@/lib/auth/client"
 import { forgotPasswordSchema, type TForgotPasswordInput } from "@/lib/validation/auth"
 
@@ -34,63 +32,49 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-svh w-full items-center justify-center px-4 py-6 sm:px-6">
-      <div className="auth-compact-card p-7 sm:p-10">
-        <div className="mb-8 flex justify-center">
-          <BrandLogo size="lg" />
-        </div>
-
+    <div className="flex h-svh w-full items-center justify-center px-4 pb-4 pt-20 sm:px-6">
+      <AuthCard
+        title={sentTo ? t("forgotSentTitle") : t("forgotTitle")}
+        subtitle={
+          sentTo
+            ? t("forgotSentBody", { email: sentTo })
+            : t("forgotSubtitle")
+        }
+        footer={
+          <Link
+            href="/login"
+            className="inline-flex items-center gap-1.5 font-semibold text-blue-600 hover:underline dark:text-blue-400"
+          >
+            <ArrowLeft className="size-3.5" />
+            {t("backToLogin")}
+          </Link>
+        }
+      >
         {sentTo ? (
-        <div className="w-full max-w-sm space-y-6 text-center">
-          <MailCheck className="mx-auto size-12 text-violet-500" />
-          <TypographyH3 className="text-xl font-bold">{t("forgotSentTitle")}</TypographyH3>
-          <TypographyMuted className="text-sm">
-            {t("forgotSentBody", { email: sentTo })}
-          </TypographyMuted>
-          <Button asChild className="btn-shine w-full">
+          <Button asChild className="auth-email-button w-full">
             <Link href={`/reset-password?email=${encodeURIComponent(sentTo)}`}>
               {t("forgotHaveToken")}
             </Link>
           </Button>
-          <TypographyMuted className="text-sm">
-            <Link href="/login" className="font-semibold text-violet-600 hover:underline dark:text-violet-400">
-              {t("backToLogin")}
-            </Link>
-          </TypographyMuted>
-        </div>
         ) : (
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-sm space-y-6">
-          <div className="text-center">
-            <TypographyH3 className="text-2xl font-bold">{t("forgotTitle")}</TypographyH3>
-            <TypographyMuted className="mt-1 text-sm">{t("forgotSubtitle")}</TypographyMuted>
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <Input
+              label={t("emailLabel")}
+              prefix={<MailIcon />}
+              placeholder={t("emailPlaceholder")}
+              type="email"
+              autoComplete="email"
+              validationMessage={errors.email?.message ? tv(errors.email.message) : undefined}
+              className="auth-input"
+              {...register("email")}
+            />
 
-          <Input
-            prefix={<MailIcon />}
-            placeholder={t("emailPlaceholder")}
-            type="email"
-            autoComplete="email"
-            validationMessage={errors.email?.message ? tv(errors.email.message) : undefined}
-            className="bg-background/70"
-            {...register("email")}
-          />
-
-          <Button type="submit" disabled={isSubmitting} className="btn-shine w-full">
-            {isSubmitting ? <Loader2 className="animate-spin" /> : t("forgotButton")}
-          </Button>
-
-          <TypographyMuted className="text-center text-sm">
-            <Link
-              href="/login"
-              className="inline-flex items-center gap-1 font-semibold text-violet-600 hover:underline dark:text-violet-400"
-            >
-              <ArrowLeft className="size-3.5" />
-              {t("backToLogin")}
-            </Link>
-          </TypographyMuted>
-        </form>
+            <Button type="submit" disabled={isSubmitting} className="auth-email-button w-full">
+              {isSubmitting ? <Loader2 className="animate-spin" /> : t("forgotButton")}
+            </Button>
+          </form>
         )}
-      </div>
+      </AuthCard>
     </div>
   )
 }

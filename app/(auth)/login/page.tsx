@@ -8,13 +8,10 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
 import gsap from "gsap"
-import { EyeIcon, EyeClosedIcon, LockIcon, MailIcon, Globe, Loader2 } from "lucide-react"
+import { ArrowRight, EyeIcon, EyeClosedIcon, LockIcon, MailIcon, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { AuthShowcase } from "@/components/auth/auth-showcase"
-import { BrandLogo } from "@/components/utils/brand-logo"
-import { TypographyH3 } from "@/components/utils/typography/typography-h3"
-import { TypographyMuted } from "@/components/utils/typography/typography-muted"
+import ModernLoginSignup from "@/components/ui/modern-login-signup"
 import { loginRequest, resendVerificationRequest } from "@/lib/auth/client"
 import { safeNext, withNext } from "@/lib/auth/next-param"
 import { loginSchema, type TLoginInput } from "@/lib/validation/auth"
@@ -29,7 +26,6 @@ function LoginInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const formRef = useRef<HTMLDivElement>(null)
-  const showcaseSubjects = t.raw("loginShowcaseSubjects") as string[]
 
   const {
     register,
@@ -45,18 +41,13 @@ function LoginInner() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
-      tl.from("[data-auth-logo]", {
+      gsap.from("[data-auth-field]", {
         opacity: 0,
-        scale: 0.7,
-        y: -24,
-        duration: 0.7,
-        ease: "back.out(1.8)",
-      }).from(
-        "[data-auth-field]",
-        { opacity: 0, y: 28, duration: 0.6, stagger: 0.1 },
-        "-=0.25"
-      )
+        y: 20,
+        duration: 0.55,
+        stagger: 0.08,
+        ease: "power3.out",
+      })
     }, root)
     return () => ctx.revert()
   }, [])
@@ -86,69 +77,66 @@ function LoginInner() {
   }
 
   return (
-    <div className="flex min-h-svh w-full items-center justify-center px-4 py-6 sm:px-6">
-      <div className="auth-shell flex min-h-[42rem]">
-        {/* ── Form panel ── */}
-        <div
-          ref={formRef}
-          className="auth-form-panel relative flex flex-1 flex-col items-center justify-center px-7 py-10 sm:px-10"
-        >
-
-        <div data-auth-logo className="relative mb-10">
-          <BrandLogo size="lg" />
-        </div>
-
+    <div ref={formRef} className="flex h-svh w-full items-center justify-center px-4 pb-4 pt-20 sm:px-6">
+      <ModernLoginSignup
+        mode="login"
+        switchHref={withNext("/register", searchParams.get("next"))}
+      >
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="relative w-full max-w-sm space-y-6"
+          className="w-full space-y-4"
         >
-          <div data-auth-field className="text-center">
-            <TypographyH3 className="text-2xl font-bold">
-              {t("loginTitle")}
-            </TypographyH3>
-          </div>
-
           <div className="space-y-3">
             <div data-auth-field>
               <Input
+                label={t("emailLabel")}
                 prefix={<MailIcon />}
                 placeholder={t("emailPlaceholder")}
                 type="email"
                 autoComplete="email"
                 validationMessage={errors.email?.message ? tv(errors.email.message) : undefined}
-                className="bg-background/70 backdrop-blur-sm transition-shadow duration-300 focus-within:shadow-[0_0_24px_-8px_rgba(35,131,226,0.5)]"
+                className="auth-input"
                 {...register("email")}
               />
             </div>
             <div data-auth-field>
               <Input
+                label={t("passwordLabel")}
                 prefix={<LockIcon />}
                 placeholder={t("passwordPlaceholder")}
                 type={passwordVisible ? "text" : "password"}
                 autoComplete="current-password"
                 validationMessage={errors.password?.message ? tv(errors.password.message) : undefined}
-                className="bg-background/70 backdrop-blur-sm transition-shadow duration-300 focus-within:shadow-[0_0_24px_-8px_rgba(35,131,226,0.5)]"
+                className="auth-input"
                 {...register("password")}
                 suffix={
                   passwordVisible ? (
-                    <EyeClosedIcon
+                    <button
+                      type="button"
+                      aria-label={t("hidePassword")}
                       onClick={() => setPasswordVisible(false)}
-                      className="cursor-pointer transition-transform hover:scale-110"
-                    />
+                      className="rounded-md p-0.5 transition-colors hover:text-foreground"
+                    >
+                      <EyeClosedIcon className="size-4" />
+                    </button>
                   ) : (
-                    <EyeIcon
+                    <button
+                      type="button"
+                      aria-label={t("showPassword")}
                       onClick={() => setPasswordVisible(true)}
-                      className="cursor-pointer transition-transform hover:scale-110"
-                    />
+                      className="rounded-md p-0.5 transition-colors hover:text-foreground"
+                    >
+                      <EyeIcon className="size-4" />
+                    </button>
                   )
                 }
               />
             </div>
 
-            <div data-auth-field className="-mt-2 text-right">
+            <div data-auth-field className="-mt-1 text-right">
               <Link
                 href="/forgot-password"
-                className="text-xs font-medium text-violet-600 hover:underline dark:text-violet-400"
+                className="text-xs font-semibold text-blue-600 hover:underline dark:text-blue-400"
               >
                 {t("forgotPassword")}
               </Link>
@@ -176,7 +164,7 @@ function LoginInner() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="btn-shine w-full transition-all hover:-translate-y-0.5 hover:shadow-[0_0_28px_-6px_rgba(35,131,226,0.6)]"
+                className="auth-email-button w-full transition-transform hover:-translate-y-0.5"
               >
                 {isSubmitting ? (
                   <>
@@ -184,45 +172,17 @@ function LoginInner() {
                     {t("signingIn")}
                   </>
                 ) : (
-                  t("loginButton")
+                  <>
+                    {t("loginButton")}
+                    <ArrowRight />
+                  </>
                 )}
               </Button>
             </div>
           </div>
 
-          <div data-auth-field>
-            <TypographyMuted className="text-center text-sm">
-              {t("noAccount")}{" "}
-              <Link
-                href={withNext("/register", searchParams.get("next"))}
-                className="font-semibold text-violet-600 hover:underline dark:text-violet-400"
-              >
-                {t("signUp")}
-              </Link>
-            </TypographyMuted>
-          </div>
         </form>
-        </div>
-
-        {/* ── Decorative panel ── */}
-        <AuthShowcase
-          side="right"
-          icon={<Globe className="relative size-8 text-white" />}
-          title={t("loginShowcaseTitle")}
-          description={t("loginShowcaseDescription")}
-        >
-          <div className="flex flex-wrap gap-2">
-            {showcaseSubjects.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-medium text-blue-50 backdrop-blur-sm"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </AuthShowcase>
-      </div>
+      </ModernLoginSignup>
     </div>
   )
 }
