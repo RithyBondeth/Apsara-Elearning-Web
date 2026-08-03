@@ -11,6 +11,12 @@ import { TypographyMuted } from "@/components/utils/typography/typography-muted"
 export function LandingFooter() {
   const t = useTranslations("footer")
 
+  const LEGAL_LINKS = [
+    { key: "privacy" as const, href: "#" },
+    { key: "terms" as const, href: "/terms" },
+    { key: "cookies" as const, href: "#" },
+  ]
+
   const FOOTER_COLS = [
     {
       headingKey: "platformCol" as const,
@@ -46,7 +52,7 @@ export function LandingFooter() {
       {/* Gradient hairline along the top edge */}
       <div
         aria-hidden
-        className="animate-gradient absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#2383e2] to-transparent opacity-60"
+        className="animate-gradient absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-[#2383e2] to-transparent opacity-60"
       />
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between gap-8 mb-10">
@@ -82,8 +88,8 @@ export function LandingFooter() {
             {t("copyright")}
           </TypographyMuted>
           <div className="flex gap-4">
-            {(["privacy", "terms", "cookies"] as const).map((key) => (
-              <Link key={key} href="#" className="transition-colors hover:text-foreground">
+            {LEGAL_LINKS.map(({ key, href }) => (
+              <Link key={key} href={href} className="transition-colors hover:text-foreground">
                 <TypographySmall className="text-muted-foreground transition-colors hover:text-foreground">
                   {t(key)}
                 </TypographySmall>
