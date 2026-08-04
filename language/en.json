@@ -418,10 +418,588 @@
     "community": "Community",
     "contact": "Contact",
     "status": "Status",
-    "copyright": "© 2025 Apsara Elearning. Built with ❤️ in Phnom Penh, Cambodia 🇰🇭",
+    "copyright": "© 2026 Apsara Elearning. Built with ❤️ in Phnom Penh, Cambodia 🇰🇭",
     "privacy": "Privacy",
     "terms": "Terms",
     "cookies": "Cookies"
+  },
+  "termsPage": {
+    "eyebrow": "Apsara Elearning legal",
+    "title": "Terms of Service",
+    "intro": "These terms explain the rules for learning with Apsara Elearning. We have written them in plain language so you can understand your rights and responsibilities.",
+    "effectiveDate": "Effective August 3, 2026",
+    "backHome": "Back to home",
+    "summaryTitle": "A fair learning space",
+    "summaryBody": "Learn responsibly, protect your account, respect other people, and use our AI tutor as a learning aid—not as a substitute for your own judgment.",
+    "toc": "On this page",
+    "readingNote": "Please read these Terms before creating an account or using Apsara Elearning.",
+    "closingTitle": "Ready to learn with Apsara?",
+    "closingBody": "By creating an account, you confirm that you have read and agree to these Terms of Service.",
+    "createAccount": "Create free account",
+    "sections": {
+      "acceptance": {
+        "title": "Accepting these Terms",
+        "paragraphs": [
+          "These Terms of Service form an agreement between you and Apsara Elearning when you access our website, courses, exercises, AI tutor, or related services. By using the platform, you agree to these Terms and our applicable policies.",
+          "If you do not agree, please do not create an account or use the services."
+        ],
+        "bullets": []
+      },
+      "eligibility": {
+        "title": "Eligibility and younger learners",
+        "paragraphs": [
+          "You must be able to enter into this agreement under the laws that apply to you. If you are under the legal age to agree on your own, a parent or legal guardian must review and accept these Terms for you.",
+          "Parents and guardians are responsible for supervising a younger learner's use of the platform and for any account created on their behalf."
+        ],
+        "bullets": []
+      },
+      "services": {
+        "title": "Our learning services",
+        "paragraphs": [
+          "Apsara Elearning provides courses, lessons, practice activities, progress tools, certificates, and AI-assisted learning features. The exact features available to you may depend on your account, learning level, plan, device, or location.",
+          "Our AI tutor can make mistakes or provide incomplete information. Its responses are for education and study support only and should not be treated as professional medical, legal, financial, or other expert advice. Verify important information with a qualified teacher or trusted source."
+        ],
+        "bullets": []
+      },
+      "accounts": {
+        "title": "Your account",
+        "paragraphs": [
+          "Provide accurate information when creating your account and keep it up to date. You are responsible for activity performed through your account and for keeping your password and login details secure.",
+          "Tell us promptly through our support channels if you believe your account has been accessed without permission."
+        ],
+        "bullets": [
+          "Do not share, sell, or transfer your account.",
+          "Use only one personal account unless we approve otherwise.",
+          "Do not impersonate another person or provide misleading account details."
+        ]
+      },
+      "acceptableUse": {
+        "title": "Acceptable use",
+        "paragraphs": [
+          "Use Apsara Elearning for lawful learning purposes and treat other learners, educators, and our team with respect."
+        ],
+        "bullets": [
+          "Do not harass others, upload harmful or unlawful material, or use the platform to cheat or misrepresent your work.",
+          "Do not bypass security, test vulnerabilities without permission, introduce malware, scrape the service, or interfere with normal operation.",
+          "Do not copy, resell, publicly distribute, or commercially exploit course materials or paid access without written permission.",
+          "Do not use automated systems to access the platform except where we have expressly allowed it."
+        ]
+      },
+      "content": {
+        "title": "Content and intellectual property",
+        "paragraphs": [
+          "Apsara Elearning and its licensors retain ownership of the platform, branding, software, lesson designs, videos, text, graphics, and other service content. We give you a limited, personal, non-exclusive, non-transferable right to use that content for your own learning while your access is active.",
+          "You keep ownership of original content you submit. You give us a limited permission to host, process, display, and use it only as needed to operate, secure, and improve the service. You must have the right to submit anything you upload."
+        ],
+        "bullets": []
+      },
+      "billing": {
+        "title": "Subscriptions and payments",
+        "paragraphs": [
+          "Some features are free and others require a paid subscription. Prices, billing periods, trial details, and included features are shown before you purchase. Payments may be processed by a third-party payment provider such as Stripe under its own terms and privacy practices.",
+          "Unless stated otherwise at checkout, subscriptions renew automatically for the selected billing period until cancelled. You authorize the applicable recurring charge and are responsible for taxes or fees required by law."
+        ],
+        "bullets": []
+      },
+      "cancellation": {
+        "title": "Cancellation and refunds",
+        "paragraphs": [
+          "You can cancel a paid subscription through the billing controls available in your account. Unless the checkout terms say otherwise, cancellation takes effect at the end of the current paid period and you keep access until then.",
+          "Payments are refundable when required by applicable law or when a specific offer expressly provides a refund. Ending or deleting your account does not automatically cancel an active subscription, so please cancel billing first."
+        ],
+        "bullets": []
+      },
+      "availability": {
+        "title": "Availability and service changes",
+        "paragraphs": [
+          "We work to keep Apsara Elearning reliable, but we do not promise uninterrupted or error-free access. Maintenance, security issues, internet conditions, third-party services, or events outside our control may affect availability.",
+          "We may improve, replace, limit, or discontinue features. If a material change negatively affects a paid service, we will provide reasonable notice when practical."
+        ],
+        "bullets": []
+      },
+      "termination": {
+        "title": "Suspension and termination",
+        "paragraphs": [
+          "You may stop using Apsara Elearning at any time. We may restrict, suspend, or close an account when we reasonably believe these Terms have been violated, payment is overdue, security is at risk, or action is needed to protect learners, the platform, or the law.",
+          "Where appropriate, we will explain the reason and provide a chance to resolve the issue. Serious abuse, fraud, or security threats may require immediate action."
+        ],
+        "bullets": []
+      },
+      "disclaimers": {
+        "title": "Disclaimers and responsibility",
+        "paragraphs": [
+          "To the maximum extent permitted by applicable law, the service is provided on an as-available basis. We do not guarantee particular grades, examination results, admission, employment, or other educational outcomes.",
+          "Apsara Elearning is not responsible for indirect or unforeseeable losses arising from use of the service. Nothing in these Terms excludes or limits rights or responsibilities that cannot legally be excluded, including liability caused by fraud or intentional misconduct."
+        ],
+        "bullets": []
+      },
+      "law": {
+        "title": "Governing law and disputes",
+        "paragraphs": [
+          "These Terms are governed by the laws of the Kingdom of Cambodia, without overriding any mandatory consumer protection that applies to you.",
+          "If a dispute arises, please contact us first so we can try to resolve it in good faith. If it cannot be resolved informally, it may be submitted to the competent courts in Phnom Penh, subject to applicable mandatory law."
+        ],
+        "bullets": []
+      },
+      "changes": {
+        "title": "Changes to these Terms",
+        "paragraphs": [
+          "We may update these Terms when the platform, our practices, or legal requirements change. We will post the updated version here and revise the effective date. For material changes, we will provide additional notice through the platform or your account when reasonable.",
+          "Continuing to use the service after updated Terms take effect means you accept them. If you do not agree, you should stop using the service and cancel any active subscription."
+        ],
+        "bullets": []
+      },
+      "contact": {
+        "title": "Contact us",
+        "paragraphs": [
+          "If you have a question about these Terms, your account, or a payment, contact us through the support channels listed on Apsara Elearning. Please include enough detail for us to understand and respond to your request."
+        ],
+        "bullets": []
+      }
+    }
+  },
+  "privacyPage": {
+    "eyebrow": "Your privacy at Apsara",
+    "title": "Privacy Policy",
+    "intro": "This policy explains what information Apsara Elearning handles, why we need it, and the choices you have when you learn with us.",
+    "effectiveDate": "Effective August 3, 2026",
+    "backHome": "Back to home",
+    "summaryTitle": "Learning data deserves care",
+    "summaryBody": "We use your information to run and improve your learning experience. We do not sell your personal information or use it for third-party advertising.",
+    "toc": "On this page",
+    "readingNote": "This policy applies to the Apsara Elearning website, student accounts, courses, AI tutor, and related services.",
+    "closingTitle": "Your learning. Your information.",
+    "closingBody": "You can update your profile, review your learning activity, and manage your account settings at any time.",
+    "reviewAccount": "Review my account",
+    "sections": {
+      "information": {
+        "title": "Information we collect",
+        "paragraphs": [
+          "We collect information you provide, information created as you use the platform, and limited technical information needed to operate the service. The exact information depends on the features you use."
+        ],
+        "bullets": [
+          "Account and profile details, such as your name, email address, phone number, date of birth, gender, chosen avatar, and language preferences.",
+          "Learning activity, such as course enrollments, lesson progress, quiz or challenge submissions, scores, streaks, experience points, and certificates.",
+          "AI tutor activity, including conversation titles, prompts, replies, related course or lesson context, and usage information.",
+          "Subscription and transaction records, such as your plan, subscription status, billing period, payment status, and payment-provider identifiers.",
+          "Technical and security information, such as session identifiers, IP address, browser or device details, timestamps, and diagnostic logs when generated by our systems."
+        ]
+      },
+      "collection": {
+        "title": "How information is collected",
+        "paragraphs": [
+          "We receive information directly from you when you register, edit your profile, complete learning activities, talk with the AI tutor, subscribe, or contact support. We also generate records automatically as the service responds to your actions.",
+          "Payment providers send us limited information about a transaction or subscription. We do not receive or store your complete payment-card number."
+        ],
+        "bullets": []
+      },
+      "use": {
+        "title": "How we use information",
+        "paragraphs": [
+          "We use personal information only when it supports the learning service, our legitimate operations, your instructions or consent, or responsibilities required by applicable law."
+        ],
+        "bullets": [
+          "Create and secure your account, verify your email, and help recover access.",
+          "Deliver courses, remember progress, personalize recommendations, and award learning achievements.",
+          "Provide the AI tutor and connect answers to the lesson you are studying.",
+          "Process subscriptions, confirm payments, manage entitlements, and prevent fraud.",
+          "Send essential account, security, billing, and service messages.",
+          "Monitor reliability, troubleshoot problems, understand feature use, and improve Apsara Elearning.",
+          "Enforce our Terms, protect users, and comply with lawful requests."
+        ]
+      },
+      "ai": {
+        "title": "AI tutor and conversation data",
+        "paragraphs": [
+          "When you use the AI tutor, we store your messages and the tutor's replies so you can revisit the conversation and so the feature can keep context. We may also process the course or lesson you are viewing and technical usage details such as model and token counts.",
+          "Your prompts, conversation history, and relevant lesson context may be sent to the AI provider selected to generate a response. Do not include passwords, payment-card information, health records, government identification numbers, or other highly sensitive personal information in a prompt. You can delete individual conversations from the tutor interface."
+        ],
+        "bullets": []
+      },
+      "cookies": {
+        "title": "Cookies and local preferences",
+        "paragraphs": [
+          "Apsara Elearning uses necessary cookies to keep you signed in securely and to remember choices such as language. Your browser may also store preferences such as theme and language on your device.",
+          "These technologies help the platform work and do not currently serve third-party advertising. Blocking necessary cookies may prevent sign-in or other account features from working."
+        ],
+        "bullets": []
+      },
+      "sharing": {
+        "title": "When we share information",
+        "paragraphs": [
+          "We do not sell personal information. We share only what is reasonably needed with service providers that help us operate Apsara Elearning, such as hosting, database, email delivery, AI, security, and customer-support providers. They process information for the services they provide to us.",
+          "We may also disclose information when required by law, to respond to a valid legal process, to protect users or the platform, or as part of a merger, financing, acquisition, or transfer of the business with appropriate protections."
+        ],
+        "bullets": []
+      },
+      "payments": {
+        "title": "Payments and Stripe",
+        "paragraphs": [
+          "Paid subscriptions are processed through Stripe. Stripe collects and processes payment details under its own privacy policy. Apsara Elearning receives identifiers and transaction details needed to activate your plan, show billing status, handle cancellations, and reconcile payments or refunds.",
+          "We do not store complete card numbers or card security codes on Apsara Elearning servers."
+        ],
+        "bullets": []
+      },
+      "children": {
+        "title": "Younger learners",
+        "paragraphs": [
+          "Apsara Elearning is designed for students, including younger learners. When applicable law requires permission from a parent or legal guardian, that adult should review this policy, approve the account, and supervise the learner's use of the platform.",
+          "Parents or guardians who believe a child provided information without required permission should contact us. We will review the request and take appropriate steps, which may include limiting or deleting the account and its information."
+        ],
+        "bullets": []
+      },
+      "retention": {
+        "title": "How long we keep information",
+        "paragraphs": [
+          "We keep information for as long as your account is active and as needed to provide the service. Some records may be kept longer when reasonably necessary for security, fraud prevention, financial recordkeeping, dispute resolution, backups, or legal obligations.",
+          "Retention depends on the type of record. Temporary verification and reset credentials expire quickly, while account, learning, subscription, and payment records may need to remain for longer. When information is no longer needed, we delete or anonymize it where practical."
+        ],
+        "bullets": []
+      },
+      "security": {
+        "title": "How we protect information",
+        "paragraphs": [
+          "We use administrative and technical safeguards intended to protect personal information, including access controls, protected authentication credentials, secure session cookies, and restricted service access. Only people and providers who need information for their work should be able to use it.",
+          "No online service can guarantee complete security. Protect your password, sign out on shared devices, and notify us promptly if you suspect unauthorized access."
+        ],
+        "bullets": []
+      },
+      "transfers": {
+        "title": "International processing",
+        "paragraphs": [
+          "Some providers that support Apsara Elearning may process information outside Cambodia. Privacy and data-protection rules can differ by location. When information is transferred, we take reasonable steps to use trusted providers and protections appropriate to the information and service."
+        ],
+        "bullets": []
+      },
+      "choices": {
+        "title": "Your choices and requests",
+        "paragraphs": [
+          "You can review or update many profile details from your account, choose your language and theme, delete AI conversations, and manage or cancel a subscription through the available billing controls.",
+          "You may ask us to access, correct, export, or delete personal information, or to restrict or object to certain processing where applicable. We may need to verify your identity and may retain information when the law or a legitimate operational need requires it. A parent or guardian may make an appropriate request for a younger learner."
+        ],
+        "bullets": []
+      },
+      "changes": {
+        "title": "Changes to this policy",
+        "paragraphs": [
+          "We may update this Privacy Policy as our platform, providers, or legal requirements change. We will post the revised policy here and update the effective date. If a change materially affects how we handle your information, we will provide additional notice when reasonable."
+        ],
+        "bullets": []
+      },
+      "contact": {
+        "title": "Contact us",
+        "paragraphs": [
+          "For a privacy question or request, contact us through the support channels listed on Apsara Elearning. Describe your request clearly and include the email address associated with your account. Please do not send passwords or payment-card details."
+        ],
+        "bullets": []
+      }
+    }
+  },
+  "cookiesPage": {
+    "eyebrow": "Clear and simple choices",
+    "title": "Cookie Policy",
+    "intro": "This policy explains how Apsara Elearning uses cookies and browser storage to keep your account secure, remember your choices, and make learning feel consistent.",
+    "effectiveDate": "Effective August 3, 2026",
+    "backHome": "Back to home",
+    "summaryTitle": "No advertising cookies",
+    "summaryBody": "We currently use only the technologies needed for secure sign-in and preferences you choose. We do not use third-party advertising or cross-site tracking cookies.",
+    "toc": "On this page",
+    "readingNote": "Cookies and local storage are small records saved by your browser; they do not run programs or read unrelated files from your device.",
+    "closingTitle": "Want the complete privacy picture?",
+    "closingBody": "Our Privacy Policy explains how account, learning, AI, and payment information is handled beyond browser storage.",
+    "privacyLink": "Read Privacy Policy",
+    "inventory": {
+      "eyebrow": "Current technology inventory",
+      "title": "What Apsara stores in your browser",
+      "note": "This reflects the current platform. We will update this list before introducing any new analytics, advertising, or similar technology.",
+      "items": [
+        {
+          "name": "Secure sign-in",
+          "purpose": "Two protected cookies authenticate requests and securely renew your signed-in session.",
+          "duration": "1 day and 7 days",
+          "type": "Cookie"
+        },
+        {
+          "name": "Language choice",
+          "purpose": "Remembers whether you prefer the English or Khmer experience.",
+          "duration": "Up to 1 year or until cleared",
+          "type": "Cookie + local"
+        },
+        {
+          "name": "Theme choice",
+          "purpose": "Remembers light, dark, or system appearance on this browser.",
+          "duration": "Until you change or clear it",
+          "type": "Local storage"
+        },
+        {
+          "name": "Profile preferences",
+          "purpose": "Keeps interface details such as your avatar, weekly goal, and locally cached profile display.",
+          "duration": "Until browser data is cleared",
+          "type": "Local storage"
+        }
+      ]
+    },
+    "sections": {
+      "overview": {
+        "title": "What this policy covers",
+        "paragraphs": [
+          "This Cookie Policy applies to cookies and similar browser-storage technologies used by the Apsara Elearning website. It should be read together with our Privacy Policy, which explains how we handle personal information more broadly.",
+          "The technologies described here may store an identifier or preference on your browser, or allow our servers to recognize a valid signed-in session."
+        ],
+        "bullets": []
+      },
+      "technologies": {
+        "title": "Cookies and similar technologies",
+        "paragraphs": [
+          "A cookie is a small text record a website asks your browser to store and return with later requests. Local storage is a separate browser feature that keeps preferences on your device and is not automatically sent with each request.",
+          "Apsara uses first-party cookies, meaning they are set for the Apsara Elearning site. Services you choose to open, such as Stripe's hosted checkout, may use their own cookies on their websites."
+        ],
+        "bullets": []
+      },
+      "necessary": {
+        "title": "Necessary sign-in cookies",
+        "paragraphs": [
+          "When you sign in, Apsara sets protected access and refresh cookies. They allow the platform to confirm that requests belong to your account and renew a session without repeatedly asking for your password.",
+          "In production, these cookies are restricted to secure connections, are not available to normal browser scripts, and use protections intended to reduce cross-site misuse. The short access cookie lasts up to one day and the refresh cookie lasts up to seven days. Signing out removes them."
+        ],
+        "bullets": []
+      },
+      "preferences": {
+        "title": "Language and appearance preferences",
+        "paragraphs": [
+          "When you choose Khmer or English, Apsara stores that selection in a first-party language cookie for up to one year and in local storage so the interface updates consistently. You can change the language at any time from the language control.",
+          "Your light, dark, or system theme choice is stored locally by your browser until you change it or clear the site's stored data. These preferences are selected by you and are not used to follow you across other websites."
+        ],
+        "bullets": []
+      },
+      "browserStorage": {
+        "title": "Local profile storage",
+        "paragraphs": [
+          "Apsara uses local storage to keep selected interface information such as your displayed name, email, avatar, weekly learning goal, XP, and streak on the device. The signed-in platform still checks current account and learning information with our servers.",
+          "Local storage remains on the browser until it is replaced or cleared. If you use a shared device, sign out when finished and consider clearing Apsara Elearning site data from the browser to remove locally saved preferences."
+        ],
+        "bullets": []
+      },
+      "thirdParties": {
+        "title": "Third-party services",
+        "paragraphs": [
+          "Apsara does not currently place third-party advertising, social-media tracking, or cross-site analytics cookies on its pages.",
+          "If you open a third-party service from Apsara, such as Stripe Checkout or the Stripe billing portal, that provider may set cookies under its own policy. A link to another website also takes you to a service with its own storage practices, which Apsara does not control."
+        ],
+        "bullets": []
+      },
+      "duration": {
+        "title": "How long browser records last",
+        "paragraphs": [
+          "Session-related records expire according to their configured lifetime or are removed when you sign out. Preference cookies and local storage can remain longer so the platform remembers your choices on a future visit.",
+          "You can remove stored records earlier through your browser settings. Browser data may also be removed automatically by private-browsing mode, device settings, storage limits, or browser cleanup tools."
+        ],
+        "bullets": []
+      },
+      "controls": {
+        "title": "Your browser controls",
+        "paragraphs": [
+          "Most browsers let you view, delete, or block cookies and site storage. Look for privacy, cookies, permissions, or site-data settings in your browser. Clearing Apsara Elearning data will sign you out and reset locally saved choices.",
+          "Blocking necessary cookies means account sign-in, protected lessons, the AI tutor, profile features, and subscription management may not work. You can adjust language and theme preferences directly from Apsara's controls without clearing all site data."
+        ],
+        "bullets": []
+      },
+      "changes": {
+        "title": "Changes to this policy",
+        "paragraphs": [
+          "We may update this policy when our browser technologies, providers, or legal requirements change. We will post the revised version here and update the effective date. If we introduce optional analytics, advertising, or similar tracking, we will explain it and provide any choices required by applicable law."
+        ],
+        "bullets": []
+      },
+      "contact": {
+        "title": "Contact us",
+        "paragraphs": [
+          "For questions about cookies, browser storage, or your privacy choices, contact us through the support channels listed on Apsara Elearning. Tell us which browser and device you use if you need help changing or removing stored data."
+        ],
+        "bullets": []
+      }
+    }
+  },
+  "contactPage": {
+    "eyebrow": "A real person is within reach",
+    "title": "Let’s solve it together.",
+    "subtitle": "Tell us what is getting in the way of your learning. We’ll help you find the right answer, whether it concerns your account, a lesson, AI, billing, or privacy.",
+    "channels": {
+      "email": {
+        "title": "Email support",
+        "body": "Write directly to {email}."
+      },
+      "help": {
+        "title": "Browse the Help Center",
+        "body": "Find quick answers and guided troubleshooting."
+      },
+      "billing": {
+        "title": "Plans and billing",
+        "body": "Review plans before asking about a subscription."
+      },
+      "privacy": {
+        "title": "Privacy requests",
+        "body": "Understand your data choices and request help."
+      }
+    },
+    "panel": {
+      "title": "Help us understand the full picture.",
+      "body": "A little context helps us solve your issue with fewer follow-up questions. Never include your password, verification code, or complete payment-card information.",
+      "points": {
+        "details": "Include the course, lesson, page, or action where the problem happened.",
+        "security": "Sensitive sign-in and payment details should always stay private.",
+        "reply": "Use the email connected to your account when the request concerns your profile or billing."
+      }
+    },
+    "form": {
+      "eyebrow": "Contact Apsara Support",
+      "title": "What can we help with?",
+      "note": "Your message is sent securely to Apsara Support. We use your email address only to understand the request and reply.",
+      "name": "Your name",
+      "namePlaceholder": "Sokha Chan",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "category": "What is this about?",
+      "categoryPlaceholder": "Choose a topic",
+      "categories": {
+        "account": "Account and sign-in",
+        "learning": "Courses and learning",
+        "aiTutor": "AI tutor",
+        "billing": "Plans and billing",
+        "privacy": "Privacy and data",
+        "other": "Something else"
+      },
+      "subject": "Subject",
+      "subjectPlaceholder": "A short summary of the issue",
+      "message": "How can we help?",
+      "messagePlaceholder": "Describe what happened, what you expected, and any steps you already tried…",
+      "privacyNote": "Your message is handled according to our Privacy Policy.",
+      "submit": "Send message",
+      "submitting": "Sending…",
+      "successTitle": "Message sent successfully",
+      "successBody": "Apsara Support has received your message and will review it as soon as possible.",
+      "errorTitle": "Message not sent",
+      "errorBody": "We couldn’t send your message right now. Please try again in a moment.",
+      "rateLimited": "You’ve sent several messages recently. Please wait a few minutes before trying again."
+    }
+  },
+  "supportPage": {
+    "eyebrow": "Apsara Help Center",
+    "title": "How can we help you learn?",
+    "subtitle": "Search practical answers for your account, lessons, AI tutor, subscriptions, and privacy settings.",
+    "searchPlaceholder": "Search for an answer…",
+    "searchLabel": "Search the Help Center",
+    "clearSearch": "Clear search",
+    "quickLinks": {
+      "password": {
+        "title": "Reset your password",
+        "body": "Recover access securely by email."
+      },
+      "plans": {
+        "title": "Compare plans",
+        "body": "Understand free and Apsara Plus access."
+      },
+      "tutor": {
+        "title": "Open the AI tutor",
+        "body": "Start or continue a learning conversation."
+      },
+      "contact": {
+        "title": "Contact support",
+        "body": "Prepare a detailed message for our team."
+      }
+    },
+    "categoriesTitle": "Browse by topic",
+    "categories": {
+      "all": "All questions",
+      "account": "Account",
+      "learning": "Learning",
+      "ai": "AI tutor",
+      "billing": "Billing",
+      "privacy": "Privacy"
+    },
+    "faqEyebrow": "Frequently asked questions",
+    "faqTitle": "Helpful answers, without the wait.",
+    "results": "{count} answers",
+    "emptyTitle": "No matching answer yet",
+    "emptyBody": "Try a shorter search or another topic. If you still cannot find it, send our support team a message.",
+    "resetFilters": "Show all answers",
+    "contactCta": {
+      "title": "Still need a hand?",
+      "body": "Share the details with Apsara Support and we’ll point you toward the next useful step.",
+      "button": "Contact support"
+    },
+    "faqs": [
+      {
+        "category": "account",
+        "question": "Why do I need to verify my email?",
+        "answer": "Email verification confirms that the address belongs to you and helps protect account recovery. After registering, enter the verification code sent to your email. If it has expired, request a new code from the verification screen."
+      },
+      {
+        "category": "account",
+        "question": "I forgot my password. How do I get back in?",
+        "answer": "Open the password-reset page, enter the email connected to your account, and follow the instructions sent to you. For your security, Apsara will not tell another person whether a specific email has an account."
+      },
+      {
+        "category": "account",
+        "question": "How do I update my name or avatar?",
+        "answer": "Sign in, open your Profile, and use the edit controls for your display information or avatar. Earned progress such as XP and streaks cannot be edited manually."
+      },
+      {
+        "category": "learning",
+        "question": "How do I start a course?",
+        "answer": "Browse Courses, open the course you want, and choose the available start or enrollment action. Once enrolled, the course appears in your learning area and completed lessons contribute to your progress."
+      },
+      {
+        "category": "learning",
+        "question": "Why is my lesson progress not updating?",
+        "answer": "Make sure you are signed in and finish the lesson using its completion action. If the progress still looks unchanged, refresh once and confirm your internet connection. Contact support with the course and lesson names if it continues."
+      },
+      {
+        "category": "learning",
+        "question": "When do I receive a course certificate?",
+        "answer": "Certificates are available only for eligible courses and plans. Complete the required course activities first; the certificate option appears when all configured requirements have been satisfied."
+      },
+      {
+        "category": "ai",
+        "question": "Why can’t I access the AI tutor?",
+        "answer": "AI tutor access depends on your current plan and available entitlement. Confirm that you are signed in and that your plan includes personal AI tutoring. You can compare current access on the Pricing page."
+      },
+      {
+        "category": "ai",
+        "question": "Can the AI tutor give a wrong answer?",
+        "answer": "Yes. AI responses can be incomplete or incorrect. Use them as study support, check important explanations against the lesson or a trusted teacher, and never treat AI output as professional medical, legal, or financial advice."
+      },
+      {
+        "category": "ai",
+        "question": "Can I delete an AI conversation?",
+        "answer": "Yes. Open the AI tutor, find the conversation in your history, and use its delete action. Deleting a conversation removes its messages from your visible history and cannot be undone."
+      },
+      {
+        "category": "billing",
+        "question": "What stays free on Apsara Elearning?",
+        "answer": "A free account includes the core learning experience shown on the Pricing page. Apsara Plus unlocks the premium features listed there, which may include premium courses, personal AI support, and certificates."
+      },
+      {
+        "category": "billing",
+        "question": "How do I cancel a subscription?",
+        "answer": "Open your billing controls from the Pricing or account area and choose the cancellation option. Unless your checkout terms say otherwise, access continues until the end of the current paid period."
+      },
+      {
+        "category": "billing",
+        "question": "What should I do if a payment fails?",
+        "answer": "Open the billing portal and check that your payment method is current and has sufficient funds. Your bank may also need to approve the transaction. If the status remains incorrect, contact support without sending complete card details."
+      },
+      {
+        "category": "privacy",
+        "question": "How can I request a copy or deletion of my information?",
+        "answer": "Use the Contact page and choose Privacy and data. Send the request from the email connected to your account so we can verify it safely. Some information may need to be retained for security, payment records, or legal obligations."
+      },
+      {
+        "category": "privacy",
+        "question": "Does Apsara use advertising cookies?",
+        "answer": "Apsara currently uses secure sign-in cookies and browser storage for preferences such as language, theme, and profile display. It does not currently place third-party advertising or cross-site tracking cookies. Read the Cookie Policy for the current inventory."
+      }
+    ]
   },
   "dashboard": {
     "greeting": "Good morning 👋",
