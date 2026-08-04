@@ -20,7 +20,8 @@
     "aiMentor": "AI Mentor",
     "community": "Community",
     "howItWorks": "How It Works",
-    "testimonials": "Testimonials"
+    "testimonials": "Testimonials",
+    "certificates": "Certificates"
   },
   "hero": {
     "badge": "Introducing Apsara Elearning — every subject, powered by AI",
@@ -48,7 +49,12 @@
           "breadcrumb": "Mathematics · Functions",
           "lesson": "Lesson 12 · Quadratic Functions",
           "question": "f(x) = x² − 4x + 3 — what is the <b>minimum value</b> of f(x)?",
-          "options": ["f(x) = −1", "f(x) = 1", "f(x) = 3", "f(x) = −3"],
+          "options": [
+            "f(x) = −1",
+            "f(x) = 1",
+            "f(x) = 3",
+            "f(x) = −3"
+          ],
           "explanation": "✓ Correct! Complete the square: f(x) = (x − 2)² − 1, so the minimum is −1 at x = 2.",
           "tutorQ": "ហេតុអ្វីតម្លៃអប្បបរមានៅ x = 2?",
           "tutorA": "Complete the square: <m>f(x) = (x − 2)² − 1</m> — the vertex is at (2, −1), so the minimum is −1. 🎯"
@@ -58,7 +64,12 @@
           "breadcrumb": "Physics · Kinematics",
           "lesson": "Lesson 8 · Free Fall",
           "question": "A ball is dropped from a height of 20 m. How long does it take to <b>reach the ground</b>? (g = 10 m/s²)",
-          "options": ["t = 1 s", "t = 2 s", "t = 3 s", "t = 4 s"],
+          "options": [
+            "t = 1 s",
+            "t = 2 s",
+            "t = 3 s",
+            "t = 4 s"
+          ],
           "explanation": "✓ Correct! h = ½gt² → t = √(2h/g) = √(2×20/10) = 2 s.",
           "tutorQ": "ហេតុអ្វី t = 2 s?",
           "tutorA": "Use <m>h = ½gt²</m> → t = √(2h/g) = √(2 × 20 / 10) = 2 s. 🎯"
@@ -68,7 +79,12 @@
           "breadcrumb": "Chemistry · Solutions",
           "lesson": "Lesson 5 · Acids & Bases",
           "question": "What is the <b>pH</b> of a 0.01 M HCl solution?",
-          "options": ["pH = 1", "pH = 7", "pH = 2", "pH = 12"],
+          "options": [
+            "pH = 1",
+            "pH = 7",
+            "pH = 2",
+            "pH = 12"
+          ],
           "explanation": "✓ Correct! HCl dissociates completely: pH = −log(0.01) = 2.",
           "tutorQ": "ហេតុអ្វី pH = 2?",
           "tutorA": "HCl is a strong acid, so <m>[H⁺] = 0.01 M</m> and pH = −log(0.01) = 2. 🎯"
@@ -345,7 +361,11 @@
       "outcome2": "Master core grammar from tenses to conditionals",
       "outcome3": "Grow a practical vocabulary for school and work",
       "outcome4": "Prepare for school exams and job interviews"
-    }
+    },
+    "courseComplete": "Course complete",
+    "certificateReady": "Your certificate is ready to claim.",
+    "certificateNeedsPlan": "Certificates are included with a Premium plan.",
+    "getCertificate": "Get your certificate"
   },
   "howItWorks": {
     "headingPart1": "How",
@@ -1230,7 +1250,12 @@
     "showcaseFooter": "AI-powered learning, built for Cambodia",
     "loginShowcaseTitle": "Welcome back!",
     "loginShowcaseDescription": "Continue your learning journey with Apsara Elearning — Cambodia's AI-powered platform for every subject.",
-    "loginShowcaseSubjects": ["Mathematics", "Physics", "Khmer", "English"],
+    "loginShowcaseSubjects": [
+      "Mathematics",
+      "Physics",
+      "Khmer",
+      "English"
+    ],
     "registerShowcaseTitle": "Start learning today",
     "registerShowcaseDescription": "Join 12,000+ Cambodian students learning with AI-powered lessons in Khmer.",
     "registerBenefits": [
@@ -1409,5 +1434,31 @@
     "deleteDesc": "This conversation and its messages will be permanently removed.",
     "demoReply": "Demo reply",
     "errorSend": "Couldn't send your message. Please try again."
+  },
+  "certificates": {
+    "pageTitle": "Certificates",
+    "pageSubtitle": "Every course you've finished, ready to share or print.",
+    "emptyTitle": "No certificates yet",
+    "emptyBody": "Finish every lesson in a course and its certificate appears here.",
+    "emptyAction": "Browse courses",
+    "loadError": "Certificates couldn't be loaded. Refresh to try again.",
+    "viewAction": "View",
+    "revokedBadge": "Revoked",
+    "print": "Print or save as PDF",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied",
+    "verifying": "Checking this certificate",
+    "validTitle": "Certificate verified",
+    "validBody": "Apsara Elearning issued this certificate to {name}.",
+    "invalidTitle": "No certificate matches this code",
+    "invalidBody": "Check the code and try again — it may have been mistyped.",
+    "revokedBody": "This certificate was withdrawn and is no longer valid.",
+    "verifyUnavailableTitle": "Verification is unavailable",
+    "verifyUnavailableBody": "We couldn't reach the server. Try again in a moment.",
+    "tryAnotherCode": "Check a different code",
+    "verifyPageTitle": "Verify a certificate",
+    "verifyPageSubtitle": "Enter the code printed on the certificate to confirm it's genuine.",
+    "codeLabel": "Certificate code",
+    "verifyAction": "Verify"
   }
 }
