@@ -32,27 +32,13 @@ export const getModuleLessons = (moduleId: string) =>
 export const getLessonBySlug = (slug: string) =>
   apiGet<IApiLesson>(`/lesson/slug/${slug}`)
 
-/** Total lesson count for a course — walks course → modules → lessons. */
-export async function getCourseLessonCount(courseId: string): Promise<number> {
-  const modules = await getCourseModules(courseId)
-  const counts = await Promise.all(
-    modules.map((m) => getModuleLessons(m.id).then((lessons) => lessons.length))
-  )
-  return counts.reduce((sum, n) => sum + n, 0)
-}
-
-/** Full course outline — modules with their lessons attached, in `order`. */
-export async function getCourseStructure(courseId: string): Promise<IApiModuleWithLessons[]> {
-  const modules = await getCourseModules(courseId)
-  const withLessons = await Promise.all(
-    [...modules]
-      .sort((a, b) => a.order - b.order)
-      .map(async (m) => ({
-        ...m,
-        lessons: (await getModuleLessons(m.id)).sort(
-          (a, b) => (a.order ?? 0) - (b.order ?? 0)
-        ),
-      }))
-  )
-  return withLessons
-}
+/**
+ * Full course outline — modules with their lessons attached, already ordered.
+ *
+ * One request. This used to walk course → modules → lessons client-side, which
+ * cost 1 + N calls per course; the catalog did it for every course on screen
+ * and the dashboard for every enrolment, so a single page load could fire well
+ * over a hundred requests through the proxy.
+ */
+export const getCourseStructure = (courseId: string) =>
+  apiGet<IApiModuleWithLessons[]>(`/course/${courseId}/structure`)

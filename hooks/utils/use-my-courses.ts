@@ -36,8 +36,12 @@ export function useMyCourses(): IMyCourse[] | null {
         )
         const items = await Promise.all(
           [...enrollments].reverse().map(async (enrollment) => {
-            const course = await getCourseById(enrollment.courseId)
-            const structure = await getCourseStructure(course.id)
+            /* Two requests per course, issued together — the outline now
+               arrives whole instead of one call per module. */
+            const [course, structure] = await Promise.all([
+              getCourseById(enrollment.courseId),
+              getCourseStructure(enrollment.courseId),
+            ])
             const lessons = structure.flatMap((m) => m.lessons)
             const completedLessons = lessons.filter((l) => done.has(l.id)).length
             const nextLesson =

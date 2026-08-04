@@ -22,7 +22,7 @@ import type { TColorKey } from "@/utils/constants/landing.constant"
 import { useLanguageStore } from "@/stores/languages/language-store"
 import {
   getSubjects, getGradeLevels, getProgrammingCategories, getCourses,
-  getFaculties, getCourseLessonCount,
+  getFaculties,
 } from "@/lib/api/catalog"
 import { getMyEnrollments } from "@/lib/api/enrollment"
 import { useHasSession } from "@/components/utils/session/session-provider"
@@ -91,7 +91,6 @@ interface ICatalog {
   categories: IApiProgrammingCategory[]
   courses: IApiCourse[]
   faculties: IApiFaculty[]
-  lessonCounts: Record<string, number>
   enrollments: IApiEnrollment[]
 }
 
@@ -123,14 +122,9 @@ export default function CoursesPage() {
           : ([] as IApiEnrollment[]),
       ])
 
-      const counts = await Promise.all(
-        courses.map((c) => getCourseLessonCount(c.id).then((n) => [c.id, n] as const))
-      )
-
-      setCatalog({
-        subjects, gradeLevels, categories, courses, faculties, enrollments,
-        lessonCounts: Object.fromEntries(counts),
-      })
+      /* Lesson totals ride along on each course, so the whole catalog is five
+         requests regardless of how many courses are published. */
+      setCatalog({ subjects, gradeLevels, categories, courses, faculties, enrollments })
     } catch {
       setError(t("loadError"))
     } finally {
@@ -281,7 +275,7 @@ export default function CoursesPage() {
                     const colors = COLOR[colorFor(i)]
                     const Icon   = ICON_MAP[subject.icon ?? ""] ?? BookOpen
                     const available = Boolean(course)
-                    const lessonCount = course ? (catalog.lessonCounts[course.id] ?? 0) : 0
+                    const lessonCount = course?.lessonCount ?? 0
                     const enrolled = course ? enrolledMap[course.id] : undefined
 
                     const card = (
@@ -456,7 +450,7 @@ export default function CoursesPage() {
                       const colors   = LEVEL_COLORS[course.difficulty ?? "beginner"]
                       const cat      = catalog.categories.find((c) => c.id === course.categoryId)
                       const Icon     = ICON_MAP[cat?.icon ?? ""] ?? Code2
-                      const lessonCount = catalog.lessonCounts[course.id] ?? 0
+                      const lessonCount = course.lessonCount ?? 0
 
                       return (
                         <Card key={course.id} className={`rounded-2xl p-5 flex flex-col gap-4 hover:shadow-lg transition-all group ${colors.ring}`}>
