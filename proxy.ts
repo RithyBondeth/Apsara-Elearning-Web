@@ -33,6 +33,8 @@ const PROTECTED = [
   "/profile",
   "/tutor",
   "/certificates",
+  "/activity",
+  "/billing",
 ]
 
 /**

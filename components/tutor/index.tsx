@@ -19,8 +19,10 @@ import {
   deleteConversation,
   listMessages,
   sendMessage,
+  getAiCredits,
 } from "@/lib/api/ai"
 import type {
+  IApiAiCredits,
   IApiConversation,
   IApiAiMessage,
 } from "@/utils/interfaces/ai/api.interface"
@@ -37,6 +39,7 @@ export function Tutor() {
   const [sending, setSending] = useState(false)
   const [loadingThread, setLoadingThread] = useState(false)
   const [isMock, setIsMock] = useState(false)
+  const [credits, setCredits] = useState<IApiAiCredits | null>(null)
   const [error, setError] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -46,6 +49,12 @@ export function Tutor() {
     let cancelled = false
     void (async () => {
       try {
+        // The allowance is informational — a failure here must not stop the
+        // conversation list from loading.
+        void getAiCredits()
+          .then((value) => !cancelled && setCredits(value))
+          .catch(() => undefined)
+
         const convos = await listConversations()
         const ordered = [...convos].reverse()
         if (cancelled) return
@@ -138,6 +147,10 @@ export function Tutor() {
       const res = await sendMessage(convId, content)
       setMessages((prev) => [...prev, res.message])
       setIsMock(res.mock)
+      // The reply is what spent the allowance, so re-read it after.
+      void getAiCredits()
+        .then(setCredits)
+        .catch(() => undefined)
     } catch {
       setError(t("errorSend"))
       setMessages((prev) => prev.filter((m) => m.id !== optimistic.id))
@@ -209,7 +222,11 @@ export function Tutor() {
           <div className="min-w-0">
             <p className="text-sm font-semibold leading-tight">{t("title")}</p>
             <p className="text-xs text-muted-foreground leading-tight">
-              {t("subtitle")}
+              {credits
+                ? t("creditsRemaining", {
+                    remaining: Math.round(credits.remaining / 1000),
+                  })
+                : t("subtitle")}
             </p>
           </div>
           <Button
