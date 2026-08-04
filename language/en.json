@@ -21,7 +21,8 @@
     "community": "Community",
     "howItWorks": "How It Works",
     "testimonials": "Testimonials",
-    "certificates": "Certificates"
+    "certificates": "Certificates",
+    "activity": "Activity"
   },
   "hero": {
     "badge": "Introducing Apsara Elearning — every subject, powered by AI",
@@ -261,7 +262,9 @@
       "gameDev": "Game Dev",
       "devops": "DevOps & Cloud",
       "security": "Cybersecurity"
-    }
+    },
+    "coursesCount": "{count} courses",
+    "browse": "Browse"
   },
   "courseDetail": {
     "back": "All courses",
@@ -1433,7 +1436,8 @@
     "deleteTitle": "Delete conversation?",
     "deleteDesc": "This conversation and its messages will be permanently removed.",
     "demoReply": "Demo reply",
-    "errorSend": "Couldn't send your message. Please try again."
+    "errorSend": "Couldn't send your message. Please try again.",
+    "creditsRemaining": "{remaining}k tokens left this period"
   },
   "certificates": {
     "pageTitle": "Certificates",
@@ -1460,5 +1464,37 @@
     "verifyPageSubtitle": "Enter the code printed on the certificate to confirm it's genuine.",
     "codeLabel": "Certificate code",
     "verifyAction": "Verify"
+  },
+  "activity": {
+    "pageTitle": "Activity",
+    "pageSubtitle": "Every quiz and coding challenge you've attempted.",
+    "quizzesTitle": "Quiz attempts",
+    "challengesTitle": "Coding submissions",
+    "noQuizzes": "You haven't taken a quiz yet.",
+    "noChallenges": "You haven't submitted a coding challenge yet.",
+    "loadError": "Your activity couldn't be loaded. Refresh to try again.",
+    "correctOf": "{correct} of {total} correct",
+    "testsPassed": "{passed}/{total} tests",
+    "review": "Review",
+    "untitledQuiz": "Quiz",
+    "untitledChallenge": "Coding challenge"
+  },
+  "billing": {
+    "pageTitle": "Billing",
+    "pageSubtitle": "Your plan and payment history.",
+    "currentPlan": "Current plan",
+    "noPlan": "You're on the free plan.",
+    "seePlans": "See plans",
+    "renewsOn": "renews",
+    "endsOn": "ends",
+    "cancelScheduled": "Your plan is set to end at the close of this billing period. You keep full access until then.",
+    "managePayment": "Manage payment method",
+    "cancelPlan": "Cancel plan",
+    "cancelTitle": "Cancel your plan?",
+    "cancelDescription": "You'll keep access until the end of the period you've already paid for. Nothing is charged after that.",
+    "historyTitle": "Payment history",
+    "noPayments": "No payments yet.",
+    "refunded": "{amount} refunded",
+    "loadError": "Billing details couldn't be loaded. Refresh to try again."
   }
 }

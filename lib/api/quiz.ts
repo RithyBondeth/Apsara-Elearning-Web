@@ -1,5 +1,6 @@
 import { apiGet, apiPost } from "./client"
 import type {
+  IApiQuizAttempt,
   IApiQuizMeta,
   IApiQuizResult,
   IApiQuizStart,
@@ -11,6 +12,9 @@ import type {
  * already auth-gated). Grading is server-side — `start` never returns the
  * correct answers; `submit` returns the score plus a per-question review.
  */
+
+/** The learner's quiz attempts, newest first, labelled by the API. */
+export const getMyAttempts = () => apiGet<IApiQuizAttempt[]>("/quiz/attempts")
 
 export const getLessonQuizzes = (lessonId: string) =>
   apiGet<IApiQuizMeta[]>(`/quiz/lesson/${lessonId}`)

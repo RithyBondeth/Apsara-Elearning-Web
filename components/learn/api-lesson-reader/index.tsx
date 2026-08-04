@@ -32,6 +32,7 @@ import {
 import { QuizRunner } from "@/components/learn/quiz-runner"
 import { ChallengeRunner } from "@/components/learn/challenge-runner"
 import { LessonContent } from "@/components/learn/lesson-content"
+import { LessonVideo } from "@/components/learn/lesson-video"
 import type {
   IApiCourse,
   IApiLesson,
@@ -377,12 +378,27 @@ export function ApiLessonReader({
                   {t("viewCourseOptions")}
                 </Link>
               </div>
-            ) : currentLesson.content ? (
-              <LessonContent content={currentLesson.content} />
             ) : (
-              <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
-                {t("noTheory")}
-              </div>
+              <>
+                {/* A video lesson used to render nothing at all — the column
+                    and the type existed, the player never did. Video sits above
+                    the text so a lesson can carry both. */}
+                {currentLesson.videoUrl && (
+                  <LessonVideo
+                    url={currentLesson.videoUrl}
+                    title={currentLesson.title}
+                  />
+                )}
+                {currentLesson.content ? (
+                  <LessonContent content={currentLesson.content} />
+                ) : (
+                  !currentLesson.videoUrl && (
+                    <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">
+                      {t("noTheory")}
+                    </div>
+                  )
+                )}
+              </>
             )}
 
             {/* Practice quiz — /learn is auth-gated, so the student is signed

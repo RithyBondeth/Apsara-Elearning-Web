@@ -43,3 +43,18 @@ export interface IApiCheckoutSession {
   sessionId: string
   url: string
 }
+
+/** Mirrors PaymentResponseDTO — one row of billing history. */
+export interface IApiPayment {
+  id: string
+  subscriptionId?: string
+  amount: number
+  currency?: string
+  provider: string
+  transactionId: string
+  status: string
+  refundedAmount: number
+  refundStatus?: string
+  createdAt: string
+  updatedAt: string
+}
