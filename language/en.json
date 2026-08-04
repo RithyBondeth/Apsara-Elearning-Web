@@ -854,7 +854,7 @@
     "form": {
       "eyebrow": "Contact Apsara Support",
       "title": "What can we help with?",
-      "note": "Submitting this form opens a prepared message in your email application. You can review it before sending.",
+      "note": "Your message is sent securely to Apsara Support. We use your email address only to understand the request and reply.",
       "name": "Your name",
       "namePlaceholder": "Sokha Chan",
       "email": "Email address",
@@ -874,8 +874,13 @@
       "message": "How can we help?",
       "messagePlaceholder": "Describe what happened, what you expected, and any steps you already tried…",
       "privacyNote": "Your message is handled according to our Privacy Policy.",
-      "submit": "Open email draft",
-      "draftOpened": "Your email application should now have a prepared message. Review it and press Send when ready."
+      "submit": "Send message",
+      "submitting": "Sending…",
+      "successTitle": "Message sent successfully",
+      "successBody": "Apsara Support has received your message and will review it as soon as possible.",
+      "errorTitle": "Message not sent",
+      "errorBody": "We couldn’t send your message right now. Please try again in a moment.",
+      "rateLimited": "You’ve sent several messages recently. Please wait a few minutes before trying again."
     }
   },
   "supportPage": {

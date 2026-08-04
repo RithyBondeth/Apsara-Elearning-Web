@@ -4,6 +4,7 @@ import { useState } from "react"
 import type { FormEvent } from "react"
 import Link from "next/link"
 import { useTranslations } from "next-intl"
+import { toast } from "sonner"
 import {
   ArrowRight,
   BookOpenCheck,
@@ -11,6 +12,7 @@ import {
   CreditCard,
   Headphones,
   LockKeyhole,
+  LoaderCircle,
   Mail,
   MessageSquareText,
   Send,
@@ -20,6 +22,11 @@ import {
 import { LandingFooter } from "@/components/landing/landing-footer"
 import { LandingNavbar } from "@/components/landing/landing-navbar"
 import { PaperGrid } from "@/components/utils/paper-grid"
+import { ApiError } from "@/lib/api/client"
+import {
+  sendSupportContact,
+  type TSupportCategory,
+} from "@/lib/api/support"
 
 const SUPPORT_EMAIL =
   process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@apsaraelearning.com"
@@ -42,29 +49,47 @@ const CATEGORY_KEYS = [
 
 export function ContactPageContent() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [draftOpened, setDraftOpened] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [sent, setSent] = useState(false)
+  const [submitError, setSubmitError] = useState("")
   const t = useTranslations("contactPage")
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const form = new FormData(event.currentTarget)
-    const category = String(form.get("category") ?? "")
-    const subject = String(form.get("subject") ?? "")
-    const name = String(form.get("name") ?? "")
-    const email = String(form.get("email") ?? "")
-    const message = String(form.get("message") ?? "")
+    if (submitting) return
 
-    const mailSubject = `[Apsara ${category}] ${subject}`
-    const mailBody = [
-      `${t("form.name")}: ${name}`,
-      `${t("form.email")}: ${email}`,
-      `${t("form.category")}: ${category}`,
-      "",
-      message,
-    ].join("\n")
+    const formElement = event.currentTarget
+    const form = new FormData(formElement)
+    setSubmitting(true)
+    setSent(false)
+    setSubmitError("")
 
-    window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`
-    setDraftOpened(true)
+    try {
+      await sendSupportContact({
+        name: String(form.get("name") ?? ""),
+        email: String(form.get("email") ?? ""),
+        category: String(form.get("category") ?? "") as TSupportCategory,
+        subject: String(form.get("subject") ?? ""),
+        message: String(form.get("message") ?? ""),
+        website: String(form.get("website") ?? ""),
+        requestId: crypto.randomUUID(),
+      })
+
+      formElement.reset()
+      setSent(true)
+      toast.success(t("form.successTitle"), {
+        description: t("form.successBody"),
+      })
+    } catch (error) {
+      const message =
+        error instanceof ApiError && error.status === 429
+          ? t("form.rateLimited")
+          : t("form.errorBody")
+      setSubmitError(message)
+      toast.error(t("form.errorTitle"), { description: message })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -164,6 +189,20 @@ export function ContactPageContent() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
+              <div
+                aria-hidden="true"
+                className="absolute -left-2500 top-auto h-px w-px overflow-hidden"
+              >
+                <label htmlFor="contact-website">Website</label>
+                <input
+                  id="contact-website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
               <div className="grid gap-5 sm:grid-cols-2">
                 <label className="space-y-2 text-sm font-medium">
                   <span>{t("form.name")}</span>
@@ -200,7 +239,7 @@ export function ContactPageContent() {
                     {t("form.categoryPlaceholder")}
                   </option>
                   {CATEGORY_KEYS.map((key) => (
-                    <option key={key} value={t(`form.categories.${key}`)}>
+                    <option key={key} value={key}>
                       {t(`form.categories.${key}`)}
                     </option>
                   ))}
@@ -234,17 +273,41 @@ export function ContactPageContent() {
                 </p>
                 <button
                   type="submit"
-                  className="landing-action inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#1675d1] to-[#3154bd] px-6 text-sm font-semibold text-white shadow-lg shadow-[#2383e2]/20"
+                  disabled={submitting}
+                  className="landing-action inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#1675d1] to-[#3154bd] px-6 text-sm font-semibold text-white shadow-lg shadow-[#2383e2]/20 disabled:cursor-not-allowed disabled:opacity-65"
                 >
-                  {t("form.submit")}
-                  <Send className="size-4" />
+                  {submitting ? t("form.submitting") : t("form.submit")}
+                  {submitting ? (
+                    <LoaderCircle className="size-4 animate-spin" />
+                  ) : (
+                    <Send className="size-4" />
+                  )}
                 </button>
               </div>
 
-              {draftOpened && (
-                <p role="status" className="rounded-xl border border-emerald-500/20 bg-emerald-500/8 px-4 py-3 text-sm text-emerald-700 dark:text-emerald-300">
-                  {t("form.draftOpened")}
-                </p>
+              {sent && (
+                <div
+                  role="status"
+                  className="flex gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/8 px-4 py-3 text-sm text-emerald-700 dark:text-emerald-300"
+                >
+                  <CheckCircle2 className="mt-0.5 size-4 shrink-0" />
+                  <div>
+                    <p className="font-semibold">{t("form.successTitle")}</p>
+                    <p className="mt-1 leading-5 opacity-85">
+                      {t("form.successBody")}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {submitError && (
+                <div
+                  role="alert"
+                  className="rounded-xl border border-red-500/20 bg-red-500/8 px-4 py-3 text-sm text-red-700 dark:text-red-300"
+                >
+                  <p className="font-semibold">{t("form.errorTitle")}</p>
+                  <p className="mt-1 leading-5 opacity-85">{submitError}</p>
+                </div>
               )}
             </form>
           </div>
