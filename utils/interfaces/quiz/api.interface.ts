@@ -39,6 +39,11 @@ export interface IApiQuizAttempt {
   totalQuestions: number
   correctAnswers: number | null
   completedAt: string | null
+  /* Joined by the API so a history list can name and link the attempt. */
+  quizTitle?: string
+  lessonId?: string
+  lessonTitle?: string
+  courseSlug?: string
   createdAt: string
   updatedAt: string
 }

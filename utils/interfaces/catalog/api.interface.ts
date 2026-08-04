@@ -101,3 +101,15 @@ export interface IApiLesson {
 export interface IApiModuleWithLessons extends IApiModule {
   lessons: IApiLesson[]
 }
+
+/** Mirrors MajorResponseDTO — a university major under a faculty. */
+export interface IApiMajor {
+  id: string
+  name: string
+  nameKm?: string
+  slug: string
+  facultyId?: string
+  description?: string
+  createdAt: string
+  updatedAt: string
+}

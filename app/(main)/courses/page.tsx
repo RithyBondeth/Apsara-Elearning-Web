@@ -23,12 +23,14 @@ import { useLanguageStore } from "@/stores/languages/language-store"
 import {
   getSubjects, getGradeLevels, getProgrammingCategories, getCourses,
   getFaculties,
+  getMajors,
 } from "@/lib/api/catalog"
 import { getMyEnrollments } from "@/lib/api/enrollment"
 import { useHasSession } from "@/components/utils/session/session-provider"
 import type { IApiEnrollment } from "@/utils/interfaces/enrollment/api.interface"
 import type {
   IApiSubject, IApiGradeLevel, IApiProgrammingCategory, IApiCourse, IApiFaculty,
+  IApiMajor,
 } from "@/utils/interfaces/catalog/api.interface"
 import type { TCatalogTrack } from "@/utils/interfaces/catalog"
 
@@ -91,6 +93,7 @@ interface ICatalog {
   categories: IApiProgrammingCategory[]
   courses: IApiCourse[]
   faculties: IApiFaculty[]
+  majors: IApiMajor[]
   enrollments: IApiEnrollment[]
 }
 
@@ -112,8 +115,8 @@ export default function CoursesPage() {
     setLoading(true)
     setError(null)
     try {
-      const [subjects, gradeLevels, categories, courses, faculties, enrollments] = await Promise.all([
-        getSubjects(), getGradeLevels(), getProgrammingCategories(), getCourses(), getFaculties(),
+      const [subjects, gradeLevels, categories, courses, faculties, majors, enrollments] = await Promise.all([
+        getSubjects(), getGradeLevels(), getProgrammingCategories(), getCourses(), getFaculties(), getMajors(),
         /* Guests can browse the catalog, but they have no enrollments to fetch —
            asking would be a guaranteed 401. The catch still covers an expired
            session, where the presence check passes but the token does not. */
@@ -124,7 +127,7 @@ export default function CoursesPage() {
 
       /* Lesson totals ride along on each course, so the whole catalog is five
          requests regardless of how many courses are published. */
-      setCatalog({ subjects, gradeLevels, categories, courses, faculties, enrollments })
+      setCatalog({ subjects, gradeLevels, categories, courses, faculties, majors, enrollments })
     } catch {
       setError(t("loadError"))
     } finally {
@@ -560,27 +563,71 @@ export default function CoursesPage() {
                   </p>
                 </Card>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {/* Faculty → its majors. The majors taxonomy has existed since
+                    the K-12 rebuild and nothing ever showed it, so the whole
+                    university track read as "coming soon" even where courses
+                    were published against a major. */}
+                <div className="space-y-5">
                   {catalog.faculties.map((faculty) => {
                     const Icon = ICON_MAP[faculty.icon ?? ""] ?? GraduationCap
+                    const majors = catalog.majors.filter(
+                      (major) => major.facultyId === faculty.id
+                    )
+
                     return (
-                      <Card
-                        key={faculty.id}
-                        className="rounded-2xl p-4 border-dashed flex flex-col items-center gap-2.5 text-center select-none"
-                      >
-                        <div className="size-11 rounded-xl bg-muted flex items-center justify-center">
-                          <Icon className="size-5 text-muted-foreground" />
-                        </div>
-                        <div>
-                          <div className="text-sm font-semibold text-muted-foreground">
-                            {nameOf(faculty.name, faculty.nameKm)}
+                      <div key={faculty.id}>
+                        <div className="mb-2.5 flex items-center gap-2">
+                          <div className="size-8 rounded-lg bg-muted flex items-center justify-center">
+                            <Icon className="size-4 text-muted-foreground" />
                           </div>
-                          {faculty.nameKm && (
-                            <div className="text-[11px] text-muted-foreground mt-0.5">{faculty.nameKm}</div>
-                          )}
+                          <div>
+                            <div className="text-sm font-semibold text-foreground">
+                              {nameOf(faculty.name, faculty.nameKm)}
+                            </div>
+                          </div>
                         </div>
-                        <Badge variant="secondary">{t("comingSoon")}</Badge>
-                      </Card>
+
+                        {majors.length === 0 ? (
+                          <Card className="rounded-2xl border-dashed p-4 text-center">
+                            <TypographyMuted className="text-xs">
+                              {t("comingSoon")}
+                            </TypographyMuted>
+                          </Card>
+                        ) : (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {majors.map((major) => {
+                              const majorCourses = catalog.courses.filter(
+                                (course) => course.majorId === major.id
+                              )
+                              return (
+                                <Card
+                                  key={major.id}
+                                  className="rounded-2xl p-4 flex items-center gap-3"
+                                >
+                                  <div className="min-w-0 flex-1">
+                                    <div className="text-sm font-semibold text-foreground truncate">
+                                      {nameOf(major.name, major.nameKm)}
+                                    </div>
+                                    <TypographyMuted className="text-[11px] mt-0.5">
+                                      {majorCourses.length > 0
+                                        ? t("coursesCount", { count: majorCourses.length })
+                                        : t("comingSoon")}
+                                    </TypographyMuted>
+                                  </div>
+                                  {majorCourses.length > 0 && (
+                                    <Link
+                                      href={`/courses/${majorCourses[0].slug}`}
+                                      className="text-xs font-semibold text-violet-600 dark:text-violet-400 hover:underline underline-offset-4 shrink-0"
+                                    >
+                                      {t("browse")}
+                                    </Link>
+                                  )}
+                                </Card>
+                              )
+                            })}
+                          </div>
+                        )}
+                      </div>
                     )
                   })}
                 </div>
