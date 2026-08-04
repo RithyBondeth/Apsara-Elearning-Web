@@ -22,8 +22,18 @@ import { NEXT_PARAM } from "@/lib/auth/next-param"
  * `/tutor` belongs here because every endpoint behind it is guarded by the
  * gateway's JwtAuthGuard — without the redirect an anonymous visitor gets a
  * signed-in-looking page that 401s on every request instead of a login prompt.
+ * Same for `/certificates`, which lists the learner's own.
+ *
+ * `/verify` is deliberately absent: verifying a certificate is public, because
+ * the person checking one is usually not a learner at all.
  */
-const PROTECTED = ["/dashboard", "/learn", "/profile", "/tutor"]
+const PROTECTED = [
+  "/dashboard",
+  "/learn",
+  "/profile",
+  "/tutor",
+  "/certificates",
+]
 
 /**
  * Routes a signed-in user has no reason to see. `/verify-email` is deliberately

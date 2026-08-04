@@ -12,6 +12,7 @@ import {
   Home,
   BookOpen,
   Sparkles,
+  Award,
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Avatar } from "@/components/utils/avatar"
@@ -36,6 +37,7 @@ const NAV_ITEMS = [
   { icon: Home, key: "dashboard", href: "/dashboard" },
   { icon: BookOpen, key: "courses", href: "/courses" },
   { icon: Sparkles, key: "aiMentor", href: "/tutor" },
+  { icon: Award, key: "certificates", href: "/certificates" },
   { icon: CreditCard, key: "pricing", href: "/pricing" },
 ] as const
 
