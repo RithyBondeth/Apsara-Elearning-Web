@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { getAccessToken } from "@/lib/auth/session"
 import { refreshSession } from "@/lib/auth/refresh"
+import { proxyIdentityHeaders } from "@/lib/api/proxy-headers"
 
 /**
  * Authenticated pass-through to the NestJS gateway.
@@ -33,12 +34,17 @@ async function proxy(request: NextRequest, segments: string[]) {
       ? undefined
       : await request.text()
 
+  /* Declare the real browser IP so the gateway's rate limiter doesn't bucket
+     every student behind this server's single address. */
+  const identity = await proxyIdentityHeaders(request.headers)
+
   const send = (token: string | null) =>
     fetch(target, {
       method: request.method,
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        ...identity,
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       body,
