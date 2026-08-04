@@ -39,9 +39,9 @@ export function LandingFooter() {
     {
       headingKey: "supportCol" as const,
       links: [
-        { key: "helpCenter" as const, href: "#" },
+        { key: "helpCenter" as const, href: "/support" },
         { key: "community" as const,  href: "#" },
-        { key: "contact" as const,    href: "#" },
+        { key: "contact" as const,    href: "/contact" },
         { key: "status" as const,     href: "#" },
       ],
     },
