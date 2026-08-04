@@ -17,6 +17,9 @@ export interface IApiCourse {
   published?: boolean
   requiresSubscription?: boolean
   requiredEntitlement?: "courses:premium" | "ai:tutor" | "certificates"
+  /** Totals the API attaches to catalog listings — no follow-up calls needed. */
+  moduleCount?: number
+  lessonCount?: number
   createdAt: string
   updatedAt: string
 }
@@ -94,7 +97,7 @@ export interface IApiLesson {
   locked?: boolean
 }
 
-/** A module with its lessons attached, sorted by `order`. */
+/** A module with its lessons attached, sorted by `order`. Mirrors ModuleWithLessonsResponseDTO. */
 export interface IApiModuleWithLessons extends IApiModule {
   lessons: IApiLesson[]
 }

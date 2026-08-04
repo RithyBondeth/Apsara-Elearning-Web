@@ -1,4 +1,5 @@
 import "server-only"
+import { proxyIdentityHeaders } from "@/lib/api/proxy-headers"
 
 /**
  * Server-side calls from the BFF route handlers to the NestJS gateway.
@@ -39,6 +40,11 @@ export async function callGateway<T>(
     }
   }
 
+  /* Auth routes are the tightest-limited ones on the gateway (5–10/min), so
+     declaring the browser IP matters most here — without it the whole user
+     base shares one bucket. */
+  const identity = await proxyIdentityHeaders()
+
   let res: Response
   try {
     res = await fetch(`${GATEWAY_URL}${path}`, {
@@ -46,6 +52,7 @@ export async function callGateway<T>(
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        ...identity,
         ...(init.accessToken
           ? { Authorization: `Bearer ${init.accessToken}` }
           : {}),

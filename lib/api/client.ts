@@ -51,14 +51,17 @@ async function toApiError(res: Response, path: string): Promise<ApiError> {
 async function serverFetch(method: string, path: string, body?: unknown) {
   const { cookies } = await import("next/headers")
   const { ACCESS_COOKIE } = await import("@/lib/auth/cookie-names")
+  const { proxyIdentityHeaders } = await import("@/lib/api/proxy-headers")
 
   const token = (await cookies()).get(ACCESS_COOKIE)?.value
+  const identity = await proxyIdentityHeaders()
 
   return fetch(`${GATEWAY_URL}${path}`, {
     method,
     headers: {
       Accept: "application/json",
       ...(body === undefined ? {} : { "Content-Type": "application/json" }),
+      ...identity,
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     body: body === undefined ? undefined : JSON.stringify(body),
