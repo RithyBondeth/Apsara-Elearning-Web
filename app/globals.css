@@ -953,3 +953,56 @@ html {
         transform-style: preserve-3d;
     }
 }
+
+/* ── Certificate printing ─────────────────────────────────────────────────
+ *
+ * Print-to-PDF is the delivery mechanism for certificates, deliberately: the
+ * document is bilingual, and browsers shape Khmer correctly where server-side
+ * PDF toolkits generally do not.
+ *
+ * Uses visibility rather than display to isolate the sheet — display:none on
+ * ancestors would take the sheet down with them, and hiding by branch requires
+ * fragile :has() selectors that break as the page structure changes.
+ */
+@media print {
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
+
+    html,
+    body {
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
+    .certificate-sheet,
+    .certificate-sheet * {
+        visibility: visible;
+    }
+
+    .certificate-sheet {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+        height: 100% !important;
+        margin: 0 !important;
+        aspect-ratio: auto !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        /* Without this the sandstone ground and patina rules drop out — most
+           browsers strip backgrounds when printing. */
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+}

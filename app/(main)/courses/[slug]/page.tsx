@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { AppShell } from "@/components/utils/app-shell"
+import { ClaimCertificate } from "@/components/certificate/claim-certificate"
 import { AnimateIn } from "@/components/utils/animations/animate-in"
 import { Skeleton } from "@/components/ui/skeleton"
 import { TypographyH2 } from "@/components/utils/typography/typography-h2"
@@ -474,6 +475,13 @@ function ApiCourseDetail({
                     })}
                   </p>
                 </div>
+              )}
+
+              {/* Finished the course — offer the certificate. Issuing already
+                  happened automatically; this is the visible way to collect it,
+                  and the path for anyone who finished before subscribing. */}
+              {enrollment?.completed && !justEnrolled && (
+                <ClaimCertificate courseId={course.id} />
               )}
 
               {courseLocked ? (
