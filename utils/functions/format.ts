@@ -53,6 +53,29 @@ export function xpToLevel(xp: number): string {
 }
 
 /**
+ * Singularize an admin section heading. Only the two shapes those headings
+ * actually take are handled — "…ies" and a plain trailing "s" — because a
+ * general English pluralizer would mangle as many cases as it fixed
+ * ("Courses" → "Cours" under the usual "-ses" rule).
+ * @example singularize("Faculties") → "Faculty"
+ * @example singularize("Grade levels") → "Grade level"
+ */
+export function singularize(plural: string): string {
+  if (/ies$/i.test(plural)) return plural.replace(/ies$/i, "y")
+  return plural.replace(/s$/i, "")
+}
+
+/**
+ * Prefix a count to its noun, pluralized with a trailing "s" unless the plural
+ * is irregular and passed explicitly.
+ * @example pluralize(1, "module") → "1 module"
+ * @example pluralize(4, "lesson") → "4 lessons"
+ */
+export function pluralize(n: number, singular: string, plural?: string): string {
+  return `${n} ${n === 1 ? singular : (plural ?? `${singular}s`)}`
+}
+
+/**
  * Pad a number with leading zeros to the given width.
  * @example zeroPad(7, 2) → "07"
  */

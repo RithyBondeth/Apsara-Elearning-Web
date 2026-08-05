@@ -26,6 +26,10 @@ import { NEXT_PARAM } from "@/lib/auth/next-param"
  *
  * `/verify` is deliberately absent: verifying a certificate is public, because
  * the person checking one is usually not a learner at all.
+ *
+ * `/admin` only gets the session check here — being an admin is not knowable
+ * from a cookie. `app/admin/layout.tsx` resolves the actual admin claim from
+ * `/user/me` server-side, and the gateway's `AdminGuard` is what enforces it.
  */
 const PROTECTED = [
   "/dashboard",
@@ -35,6 +39,7 @@ const PROTECTED = [
   "/certificates",
   "/activity",
   "/billing",
+  "/admin",
 ]
 
 /**
@@ -58,7 +63,9 @@ export function proxy(request: NextRequest) {
   const isSessionMutation =
     request.method !== "GET" &&
     request.method !== "HEAD" &&
-    (pathname.startsWith("/api/auth/") || pathname.startsWith("/api/proxy/"))
+    (pathname.startsWith("/api/auth/") ||
+      pathname.startsWith("/api/proxy/") ||
+      pathname.startsWith("/api/admin/"))
 
   if (isSessionMutation) {
     const origin = request.headers.get("origin")
