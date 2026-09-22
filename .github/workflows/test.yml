@@ -1,0 +1,25 @@
+name: test
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      # `npm install` (not `npm ci`) to match how this app is built on Vercel:
+      # the lockfile carries a latent next-intl/@swc peer conflict (next pins
+      # @swc/helpers 0.5.15 while next-intl's @swc/core wants >=0.5.17) that the
+      # strict `npm ci` resolver rejects. Lenient install tolerates it, as prod does.
+      - run: npm install --no-audit --no-fund
+      - run: npm test
