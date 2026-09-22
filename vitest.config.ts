@@ -18,7 +18,10 @@ export default defineConfig({
     },
   },
   test: {
-    environment: "jsdom",
+    // happy-dom, not jsdom: jsdom pulls undici's CacheStorage, which crashes on
+    // Node 20 (the project's target) with "webidl.util.markAsUncloneable is not
+    // a function". happy-dom has no such dependency and is Vitest-native.
+    environment: "happy-dom",
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
     include: ["**/*.test.ts", "**/*.test.tsx"],
