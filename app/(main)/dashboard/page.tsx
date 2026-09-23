@@ -17,6 +17,7 @@ import { GrowBar } from "@/components/utils/animations/grow-bar"
 import { useProfile } from "@/hooks/utils/use-profile"
 import { useProfileStats } from "@/hooks/utils/use-profile-stats"
 import { useMyCourses } from "@/hooks/utils/use-my-courses"
+import { useContinueLearning } from "@/hooks/utils/use-continue-learning"
 import { useBadges } from "@/hooks/utils/use-badges"
 import { useWeeklyActivity } from "@/hooks/utils/use-weekly-activity"
 import { levelFromXp } from "@/utils/functions/format"
@@ -39,7 +40,12 @@ export default function DashboardPage() {
   /* Real enrollments + lesson progress; null while loading. */
   const myCourses = useMyCourses()
   const courses   = myCourses ?? []
-  const resume    = courses[0]
+
+  /* Resume target comes from the server, ordered by last activity — picking
+     courses[0] here resumed the newest *enrolment*, which is not where the
+     learner left off. */
+  const continuing = useContinueLearning(1)
+  const resume     = continuing?.[0] ?? null
 
   /* Real badge catalog + earned state; null while loading. */
   const badgeItems = useBadges()
@@ -72,7 +78,7 @@ export default function DashboardPage() {
                 </TypographyH1>
 
                 {/* What's next — the actual lesson, not a generic nudge */}
-                {myCourses === null ? (
+                {continuing === null ? (
                   <div className="space-y-2">
                     <Skeleton className="h-3 w-40" />
                     <Skeleton className="h-4 w-56" />
@@ -82,13 +88,13 @@ export default function DashboardPage() {
                     <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
                       <span className="uppercase tracking-wide text-[10px] font-semibold">{t("nextUp")}</span>
                       <span className="size-1 rounded-full bg-muted-foreground/40" />
-                      <span className="truncate">{resume.course.title}</span>
+                      <span className="truncate">{resume.courseTitle}</span>
                     </div>
                     <div className="text-sm font-semibold text-foreground truncate">
                       {resume.nextLesson?.title}
                     </div>
-                    {resume.course.titleKm && (
-                      <TypographyMuted className="text-xs">{resume.course.titleKm}</TypographyMuted>
+                    {resume.courseTitleKm && (
+                      <TypographyMuted className="text-xs">{resume.courseTitleKm}</TypographyMuted>
                     )}
                   </>
                 ) : (
@@ -101,8 +107,8 @@ export default function DashboardPage() {
                   <Link
                     href={
                       resume.nextLesson
-                        ? `/learn/${resume.course.slug}/${resume.nextLesson.slug}`
-                        : `/learn/${resume.course.slug}`
+                        ? `/learn/${resume.courseSlug}/${resume.nextLesson.slug}`
+                        : `/learn/${resume.courseSlug}`
                     }
                   >
                     <Play className="size-4 fill-white" />
