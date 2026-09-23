@@ -24,7 +24,7 @@ export function LandingFooter() {
         { key: "courses" as const,    href: "/dashboard" },
         { key: "playground" as const, href: "/learn" },
         { key: "aiMentor" as const,   href: "/learn" },
-        { key: "leaderboard" as const,href: "#" },
+        { key: "leaderboard" as const,href: "/leaderboard" },
       ],
     },
     {

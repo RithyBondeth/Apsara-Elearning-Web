@@ -1465,6 +1465,15 @@
     "codeLabel": "Certificate code",
     "verifyAction": "Verify"
   },
+  "leaderboard": {
+    "pageTitle": "Leaderboard",
+    "pageSubtitle": "Top learners by XP. Keep finishing lessons to climb.",
+    "yourRank": "You're {rank} of {total}",
+    "yourXp": "{xp} XP earned so far",
+    "emptyTitle": "No one on the board yet",
+    "emptyBody": "Finish a lesson to earn your first XP and claim a spot.",
+    "loadError": "The leaderboard couldn't be loaded. Refresh to try again."
+  },
   "activity": {
     "pageTitle": "Activity",
     "pageSubtitle": "Every quiz and coding challenge you've attempted.",
