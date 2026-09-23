@@ -5,7 +5,6 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
   Settings,
-  Bell,
   CreditCard,
   LogIn,
   LogOut,
@@ -17,6 +16,7 @@ import {
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Avatar } from "@/components/utils/avatar"
+import { NotificationBell } from "@/components/utils/notification-bell"
 import { BrandLogo } from "@/components/utils/brand-logo"
 import { CourseSearch } from "@/components/utils/course-search"
 import { ConfirmDialog } from "@/components/utils/confirm-dialog"
@@ -229,10 +229,7 @@ export function AppShell({ children }: IWithChildren) {
             <ThemeToggle />
             {hasSession ? (
               <>
-                <button className="relative rounded-xl p-2 text-muted-foreground transition-all hover:bg-muted hover:text-foreground">
-                  <Bell className="size-4.5" />
-                  <div className="absolute top-1.5 right-1.5 size-2 rounded-full bg-violet-500" />
-                </button>
+                <NotificationBell />
                 <Link href="/profile" title={tDash("settings")}>
                   <Avatar
                     preset={profile.avatar}
