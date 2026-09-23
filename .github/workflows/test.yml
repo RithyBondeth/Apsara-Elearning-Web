@@ -17,9 +17,8 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      # `npm install` (not `npm ci`) to match how this app is built on Vercel:
-      # the lockfile carries a latent next-intl/@swc peer conflict (next pins
-      # @swc/helpers 0.5.15 while next-intl's @swc/core wants >=0.5.17) that the
-      # strict `npm ci` resolver rejects. Lenient install tolerates it, as prod does.
-      - run: npm install --no-audit --no-fund
+      # Strict, reproducible install. The former next-intl/@swc/helpers peer
+      # conflict that once forced `npm install` here is resolved by the
+      # "@swc/helpers" override in package.json.
+      - run: npm ci
       - run: npm test
