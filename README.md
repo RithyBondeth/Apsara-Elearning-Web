@@ -119,7 +119,7 @@ to the browser; the rest are **server-only**.
 app/
   (auth)/        login, register, forgot/reset password, verify-email
   (main)/        dashboard, courses, learn, tutor, pricing, billing,
-                 certificates, profile, activity
+                 certificates, leaderboard, profile, activity
   admin/         courses/lessons authoring, taxonomy, users, badges, plans
   api/           BFF route handlers — auth/*, proxy/[...path], admin/[...path]
 components/      feature UI (admin, auth, learn, tutor, subscription, …) + ui/ (shadcn)
