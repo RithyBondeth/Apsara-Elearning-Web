@@ -19,6 +19,7 @@ import {
 import { useTranslations } from "next-intl"
 import { AppShell } from "@/components/utils/app-shell"
 import { ClaimCertificate } from "@/components/certificate/claim-certificate"
+import { CourseRatings } from "@/components/course/course-ratings"
 import { AnimateIn } from "@/components/utils/animations/animate-in"
 import { Skeleton } from "@/components/ui/skeleton"
 import { TypographyH2 } from "@/components/utils/typography/typography-h2"
@@ -423,6 +424,10 @@ function ApiCourseDetail({
                   })}
                 </div>
               </div>
+            </AnimateIn>
+
+            <AnimateIn animation="fade-up" delay={0.25}>
+              <CourseRatings courseId={course.id} canRate={!!enrollment} />
             </AnimateIn>
           </div>
 
