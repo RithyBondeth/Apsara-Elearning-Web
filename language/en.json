@@ -1474,6 +1474,12 @@
     "emptyBody": "Finish a lesson to earn your first XP and claim a spot.",
     "loadError": "The leaderboard couldn't be loaded. Refresh to try again."
   },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all read",
+    "empty": "Nothing new yet.",
+    "ariaLabel": "Notifications ({count} unread)"
+  },
   "activity": {
     "pageTitle": "Activity",
     "pageSubtitle": "Every quiz and coding challenge you've attempted.",
