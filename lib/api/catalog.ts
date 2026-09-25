@@ -7,6 +7,7 @@ import type {
   IApiFaculty,
   IApiMajor,
   IApiModuleWithLessons,
+  IApiPlatformStats,
 } from "@/utils/interfaces/catalog/api.interface"
 
 export const getSubjects = () => apiGet<IApiSubject[]>("/subject")
@@ -19,6 +20,8 @@ export const getMajors = (facultyId?: string) =>
   apiGet<IApiMajor[]>(
     facultyId ? `/major?facultyId=${encodeURIComponent(facultyId)}` : "/major"
   )
+/** Public catalog totals (published content only) for the landing page. */
+export const getPlatformStats = () => apiGet<IApiPlatformStats>("/course/stats")
 export const getCourses = () => apiGet<IApiCourse[]>("/course/published")
 /** Keyword search over published courses. */
 export const searchCourses = (q: string, limit = 8) =>

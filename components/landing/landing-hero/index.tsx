@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import {
-  Sparkles, ArrowRight, Play, Brain, Star, ChevronRight, GraduationCap,
+  Sparkles, ArrowRight, Play, Brain, ChevronRight, GraduationCap,
   Flame, Trophy, BadgeCheck, ChevronDown, Calculator, Atom, FlaskConical,
   Languages, BookOpen, Check, Braces, Dna, Scale, Code2, Leaf, Microscope,
   Globe2,
@@ -309,24 +309,11 @@ export function LandingHero() {
       </AnimateIn>
 
       <AnimateIn animation="fade" delay={1} className="relative">
-        <div className="flex items-center gap-3 mb-20">
-          <div className="flex -space-x-2">
-            {["SP","DC","BM","RK","VL"].map((initials, i) => (
-              <div
-                key={i}
-                className="size-8 rounded-full border-2 border-background flex items-center justify-center text-[10px] font-bold text-white transition-transform duration-300 hover:-translate-y-1 hover:z-10"
-                style={{ background: `hsl(${260 + i * 22}, 60%, 55%)` }}
-              >
-                {initials}
-              </div>
-            ))}
-          </div>
+        <div className="flex items-center gap-2 mb-20">
+          <BadgeCheck className="size-4 shrink-0 text-emerald-500" />
           <TypographyMuted className="text-sm">
-            {t("studentsCount")}
+            {t("trustLine")}
           </TypographyMuted>
-          <div className="flex gap-0.5">
-            {[...Array(5)].map((_, i) => <Star key={i} className="size-3.5 fill-amber-400 text-amber-400" />)}
-          </div>
         </div>
       </AnimateIn>
 

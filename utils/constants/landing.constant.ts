@@ -57,47 +57,6 @@ export const COURSES = [
   { level: "Advanced",     lessons: 40, xp: 4000, color: "amber"  as TColorKey, icon: "Brain",    key: "algorithms", category: "computer-science"         },
 ]
 
-/* ── Featured subjects (landing showcase) ────────────────────────────── */
-
-export const FEATURED_SUBJECTS = [
-  {
-    key: "math",
-    icon: "Calculator",
-    color: "violet" as TColorKey,
-    level: "Grade 12",
-    levelBadge: "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-400",
-    lessons: 48,
-    xp: 4800,
-  },
-  {
-    key: "physics",
-    icon: "Atom",
-    color: "cyan" as TColorKey,
-    level: "Grade 11",
-    levelBadge: "bg-cyan-100 text-cyan-700 dark:bg-cyan-500/20 dark:text-cyan-400",
-    lessons: 36,
-    xp: 3600,
-  },
-  {
-    key: "english",
-    icon: "Languages",
-    color: "amber" as TColorKey,
-    level: "All Levels",
-    levelBadge: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400",
-    lessons: 40,
-    xp: 4000,
-  },
-]
-
-/* ── Stats ───────────────────────────────────────────────────────────── */
-
-export const STATS = [
-  { count: 12000, prefix: "",  suffix: "+", locale: true,  key: "students"  },
-  { count: 60,    prefix: "",  suffix: "+", locale: false, key: "courses"   },
-  { count: 94,    prefix: "",  suffix: "%", locale: false, key: "completion"},
-  { count: 1,     prefix: "#", suffix: "",  locale: false, key: "inCambodia"},
-]
-
 /* ── Testimonials ────────────────────────────────────────────────────── */
 
 export const TESTIMONIALS = [

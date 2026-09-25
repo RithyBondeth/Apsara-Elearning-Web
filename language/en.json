@@ -31,7 +31,7 @@
     "subtitle": "The AI-powered learning platform for Cambodian students — from Grade 1 to university. Master Math, Physics, English and more with <mentor>Apsara Elearning</mentor> — your personal AI tutor that speaks Khmer.",
     "startLearning": "Start Learning Free",
     "watchDemo": "Watch Demo",
-    "studentsCount": "12,000+ students learning today",
+    "trustLine": "Free to start · Learn in Khmer or English · BacII-aligned lessons",
     "demo": {
       "grade": "Grade 12",
       "level": "Level 8",
@@ -109,10 +109,10 @@
     }
   },
   "stats": {
-    "students": "Students",
     "courses": "Courses",
-    "completion": "Completion",
-    "inCambodia": "In Cambodia"
+    "lessons": "Lessons",
+    "questions": "Practice questions",
+    "subjects": "Subjects"
   },
   "features": {
     "badge": "Everything you need",

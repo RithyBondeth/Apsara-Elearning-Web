@@ -24,6 +24,14 @@ export interface IApiCourse {
   updatedAt: string
 }
 
+/** Mirrors PlatformStatsResponseDTO — published-catalog totals for the landing page. */
+export interface IApiPlatformStats {
+  courses: number
+  lessons: number
+  questions: number
+  subjects: number
+}
+
 /** Mirrors SubjectResponseDTO. */
 export interface IApiSubject {
   id: string
