@@ -79,4 +79,22 @@ describe("NotificationItem", () => {
     )
     expect(getByText("Badge earned: First Steps")).toBeInTheDocument()
   })
+
+  it("links a rating request to the course's review form", () => {
+    const { getByTestId } = render(
+      <NotificationItem
+        notification={notification({
+          type: "rating_requested",
+          title: "How was Grade 12 Chemistry?",
+          data: { courseId: "c1", courseSlug: "chemistry" },
+        })}
+      />
+    )
+    expect(getByTestId("notification-item")).toHaveAttribute("href", "/courses/chemistry#ratings")
+  })
+
+  it("stays a plain button for notifications with nowhere to go", () => {
+    const { getByTestId } = render(<NotificationItem notification={notification()} />)
+    expect(getByTestId("notification-item").tagName).toBe("BUTTON")
+  })
 })

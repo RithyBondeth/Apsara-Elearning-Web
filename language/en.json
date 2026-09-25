@@ -1510,5 +1510,14 @@
     "headingHighlight": "say",
     "summary": "Rated {average} out of 5 across {count, plural, one {# rating} other {# ratings}}",
     "onCourse": "on {course}"
+  },
+  "ratePrompt": {
+    "completedTitle": "You finished {course}! How was it?",
+    "quizTitle": "Great score! Enjoying {course}?",
+    "body": "Tap a star to rate the course — it helps other students choose.",
+    "thanks": "Thanks for rating!",
+    "addReview": "Add a written review",
+    "dismiss": "Not now",
+    "error": "Couldn't save your rating. Please try again."
   }
 }

@@ -22,10 +22,12 @@ type TPhase = "loading" | "none" | "intro" | "running" | "submitting" | "results
 interface QuizRunnerProps {
   /** The lesson's real id — the quiz is fetched per lesson. */
   lessonId: string
+  /** Called once a submitted attempt is graded. */
+  onResult?: (result: IApiQuizResult) => void
 }
 
 /** A lesson's practice quiz: intro → answer all → graded review. */
-export function QuizRunner({ lessonId }: QuizRunnerProps) {
+export function QuizRunner({ lessonId, onResult }: QuizRunnerProps) {
   const t = useTranslations("quiz")
   const setStats = useProfileStore((s) => s.setStats)
 
@@ -106,6 +108,7 @@ export function QuizRunner({ lessonId }: QuizRunnerProps) {
     try {
       const res = await submitAttempt(attemptId, questions.map((q) => answers[q.id]))
       setResult(res)
+      onResult?.(res)
       if (res.xpAwarded > 0) {
         const { xp, streak } = useProfileStore.getState()
         setStats({ xp: xp + res.xpAwarded, streak })

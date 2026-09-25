@@ -30,6 +30,7 @@ import {
   markLessonComplete,
 } from "@/lib/api/lesson-progress"
 import { QuizRunner } from "@/components/learn/quiz-runner"
+import { RatePrompt } from "@/components/course/rate-prompt"
 import { ChallengeRunner } from "@/components/learn/challenge-runner"
 import { LessonContent } from "@/components/learn/lesson-content"
 import { LessonVideo } from "@/components/learn/lesson-video"
@@ -39,6 +40,9 @@ import type {
   IApiModuleWithLessons,
 } from "@/utils/interfaces/catalog/api.interface"
 
+
+/** Quiz score (percent) at which the reader asks for a course rating. */
+const QUIZ_PROMPT_SCORE = 80
 interface ApiLessonReaderProps {
   /** Course slug — resolved against the real API, not the mock catalog. */
   slug: string
@@ -65,6 +69,8 @@ export function ApiLessonReader({
   /* Guests and the un-enrolled read lessons fine — they just can't track. */
   const [enrolled, setEnrolled] = useState(false)
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set())
+  /** Why to ask for a rating now, if at all — course finished beats a quiz score. */
+  const [ratePrompt, setRatePrompt] = useState<"completed" | "quiz" | null>(null)
   const [marking, setMarking] = useState(false)
   const [xpFlash, setXpFlash] = useState(0)
 
@@ -108,6 +114,7 @@ export function ApiLessonReader({
     try {
       const result = await markLessonComplete(lesson.id)
       setCompletedIds((prev) => new Set(prev).add(lesson.id))
+      if (result.enrollment?.completed) setRatePrompt("completed")
       if (result.xpAwarded > 0) {
         setXpFlash(result.xpAwarded)
         const { xp, streak, setStats } = useProfileStore.getState()
@@ -404,7 +411,16 @@ export function ApiLessonReader({
             {/* Practice quiz — /learn is auth-gated, so the student is signed
                 in; the runner shows nothing when a lesson has no quiz. */}
             {!currentLesson.locked && (
-              <QuizRunner lessonId={currentLesson.id} />
+              <QuizRunner
+                lessonId={currentLesson.id}
+                onResult={(r) => {
+                  // A strong score is a good moment to ask — only for enrolled
+                  // learners, since the API only accepts their ratings.
+                  if (enrolled && r.score >= QUIZ_PROMPT_SCORE) {
+                    setRatePrompt((current) => current ?? "quiz")
+                  }
+                }}
+              />
             )}
 
             {!currentLesson.locked && (
@@ -446,6 +462,15 @@ export function ApiLessonReader({
                   </Link>
                 )}
               </div>
+            )}
+
+            {enrolled && ratePrompt && (
+              <RatePrompt
+                courseId={course.id}
+                courseSlug={course.slug}
+                courseTitle={nameOf(course.title, course.titleKm)}
+                reason={ratePrompt}
+              />
             )}
 
             {nextLesson && (
