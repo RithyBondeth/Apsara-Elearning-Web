@@ -370,6 +370,15 @@
     "certificateNeedsPlan": "Certificates are included with a Premium plan.",
     "getCertificate": "Get your certificate"
   },
+  "courseRatings": {
+    "title": "Ratings & reviews",
+    "count": "{count, plural, =1 {# rating} other {# ratings}}",
+    "addYours": "Rate this course",
+    "editYours": "Update your rating",
+    "reviewPlaceholder": "What did you think? (optional)",
+    "submit": "Save rating",
+    "beFirst": "No ratings yet — be the first to rate this course."
+  },
   "howItWorks": {
     "headingPart1": "How",
     "headingHighlight": "Apsara Elearning",

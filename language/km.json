@@ -370,6 +370,15 @@
     "certificateNeedsPlan": "វិញ្ញាបនបត្រមានរួមបញ្ចូលក្នុងគម្រោង Premium។",
     "getCertificate": "ទទួលវិញ្ញាបនបត្ររបស់អ្នក"
   },
+  "courseRatings": {
+    "title": "ការវាយតម្លៃ និងមតិយោបល់",
+    "count": "{count, plural, other {ការវាយតម្លៃ #}}",
+    "addYours": "វាយតម្លៃវគ្គសិក្សានេះ",
+    "editYours": "កែប្រែការវាយតម្លៃរបស់អ្នក",
+    "reviewPlaceholder": "អ្នកគិតយ៉ាងណាដែរ? (ស្រេចចិត្ត)",
+    "submit": "រក្សាទុកការវាយតម្លៃ",
+    "beFirst": "មិនទាន់មានការវាយតម្លៃទេ — សូមធ្វើជាមនុស្សដំបូង។"
+  },
   "howItWorks": {
     "headingPart1": "របៀបដែល",
     "headingHighlight": "Apsara Elearning",
