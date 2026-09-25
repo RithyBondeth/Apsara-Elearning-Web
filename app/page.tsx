@@ -1,39 +1,19 @@
-"use client"
+import { cookies } from "next/headers"
+import { REFRESH_COOKIE } from "@/lib/auth/cookie-names"
+import { LandingPage } from "@/components/landing/landing-page"
+import { SessionProvider } from "@/components/utils/session/session-provider"
 
-import { useState } from "react"
-import { LandingNavbar } from "@/components/landing/landing-navbar"
-import { LandingHero } from "@/components/landing/landing-hero"
-import { LandingStats } from "@/components/landing/landing-stats"
-import { LandingFeatures } from "@/components/landing/landing-features"
-import { LandingCourses } from "@/components/landing/landing-courses"
-import { LandingHowItWorks } from "@/components/landing/landing-how-it-works"
-import { LandingTestimonials } from "@/components/landing/landing-testimonials"
-import { LandingPricing } from "@/components/landing/landing-pricing"
-import { LandingCta } from "@/components/landing/landing-cta"
-import { LandingFooter } from "@/components/landing/landing-footer"
-import { PaperGrid } from "@/components/utils/paper-grid"
-
-export default function LandingPage() {
-  const [menuOpen, setMenuOpen] = useState(false)
+/**
+ * Resolves the session on the server — the same presence check the `(main)`
+ * layout makes — so the landing chrome can offer "Dashboard" to signed-in
+ * visitors without a flash of the anonymous buttons.
+ */
+export default async function Home() {
+  const hasSession = Boolean((await cookies()).get(REFRESH_COOKIE)?.value)
 
   return (
-    <div className="landing-page relative min-h-screen overflow-x-hidden text-foreground">
-      <PaperGrid />
-      <LandingNavbar
-        menuOpen={menuOpen}
-        onMenuToggle={() => setMenuOpen(!menuOpen)}
-      />
-      <main className="relative z-10">
-        <LandingHero />
-        <LandingStats />
-        <LandingFeatures />
-        <LandingCourses />
-        <LandingHowItWorks />
-        <LandingTestimonials />
-        <LandingPricing />
-        <LandingCta />
-      </main>
-      <LandingFooter />
-    </div>
+    <SessionProvider hasSession={hasSession}>
+      <LandingPage />
+    </SessionProvider>
   )
 }

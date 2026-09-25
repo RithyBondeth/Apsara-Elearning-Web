@@ -1,24 +1,18 @@
 "use client"
 
 import Link from "next/link"
-import {
-  ArrowRight,
-  Atom,
-  Bot,
-  BookOpen,
-  CheckCircle2,
-  GraduationCap,
-  Users,
-} from "lucide-react"
+import { ArrowRight, Atom, Bot, BookOpen, CheckCircle2, GraduationCap, BadgeCheck } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useHasSession } from "@/components/utils/session/session-provider"
 import { AnimateIn } from "@/components/utils/animations/animate-in"
 import { MokotMark } from "@/components/utils/brand-logo"
 
 export function LandingCta() {
   const t = useTranslations("cta")
+  const hasSession = useHasSession()
 
   const trustItems = [
-    { icon: Users, label: t("trustStudents") },
+    { icon: BadgeCheck, label: t("trustFree") },
     { icon: GraduationCap, label: t("trustLevels") },
     { icon: Bot, label: t("trustAi") },
   ]
@@ -96,10 +90,10 @@ export function LandingCta() {
 
                 <div className="relative space-y-2.5">
                   <Link
-                    href="/register"
+                    href={hasSession ? "/dashboard" : "/register"}
                     className="landing-action group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-white px-5 text-sm font-bold text-blue-700 shadow-lg hover:-translate-y-0.5 hover:bg-blue-50"
                   >
-                    {t("createAccount")}
+                    {hasSession ? t("continueLearning") : t("createAccount")}
                     <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                   <Link

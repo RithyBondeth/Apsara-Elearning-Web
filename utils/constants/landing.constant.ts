@@ -57,14 +57,6 @@ export const COURSES = [
   { level: "Advanced",     lessons: 40, xp: 4000, color: "amber"  as TColorKey, icon: "Brain",    key: "algorithms", category: "computer-science"         },
 ]
 
-/* ── Testimonials ────────────────────────────────────────────────────── */
-
-export const TESTIMONIALS = [
-  { avatar: "SP", stars: 5, key: "sokha" },
-  { avatar: "DC", stars: 5, key: "dara"  },
-  { avatar: "BM", stars: 5, key: "bopha" },
-]
-
 /* ── How it works steps ──────────────────────────────────────────────── */
 
 export const HOW_IT_WORKS = [
@@ -79,7 +71,6 @@ export const NAV_LINKS = [
   { key: "courses",      href: "/#courses"      },
   { key: "features",     href: "/#features"     },
   { key: "howItWorks",   href: "/#how-it-works" },
-  { key: "testimonials", href: "/#testimonials"  },
   { key: "pricing",      href: "/#pricing"      },
 ] as const
 

@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Apsara Elearning",
     short_name: "Apsara",
     description:
-      "The AI-powered learning platform for Cambodian students — every subject from Grade 1 to university, with a personal AI tutor that speaks Khmer.",
+      "The AI-powered learning platform for Cambodian students — BacII prep, English and coding, with a personal AI tutor that speaks Khmer.",
     start_url: "/",
     display: "standalone",
     background_color: "#FFFFFF",

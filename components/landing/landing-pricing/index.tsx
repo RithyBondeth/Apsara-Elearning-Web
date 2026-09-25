@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useLocale, useTranslations } from "next-intl"
+import { useHasSession } from "@/components/utils/session/session-provider"
 import {
   ArrowRight,
   Check,
@@ -18,6 +19,7 @@ import type { IApiPlan } from "@/utils/interfaces/subscription/api.interface"
 export function LandingPricing() {
   const t = useTranslations("pricing")
   const locale = useLocale()
+  const hasSession = useHasSession()
   const [plans, setPlans] = useState<IApiPlan[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -129,10 +131,10 @@ export function LandingPricing() {
               </ul>
 
               <Link
-                href="/register"
+                href={hasSession ? "/dashboard" : "/register"}
                 className="landing-action mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-border bg-background px-5 text-sm font-semibold text-foreground hover:border-blue-400"
               >
-                {t("landing.startFree")}
+                {hasSession ? t("landing.goToDashboard") : t("landing.startFree")}
                 <ArrowRight className="size-4" />
               </Link>
             </article>
@@ -190,6 +192,12 @@ export function LandingPricing() {
                 <div className="relative text-3xl font-bold">
                   {t("landing.flexiblePricing")}
                 </div>
+              )}
+
+              {plans[0] && plans[0].trialDays > 0 && (
+                <p className="relative mt-2 text-xs font-semibold text-emerald-200">
+                  {t("trialOffer", { days: plans[0].trialDays })}
+                </p>
               )}
 
               <p className="relative mt-4 min-h-12 text-sm leading-relaxed text-blue-100/80">
