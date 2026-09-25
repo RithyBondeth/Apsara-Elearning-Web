@@ -21,9 +21,9 @@ export function LandingFooter() {
     {
       headingKey: "platformCol" as const,
       links: [
-        { key: "courses" as const,    href: "/dashboard" },
+        { key: "courses" as const,    href: "/courses" },
         { key: "playground" as const, href: "/learn" },
-        { key: "aiMentor" as const,   href: "/learn" },
+        { key: "aiMentor" as const,   href: "/tutor" },
         { key: "leaderboard" as const,href: "/leaderboard" },
       ],
     },

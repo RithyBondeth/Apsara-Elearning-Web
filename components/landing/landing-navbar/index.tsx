@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useHasSession } from "@/components/utils/session/session-provider"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ThemeToggle } from "@/components/utils/themes/theme-toggle"
@@ -23,6 +24,7 @@ interface LandingNavbarProps {
 
 export function LandingNavbar({ menuOpen, onMenuToggle }: LandingNavbarProps) {
   const t = useTranslations("nav")
+  const hasSession = useHasSession()
   const [scrolled, setScrolled] = useState(false)
   const navRef = useRef<HTMLElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
@@ -100,17 +102,27 @@ export function LandingNavbar({ menuOpen, onMenuToggle }: LandingNavbarProps) {
         <div className="hidden md:flex items-center gap-2 shrink-0">
           <LanguageSwitcher />
           <ThemeToggle />
-          <Link
-            href="/login"
-            className="text-sm text-muted-foreground hover:text-foreground px-4 py-2 transition-colors"
-          >
-            {t("signIn")}
-          </Link>
-          <Link href="/register">
-            <button className="landing-action btn-shine rounded-xl gradient-bg-primary px-5 py-2.5 text-sm font-semibold text-white">
-              {t("startFree")} →
-            </button>
-          </Link>
+          {hasSession ? (
+            <Link href="/dashboard">
+              <button className="landing-action btn-shine rounded-xl gradient-bg-primary px-5 py-2.5 text-sm font-semibold text-white">
+                {t("dashboard")} →
+              </button>
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="text-sm text-muted-foreground hover:text-foreground px-4 py-2 transition-colors"
+              >
+                {t("signIn")}
+              </Link>
+              <Link href="/register">
+                <button className="landing-action btn-shine rounded-xl gradient-bg-primary px-5 py-2.5 text-sm font-semibold text-white">
+                  {t("startFree")} →
+                </button>
+              </Link>
+            </>
+          )}
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
@@ -144,14 +156,24 @@ export function LandingNavbar({ menuOpen, onMenuToggle }: LandingNavbarProps) {
               </a>
             ))}
             <div className="pt-3 border-t border-border flex flex-col gap-2 mt-1">
-              <Link href="/login" className="py-2 text-sm text-muted-foreground">
-                {t("signIn")}
-              </Link>
-              <Link href="/register">
-                <button className="w-full py-2.5 text-sm font-semibold rounded-xl gradient-bg-primary text-white">
-                  {t("startFree")} →
-                </button>
-              </Link>
+              {hasSession ? (
+                <Link href="/dashboard">
+                  <button className="w-full py-2.5 text-sm font-semibold rounded-xl gradient-bg-primary text-white">
+                    {t("dashboard")} →
+                  </button>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/login" className="py-2 text-sm text-muted-foreground">
+                    {t("signIn")}
+                  </Link>
+                  <Link href="/register">
+                    <button className="w-full py-2.5 text-sm font-semibold rounded-xl gradient-bg-primary text-white">
+                      {t("startFree")} →
+                    </button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

@@ -20,18 +20,16 @@
     "aiMentor": "AI Mentor",
     "community": "Community",
     "howItWorks": "How It Works",
-    "testimonials": "Testimonials",
     "certificates": "Certificates",
     "activity": "Activity"
   },
   "hero": {
-    "badge": "Introducing Apsara Elearning — every subject, powered by AI",
+    "badge": "Introducing Apsara Elearning — learning powered by AI",
     "titleKh": "រៀនគ្រប់មុខវិជ្ជា",
     "titleWith": "with",
-    "subtitle": "The AI-powered learning platform for Cambodian students — from Grade 1 to university. Master Math, Physics, English and more with <mentor>Apsara Elearning</mentor> — your personal AI tutor that speaks Khmer.",
+    "subtitle": "The AI-powered learning platform for Cambodian students. Prepare for BacII with Grade 12 Math, Chemistry and Biology, build English and coding skills, and get help from <mentor>Apsara Elearning</mentor> — your personal AI tutor that speaks Khmer.",
     "startLearning": "Start Learning Free",
-    "watchDemo": "Watch Demo",
-    "studentsCount": "12,000+ students learning today",
+    "trustLine": "Free to start · Learn in Khmer or English · BacII-aligned lessons",
     "demo": {
       "grade": "Grade 12",
       "level": "Level 8",
@@ -106,35 +104,37 @@
           "tutorA": "‘Since 2019’ marks a period continuing to now, so the present perfect is needed. 🎯"
         }
       }
-    }
+    },
+    "continueLearning": "Continue Learning",
+    "browseCourses": "Browse Courses"
   },
   "stats": {
-    "students": "Students",
     "courses": "Courses",
-    "completion": "Completion",
-    "inCambodia": "In Cambodia"
+    "lessons": "Lessons",
+    "questions": "Practice questions",
+    "subjects": "Subjects"
   },
   "features": {
     "badge": "Everything you need",
     "headingPart1": "Built for",
     "headingHighlight": "Cambodian",
     "headingPart2": "Students",
-    "subheading": "K–12 curriculum, university programs, and a personal AI tutor — all in one platform.",
+    "subheading": "Grade 12 BacII prep, programming courses, and a personal AI tutor — all in one platform. More grades and university programs are on the way.",
     "aiMentor": {
       "title": "Apsara AI Tutor",
       "desc": "Step-by-step explanations, instant feedback on exercises, and a personalised study plan — powered by advanced AI."
     },
     "k12": {
-      "title": "Grade 1–12, Every Subject",
-      "desc": "Math, Physics, Chemistry, Khmer, English and more — aligned with the national curriculum, with auto-graded practice."
+      "title": "BacII-Ready Grade 12",
+      "desc": "Math, Chemistry and Biology aligned with the national curriculum, with auto-graded practice. More grades and subjects are on the way."
     },
     "university": {
-      "title": "University Programs",
-      "desc": "Courses organised by faculty and major, from computer science to business — study alongside your degree."
+      "title": "University Programs — Coming Soon",
+      "desc": "Courses organised by faculty and major are being prepared with partner lecturers, from computer science to business."
     },
     "khmerFirst": {
       "title": "Khmer-First Learning",
-      "desc": "Every lesson, explanation, and AI answer available in Khmer. Learn in the language you think in."
+      "desc": "Grade 12 lessons are written in Khmer, and the AI tutor explains every answer in Khmer. Learn in the language you think in."
     },
     "certificates": {
       "title": "Industry Certificates",
@@ -377,7 +377,8 @@
     "editYours": "Update your rating",
     "reviewPlaceholder": "What did you think? (optional)",
     "submit": "Save rating",
-    "beFirst": "No ratings yet — be the first to rate this course."
+    "beFirst": "No ratings yet — be the first to rate this course.",
+    "featuredNote": "Your review is public and may be featured on our homepage."
   },
   "howItWorks": {
     "headingPart1": "How",
@@ -386,7 +387,7 @@
     "subheading": "Three simple steps to start learning",
     "choosePath": {
       "title": "Choose Your Path",
-      "desc": "Pick your grade and subject — or your faculty and major at university level."
+      "desc": "Pick your grade and subject, or a programming track to build new skills."
     },
     "learnPractice": {
       "title": "Learn & Practice",
@@ -397,44 +398,25 @@
       "desc": "Follow your progress, earn certificates, and walk into national exams with confidence."
     }
   },
-  "testimonials": {
-    "headingPart1": "Loved by",
-    "headingHighlight": "Cambodian",
-    "headingPart2": "Students",
-    "sokha": {
-      "name": "Sokha Phan",
-      "role": "Grade 12 Student, Phnom Penh",
-      "text": "Apsara Elearning helped me prepare for the BacII exam. The Khmer explanations finally made calculus click."
-    },
-    "dara": {
-      "name": "Dara Chheng",
-      "role": "Medical Student, UHS",
-      "text": "Finally a platform that teaches in Khmer! The AI tutor answers my questions better than any textbook."
-    },
-    "bopha": {
-      "name": "Bopha Meas",
-      "role": "English Teacher, Siem Reap",
-      "text": "My students stay motivated with the XP system. Their exam results improved in just two months."
-    }
-  },
   "cta": {
     "eyebrow": "Built for Cambodian students",
     "headingPart1": "Ready to Start",
     "headingHighlight": "Learning",
     "headingPart2": "?",
-    "subheading": "Join 12,000+ Cambodian students learning smarter — from primary school to university.",
-    "free": "Free forever for students.",
+    "subheading": "Join Cambodian students learning smarter — from BacII prep to coding.",
+    "free": "Free plan available.",
     "createAccount": "Create Free Account",
-    "finePrint": "No credit card required • Always free for students",
-    "trustStudents": "12,000+ learners",
-    "trustLevels": "Primary to university",
+    "finePrint": "No credit card required • Free plan available",
+    "trustFree": "Free plan available",
+    "trustLevels": "BacII prep & coding",
     "trustAi": "AI tutor in Khmer",
     "cardTitle": "Your next lesson is ready.",
     "cardBody": "Create your account and start learning any subject at your own pace today.",
-    "exploreCourses": "Explore courses first"
+    "exploreCourses": "Explore courses first",
+    "continueLearning": "Continue learning"
   },
   "footer": {
-    "brand": "Cambodia's AI-powered learning platform — every subject from Grade 1 to university. Empowering the next generation of Khmer learners.",
+    "brand": "Cambodia's AI-powered learning platform — BacII prep, English and coding, with an AI tutor that speaks Khmer. Empowering the next generation of Khmer learners.",
     "platformCol": "Platform",
     "companyCol": "Company",
     "supportCol": "Support",
@@ -1261,18 +1243,18 @@
   "auth": {
     "showcaseFooter": "AI-powered learning, built for Cambodia",
     "loginShowcaseTitle": "Welcome back!",
-    "loginShowcaseDescription": "Continue your learning journey with Apsara Elearning — Cambodia's AI-powered platform for every subject.",
+    "loginShowcaseDescription": "Continue your learning journey with Apsara Elearning — Cambodia's AI-powered learning platform.",
     "loginShowcaseSubjects": [
       "Mathematics",
-      "Physics",
-      "Khmer",
+      "Chemistry",
+      "Biology",
       "English"
     ],
     "registerShowcaseTitle": "Start learning today",
-    "registerShowcaseDescription": "Join 12,000+ Cambodian students learning with AI-powered lessons in Khmer.",
+    "registerShowcaseDescription": "Learn with AI-powered lessons in Khmer — from BacII prep to coding.",
     "registerBenefits": [
-      "Free forever for students",
-      "Every subject, from Grade 1 to university",
+      "Free plan available",
+      "Grade 12 BacII prep, English and coding",
       "Personal AI tutor that speaks Khmer",
       "Certificates and national exam preparation"
     ],
@@ -1281,11 +1263,11 @@
     "studentAccess": "Secure student access",
     "experienceBadge": "AI-powered learning",
     "experienceTitle": "Learn smarter, in Khmer.",
-    "experienceDescription": "Every subject from primary school to university, with personal AI help whenever you need it.",
-    "experienceFeatureLessons": "Every subject, built for Cambodian learners",
+    "experienceDescription": "BacII prep, English and coding, with personal AI help whenever you need it.",
+    "experienceFeatureLessons": "Lessons built for Cambodian learners",
     "experienceFeatureAi": "A personal AI tutor that speaks Khmer",
     "experienceFeatureFree": "Start free and learn at your own pace",
-    "experienceStudents": "Trusted by 12,000+ Cambodian students",
+    "experienceStudents": "Built for Cambodian students",
     "stepProgress": "Step {current} of {total}",
     "continue": "Continue",
     "back": "Back",
@@ -1297,7 +1279,7 @@
     "noAccount": "Don't have an account?",
     "signUp": "Sign up",
     "registerTitle": "Create Your Account",
-    "registerSubtitle": "Join 12,000+ Cambodian students learning smarter.",
+    "registerSubtitle": "Start learning smarter with Apsara Elearning.",
     "namePlaceholder": "Enter your full name...",
     "confirmPasswordPlaceholder": "Confirm your password...",
     "confirmPasswordLabel": "Confirm password",
@@ -1403,7 +1385,8 @@
       "flexiblePricing": "Flexible plans",
       "startFree": "Create free account",
       "viewPlans": "View plans and trial",
-      "secure": "Secure checkout · Cancel anytime · Your free access stays free"
+      "secure": "Secure checkout · Cancel anytime · Your free access stays free",
+      "goToDashboard": "Go to dashboard"
     },
     "currentPlan": "Your current plan is {plan}",
     "manageBilling": "Manage billing",
@@ -1520,5 +1503,21 @@
     "noPayments": "No payments yet.",
     "refunded": "{amount} refunded",
     "loadError": "Billing details couldn't be loaded. Refresh to try again."
+  },
+  "reviews": {
+    "badge": "Learner reviews",
+    "headingPart1": "What learners",
+    "headingHighlight": "say",
+    "summary": "Rated {average} out of 5 across {count, plural, one {# rating} other {# ratings}}",
+    "onCourse": "on {course}"
+  },
+  "ratePrompt": {
+    "completedTitle": "You finished {course}! How was it?",
+    "quizTitle": "Great score! Enjoying {course}?",
+    "body": "Tap a star to rate the course — it helps other students choose.",
+    "thanks": "Thanks for rating!",
+    "addReview": "Add a written review",
+    "dismiss": "Not now",
+    "error": "Couldn't save your rating. Please try again."
   }
 }

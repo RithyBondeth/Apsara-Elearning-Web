@@ -31,7 +31,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Apsara Elearning — Learn Every Subject in Khmer",
   description:
-    "The AI-powered learning platform for Cambodian students — every subject from Grade 1 to university, with a personal AI tutor that speaks Khmer.",
+    "The AI-powered learning platform for Cambodian students — BacII prep, English and coding, with a personal AI tutor that speaks Khmer.",
   keywords: [
     "e-learning",
     "Cambodia",

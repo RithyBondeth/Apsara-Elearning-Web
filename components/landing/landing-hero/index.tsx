@@ -3,12 +3,13 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import {
-  Sparkles, ArrowRight, Play, Brain, Star, ChevronRight, GraduationCap,
+  Sparkles, ArrowRight, Brain, ChevronRight, GraduationCap,
   Flame, Trophy, BadgeCheck, ChevronDown, Calculator, Atom, FlaskConical,
   Languages, BookOpen, Check, Braces, Dna, Scale, Code2, Leaf, Microscope,
   Globe2,
 } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useHasSession } from "@/components/utils/session/session-provider"
 import gsap from "gsap"
 import { AnimateIn } from "@/components/utils/animations/animate-in"
 import { MokotMark } from "@/components/utils/brand-logo"
@@ -177,6 +178,7 @@ function QuizDemo({ active, subject }: { active: boolean; subject: Subject }) {
 
 export function LandingHero() {
   const t = useTranslations("hero")
+  const hasSession = useHasSession()
   const [quizActive, setQuizActive] = useState(true)
   const [subjectIndex, setSubjectIndex] = useState(0)
   const subject = SUBJECTS[subjectIndex]
@@ -290,43 +292,28 @@ export function LandingHero() {
 
       <AnimateIn animation="fade-up" delay={0.8} className="relative">
         <div className="flex flex-col sm:flex-row items-center gap-4 mb-16">
-          <Link href="/dashboard">
+          <Link href={hasSession ? "/dashboard" : "/register"}>
             <button className="landing-action btn-shine group flex items-center gap-2.5 rounded-2xl gradient-bg-primary px-8 py-4 text-base font-semibold text-white shadow-xl">
               <GraduationCap className="size-5" />
-              {t("startLearning")}
+              {hasSession ? t("continueLearning") : t("startLearning")}
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
             </button>
           </Link>
-          <Link href="/learn">
+          <Link href="/courses">
             <button className="landing-action glass group flex items-center gap-2.5 rounded-2xl border border-border px-8 py-4 text-base font-medium text-foreground/80 hover:border-violet-300 hover:text-foreground dark:hover:border-violet-500/30">
-              <span className="relative flex items-center justify-center">
-                <Play className="relative size-4 fill-current opacity-60" />
-              </span>
-              {t("watchDemo")}
+              <BookOpen className="size-4 opacity-60" />
+              {t("browseCourses")}
             </button>
           </Link>
         </div>
       </AnimateIn>
 
       <AnimateIn animation="fade" delay={1} className="relative">
-        <div className="flex items-center gap-3 mb-20">
-          <div className="flex -space-x-2">
-            {["SP","DC","BM","RK","VL"].map((initials, i) => (
-              <div
-                key={i}
-                className="size-8 rounded-full border-2 border-background flex items-center justify-center text-[10px] font-bold text-white transition-transform duration-300 hover:-translate-y-1 hover:z-10"
-                style={{ background: `hsl(${260 + i * 22}, 60%, 55%)` }}
-              >
-                {initials}
-              </div>
-            ))}
-          </div>
+        <div className="flex items-center gap-2 mb-20">
+          <BadgeCheck className="size-4 shrink-0 text-emerald-500" />
           <TypographyMuted className="text-sm">
-            {t("studentsCount")}
+            {t("trustLine")}
           </TypographyMuted>
-          <div className="flex gap-0.5">
-            {[...Array(5)].map((_, i) => <Star key={i} className="size-3.5 fill-amber-400 text-amber-400" />)}
-          </div>
         </div>
       </AnimateIn>
 
