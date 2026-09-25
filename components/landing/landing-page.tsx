@@ -7,6 +7,7 @@ import { LandingStats } from "@/components/landing/landing-stats"
 import { LandingFeatures } from "@/components/landing/landing-features"
 import { LandingCourses } from "@/components/landing/landing-courses"
 import { LandingHowItWorks } from "@/components/landing/landing-how-it-works"
+import { LandingReviews } from "@/components/landing/landing-reviews"
 import { LandingPricing } from "@/components/landing/landing-pricing"
 import { LandingCta } from "@/components/landing/landing-cta"
 import { LandingFooter } from "@/components/landing/landing-footer"
@@ -28,6 +29,7 @@ export function LandingPage() {
         <LandingFeatures />
         <LandingCourses />
         <LandingHowItWorks />
+        <LandingReviews />
         <LandingPricing />
         <LandingCta />
       </main>

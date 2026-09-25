@@ -15,6 +15,8 @@ import type {
   IAdminQuestion,
   IAdminQuiz,
   IAdminResolvedEntitlement,
+  IAdminReview,
+  IAdminTestimonial,
   IAdminSubject,
   IAdminTestCase,
   IAdminUser,
@@ -208,6 +210,25 @@ export const deleteTestCase = (id: string) => adminDelete(`/test-cases/${id}`)
 export const listUsers = () => adminGet<IAdminUser[]>("/users")
 export const getUser = (id: string) => adminGet<IAdminUser>(`/users/${id}`)
 export const deleteUser = (id: string) => adminDelete(`/users/${id}`)
+
+/* ── Reviews ──────────────────────────────────────────────────────────── */
+
+export const listReviews = () => adminGet<IAdminReview[]>("/reviews")
+export const setReviewFeatured = (id: string, featured: boolean) =>
+  adminPatch<IAdminReview>(`/reviews/${id}/featured`, { featured })
+
+/* ── Testimonials ─────────────────────────────────────────────────────── */
+
+export const listTestimonials = () =>
+  adminGet<IAdminTestimonial[]>("/testimonials")
+export const createTestimonial = (body: Partial<TWritable<IAdminTestimonial>>) =>
+  adminPost<IAdminTestimonial>("/testimonials", body)
+export const updateTestimonial = (
+  id: string,
+  body: Partial<TWritable<IAdminTestimonial>>
+) => adminPatch<IAdminTestimonial>(`/testimonials/${id}`, body)
+export const deleteTestimonial = (id: string) =>
+  adminDelete(`/testimonials/${id}`)
 
 /* ── Badges ───────────────────────────────────────────────────────────── */
 

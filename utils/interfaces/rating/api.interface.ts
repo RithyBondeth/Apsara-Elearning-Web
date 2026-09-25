@@ -19,3 +19,30 @@ export interface IApiRatingSummary {
   /** Recent written reviews; ratings without text are excluded. */
   items: IApiRating[]
 }
+
+/** Mirrors `FeaturedReviewDTO` — an admin-featured review for the landing page. */
+export interface IApiFeaturedReview extends IApiRating {
+  courseTitle: string
+  courseTitleKm?: string | null
+  courseSlug: string
+}
+
+/** Mirrors `PublicTestimonialDTO` — a consented quote from a teacher or beta tester. */
+export interface IApiTestimonial {
+  id: string
+  name: string
+  role: string
+  roleKm?: string | null
+  quote: string
+  quoteKm?: string | null
+  avatar?: string | null
+}
+
+/** Mirrors `FeaturedReviewsResponseDTO`. `average`/`count` cover every rating, not only featured ones. */
+export interface IApiFeaturedReviews {
+  average: number | null
+  count: number
+  items: IApiFeaturedReview[]
+  /** Published testimonials; older API builds may omit the field. */
+  testimonials?: IApiTestimonial[]
+}

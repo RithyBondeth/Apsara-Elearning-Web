@@ -89,7 +89,7 @@ export function CourseRatings({
   if (summary && summary.count === 0 && !canRate) return null
 
   return (
-    <section className="space-y-4">
+    <section id="ratings" className="scroll-mt-24 space-y-4">
       <TypographyH3 className="text-lg font-semibold">
         {t("title")}
       </TypographyH3>
@@ -135,6 +135,7 @@ export function CourseRatings({
             placeholder={t("reviewPlaceholder")}
             className="w-full rounded-lg border border-border bg-background p-3 text-sm outline-none focus:ring-2 focus:ring-violet-500/40"
           />
+          <p className="text-xs text-muted-foreground">{t("featuredNote")}</p>
           <Button onClick={() => void submit()} disabled={draft < 1 || saving} className="gap-2">
             {saving && <Loader2 className="size-4 animate-spin" />}
             {t("submit")}

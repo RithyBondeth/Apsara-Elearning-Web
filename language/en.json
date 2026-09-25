@@ -377,7 +377,8 @@
     "editYours": "Update your rating",
     "reviewPlaceholder": "What did you think? (optional)",
     "submit": "Save rating",
-    "beFirst": "No ratings yet — be the first to rate this course."
+    "beFirst": "No ratings yet — be the first to rate this course.",
+    "featuredNote": "Your review is public and may be featured on our homepage."
   },
   "howItWorks": {
     "headingPart1": "How",
@@ -1502,5 +1503,12 @@
     "noPayments": "No payments yet.",
     "refunded": "{amount} refunded",
     "loadError": "Billing details couldn't be loaded. Refresh to try again."
+  },
+  "reviews": {
+    "badge": "Learner reviews",
+    "headingPart1": "What learners",
+    "headingHighlight": "say",
+    "summary": "Rated {average} out of 5 across {count, plural, one {# rating} other {# ratings}}",
+    "onCourse": "on {course}"
   }
 }

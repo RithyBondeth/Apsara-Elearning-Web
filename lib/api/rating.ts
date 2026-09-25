@@ -1,5 +1,6 @@
 import { apiDelete, apiGet, apiPut } from "./client"
 import type {
+  IApiFeaturedReviews,
   IApiRating,
   IApiRatingSummary,
 } from "@/utils/interfaces/rating/api.interface"
@@ -11,6 +12,10 @@ export const getCourseRatings = (courseId: string, limit?: number) =>
       ? `/course/${courseId}/ratings?limit=${limit}`
       : `/course/${courseId}/ratings`
   )
+
+/** Public — admin-featured reviews plus the overall average, for the landing page. */
+export const getFeaturedReviews = () =>
+  apiGet<IApiFeaturedReviews>("/course/reviews/featured")
 
 /** Authenticated. Null when the learner has not rated this course. */
 export const getMyRating = (courseId: string) =>

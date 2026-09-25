@@ -266,3 +266,33 @@ export interface IAdminResolvedEntitlement {
   source: "administrative" | "plan" | "none"
   validUntil?: string | null
 }
+
+/** Mirrors `AdminReviewDTO` — a written review in the moderation list. */
+export interface IAdminReview {
+  id: string
+  rating: number
+  review: string
+  featured: boolean
+  displayName: string
+  email: string
+  courseTitle: string
+  updatedAt: string
+}
+
+/** Mirrors `TestimonialResponseDTO` — includes the consent record. */
+export interface IAdminTestimonial {
+  id: string
+  name: string
+  role: string
+  roleKm?: string | null
+  quote: string
+  quoteKm?: string | null
+  avatar?: string | null
+  /** How the person agreed to be quoted. */
+  consentSource: string
+  /** YYYY-MM-DD */
+  consentedAt: string
+  published: boolean
+  createdAt: string
+  updatedAt: string
+}

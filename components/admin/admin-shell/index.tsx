@@ -11,6 +11,8 @@ import {
   LayoutGrid,
   Library,
   LogOut,
+  MessageSquareQuote,
+  Quote,
   Users,
 } from "lucide-react"
 import { BrandLogo } from "@/components/utils/brand-logo"
@@ -37,6 +39,8 @@ const NAV_ITEMS = [
   { icon: Library, label: "Taxonomy", href: "/admin/taxonomy" },
   { icon: Users, label: "Users", href: "/admin/users" },
   { icon: Award, label: "Badges", href: "/admin/badges" },
+  { icon: MessageSquareQuote, label: "Reviews", href: "/admin/reviews" },
+  { icon: Quote, label: "Testimonials", href: "/admin/testimonials" },
   { icon: CreditCard, label: "Plans", href: "/admin/plans" },
 ] as const
 
