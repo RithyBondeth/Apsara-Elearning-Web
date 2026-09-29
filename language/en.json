@@ -1503,7 +1503,17 @@
     "testsPassed": "{passed}/{total} tests",
     "review": "Review",
     "untitledQuiz": "Quiz",
-    "untitledChallenge": "Coding challenge"
+    "untitledChallenge": "Coding challenge",
+    "inProgress": "Not submitted",
+    "backToActivity": "Back to activity",
+    "reviewTitle": "Attempt review",
+    "reviewNotFound": "This attempt couldn't be found.",
+    "reviewUnavailable": "This review isn't available. The attempt may not have been submitted, or you no longer have access to the lesson.",
+    "openLesson": "Open lesson",
+    "retake": "Retake in lesson",
+    "showCode": "Show code",
+    "hideCode": "Hide code",
+    "errorOutput": "Error"
   },
   "billing": {
     "pageTitle": "Billing",

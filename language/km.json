@@ -1503,7 +1503,17 @@
     "testsPassed": "{passed}/{total} តេស្ត",
     "review": "ពិនិត្យ",
     "untitledQuiz": "សំណួរ",
-    "untitledChallenge": "លំហាត់សរសេរកូដ"
+    "untitledChallenge": "លំហាត់សរសេរកូដ",
+    "inProgress": "មិនទាន់ដាក់ស្នើ",
+    "backToActivity": "ត្រឡប់ទៅសកម្មភាព",
+    "reviewTitle": "ពិនិត្យការធ្វើសំណួរ",
+    "reviewNotFound": "រកមិនឃើញការធ្វើសំណួរនេះទេ។",
+    "reviewUnavailable": "មិនអាចមើលការពិនិត្យនេះបានទេ។ ប្រហែលជាមិនទាន់បានដាក់ស្នើ ឬអ្នកលែងមានសិទ្ធិចូលមេរៀននេះហើយ។",
+    "openLesson": "បើកមេរៀន",
+    "retake": "ធ្វើម្ដងទៀតក្នុងមេរៀន",
+    "showCode": "បង្ហាញកូដ",
+    "hideCode": "លាក់កូដ",
+    "errorOutput": "កំហុស"
   },
   "billing": {
     "pageTitle": "ការទូទាត់",
