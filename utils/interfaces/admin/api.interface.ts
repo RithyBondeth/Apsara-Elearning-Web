@@ -219,6 +219,8 @@ export interface IAdminUser {
   isAdmin: boolean
   /** Set when an admin suspended the account; null/absent when active. */
   suspendedAt?: string | null
+  /** Set when the user asked to delete their account (7-day grace period). */
+  deletionRequestedAt?: string | null
   email: string
   isEmailVerified: boolean
   phone?: string

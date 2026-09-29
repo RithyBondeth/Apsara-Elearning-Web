@@ -432,6 +432,16 @@ export default function UsersPage() {
                             suspended
                           </Badge>
                         )}
+                        {user.deletionRequestedAt && (
+                          <Badge
+                            variant="outline"
+                            className="text-[10px]"
+                            title={`Requested ${new Date(user.deletionRequestedAt).toLocaleDateString()}; deleted after 7 days unless they sign in`}
+                          >
+                            <Trash2 className="size-3" />
+                            deletion pending
+                          </Badge>
+                        )}
                         {isMe && (
                           <Badge variant="outline" className="text-[10px]">
                             you

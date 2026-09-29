@@ -25,6 +25,9 @@ function LoginInner() {
   const tv = useTranslations("auth.validation")
   const router = useRouter()
   const searchParams = useSearchParams()
+  /* Set by the profile page after a deletion request: remind the learner that
+     signing back in before this date cancels it. */
+  const deletionScheduledFor = formatDeletionDate(searchParams.get("deletion"))
   const formRef = useRef<HTMLDivElement>(null)
 
   const {
@@ -57,6 +60,7 @@ function LoginInner() {
     const result = await loginRequest(values)
 
     if (result.ok) {
+      if (result.deletionCancelled) toast.success(t("deletionCancelled"))
       /* middleware bounces authed users off /login, so a full navigation to the
          intended destination re-runs it with the fresh cookie in place. */
       router.replace(safeNext(searchParams.get("next")) ?? "/dashboard")
@@ -65,6 +69,11 @@ function LoginInner() {
 
     if (result.emailNotVerified) {
       setUnverified(true)
+      return
+    }
+
+    if (result.accountSuspended) {
+      toast.error(t("accountSuspended"))
       return
     }
 
@@ -142,6 +151,16 @@ function LoginInner() {
               </Link>
             </div>
 
+            {deletionScheduledFor && (
+              <div
+                data-auth-field
+                role="status"
+                className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs text-amber-700 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-300"
+              >
+                {t("deletionScheduled", { date: deletionScheduledFor })}
+              </div>
+            )}
+
             {unverified && (
               <div
                 data-auth-field
@@ -185,6 +204,18 @@ function LoginInner() {
       </ModernLoginSignup>
     </div>
   )
+}
+
+function formatDeletionDate(iso: string | null): string | null {
+  if (!iso) return null
+  const date = new Date(iso)
+  return Number.isNaN(date.getTime())
+    ? null
+    : date.toLocaleDateString(undefined, {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
 }
 
 export default function LoginPage() {
