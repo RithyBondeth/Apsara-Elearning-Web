@@ -13,6 +13,7 @@ import {
   LogOut,
   MessageSquareQuote,
   Quote,
+  ScrollText,
   Users,
 } from "lucide-react"
 import { BrandLogo } from "@/components/utils/brand-logo"
@@ -39,6 +40,7 @@ const NAV_ITEMS = [
   { icon: Library, label: "Taxonomy", href: "/admin/taxonomy" },
   { icon: Users, label: "Users", href: "/admin/users" },
   { icon: Award, label: "Badges", href: "/admin/badges" },
+  { icon: ScrollText, label: "Certificates", href: "/admin/certificates" },
   { icon: MessageSquareQuote, label: "Reviews", href: "/admin/reviews" },
   { icon: Quote, label: "Testimonials", href: "/admin/testimonials" },
   { icon: CreditCard, label: "Plans", href: "/admin/plans" },

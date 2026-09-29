@@ -237,6 +237,22 @@ export interface IAdminUserUpdate {
   lastName?: string
 }
 
+/** Mirrors AdminCertificateDTO — a certificate with its holder. */
+export interface IAdminCertificate {
+  id: string
+  code: string
+  userId: string
+  learnerName: string
+  learnerEmail: string
+  courseId: string
+  courseTitle: string
+  issuedAt: string
+  revokedAt: string | null
+  revocationReason: string | null
+  /** Admin who revoked it; null if not revoked or that admin was deleted. */
+  revokedBy: string | null
+}
+
 export interface IAdminBadge {
   id: string
   name: string

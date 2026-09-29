@@ -9,6 +9,8 @@ export interface IApiCertificate {
   courseSlug?: string
   issuedAt: string
   revokedAt?: string | null
+  /** Why it was withdrawn. Only ever sent to the holder, never on verification. */
+  revocationReason?: string | null
 }
 
 /**

@@ -1474,7 +1474,8 @@
     "verifyPageTitle": "ផ្ទៀងផ្ទាត់វិញ្ញាបនបត្រ",
     "verifyPageSubtitle": "បញ្ចូលលេខកូដដែលបោះពុម្ពលើវិញ្ញាបនបត្រ ដើម្បីបញ្ជាក់ភាពត្រឹមត្រូវ។",
     "codeLabel": "លេខកូដវិញ្ញាបនបត្រ",
-    "verifyAction": "ផ្ទៀងផ្ទាត់"
+    "verifyAction": "ផ្ទៀងផ្ទាត់",
+    "revokedReason": "ត្រូវបានដកហូត៖ {reason}"
   },
   "leaderboard": {
     "pageTitle": "តារាងពិន្ទុ",
