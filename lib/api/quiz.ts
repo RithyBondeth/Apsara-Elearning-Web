@@ -1,6 +1,7 @@
 import { apiGet, apiPost } from "./client"
 import type {
   IApiQuizAttempt,
+  IApiQuizAttemptReview,
   IApiQuizMeta,
   IApiQuizResult,
   IApiQuizStart,
@@ -24,3 +25,7 @@ export const startQuiz = (quizId: string) =>
 
 export const submitAttempt = (attemptId: string, answers: IQuizAnswerInput[]) =>
   apiPost<IApiQuizResult>(`/quiz/attempt/${attemptId}/submit`, { answers })
+
+/** A submitted attempt's per-question review, for re-opening it from history. */
+export const getAttemptReview = (attemptId: string) =>
+  apiGet<IApiQuizAttemptReview>(`/quiz/attempt/${attemptId}/review`)
