@@ -217,12 +217,22 @@ export interface IAdminUser {
   streak: number
   xp: number
   isAdmin: boolean
+  /** Set when an admin suspended the account; null/absent when active. */
+  suspendedAt?: string | null
   email: string
   isEmailVerified: boolean
   phone?: string
   lastLoginAt?: string
   createdAt: string
   updatedAt: string
+}
+
+/** Mirrors AdminUpdateUserRequestDTO — send only what changes. */
+export interface IAdminUserUpdate {
+  isAdmin?: boolean
+  suspended?: boolean
+  firstName?: string
+  lastName?: string
 }
 
 export interface IAdminBadge {

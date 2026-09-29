@@ -2,10 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react"
 import {
+  Ban,
+  CircleCheck,
   KeyRound,
   Loader2,
+  Pencil,
   Search,
   ShieldCheck,
+  ShieldOff,
   Trash2,
   TriangleAlert,
 } from "lucide-react"
@@ -38,13 +42,16 @@ import {
   listGrants,
   listUsers,
   resolveEntitlements,
+  updateUser,
 } from "@/lib/api/admin"
 import { ApiError } from "@/lib/api/client"
+import { getMe } from "@/lib/api/user"
 import {
   ENTITLEMENTS,
   type IAdminEntitlementGrant,
   type IAdminResolvedEntitlement,
   type IAdminUser,
+  type IAdminUserUpdate,
 } from "@/utils/interfaces/admin/api.interface"
 
 const GRANT_FIELDS: IAdminField[] = [
@@ -80,6 +87,11 @@ const GRANT_FIELDS: IAdminField[] = [
     placeholder: "Scholarship — approved by …",
     help: "Recorded on the grant. Write it for whoever audits this later.",
   },
+]
+
+const NAME_FIELDS: IAdminField[] = [
+  { name: "firstName", label: "First name", type: "text" },
+  { name: "lastName", label: "Last name", type: "text" },
 ]
 
 const fullName = (u: IAdminUser) =>
@@ -270,7 +282,21 @@ export default function UsersPage() {
   const [users, setUsers] = useState<IAdminUser[] | null>(null)
   const [failed, setFailed] = useState(false)
   const [query, setQuery] = useState("")
-  const [entitlementsFor, setEntitlementsFor] = useState<IAdminUser | null>(null)
+  const [entitlementsFor, setEntitlementsFor] = useState<IAdminUser | null>(
+    null
+  )
+  const [editing, setEditing] = useState<IAdminUser | null>(null)
+  /* The signed-in admin. The API refuses self-demotion, self-suspension and
+     self-deletion anyway; knowing who "me" is just keeps those buttons off
+     the row instead of letting them fail. */
+  const [meId, setMeId] = useState<string | null>(null)
+
+  useEffect(() => {
+    getMe().then(
+      (me) => setMeId(me.id),
+      () => setMeId(null)
+    )
+  }, [])
 
   const [nonce, setNonce] = useState(0)
   const refresh = useCallback(() => setNonce((n) => n + 1), [])
@@ -307,6 +333,20 @@ export default function UsersPage() {
     )
   }, [users, query])
 
+  async function change(
+    user: IAdminUser,
+    body: IAdminUserUpdate,
+    success: string
+  ) {
+    try {
+      await updateUser(user.id, body)
+      toast.success(success)
+      refresh()
+    } catch (err) {
+      toast.error(err instanceof ApiError ? err.message : "Update failed")
+    }
+  }
+
   async function destroy(user: IAdminUser) {
     try {
       await deleteUser(user.id)
@@ -323,7 +363,8 @@ export default function UsersPage() {
         <h1 className="text-xl font-semibold text-foreground">Users</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Everyone registered on the platform. Accounts are created by learners
-          signing up — the console can inspect, grant entitlements and remove.
+          signing up — the console can edit names, manage admin access, suspend,
+          grant entitlements and remove.
         </p>
       </div>
 
@@ -364,66 +405,198 @@ export default function UsersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <span className="truncate">{fullName(user)}</span>
-                      {user.isAdmin && (
-                        <Badge variant="secondary" className="text-[10px]">
-                          <ShieldCheck className="size-3" />
-                          admin
-                        </Badge>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <span className="truncate">{user.email}</span>
-                      {!user.isEmailVerified && (
-                        <Badge variant="ghost" className="text-[10px]">
-                          unverified
-                        </Badge>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell>{user.xp}</TableCell>
-                  <TableCell>{user.streak}</TableCell>
-                  <TableCell className="whitespace-nowrap">
-                    {new Date(user.createdAt).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell className="text-right whitespace-nowrap">
-                    <div className="flex items-center justify-end gap-1">
-                      <Button
-                        variant="ghost"
-                        size="icon-sm"
-                        onClick={() => setEntitlementsFor(user)}
-                        title="Entitlements"
-                        aria-label={`Entitlements for ${fullName(user)}`}
-                      >
-                        <KeyRound className="size-4" />
-                      </Button>
-                      <ConfirmDialog
-                        title={`Delete ${fullName(user)}?`}
-                        description="Removes the account and everything attached to it — enrolments, progress and certificates. This cannot be undone."
-                        confirmLabel="Delete"
-                        variant="danger"
-                        icon={<Trash2 className="size-4.5" />}
-                        onConfirm={() => destroy(user)}
-                      >
+              {filtered.map((user) => {
+                const isMe = user.id === meId
+                const suspended = Boolean(user.suspendedAt)
+                return (
+                  <TableRow
+                    key={user.id}
+                    className={suspended ? "opacity-60" : undefined}
+                  >
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span className="truncate">{fullName(user)}</span>
+                        {user.isAdmin && (
+                          <Badge variant="secondary" className="text-[10px]">
+                            <ShieldCheck className="size-3" />
+                            admin
+                          </Badge>
+                        )}
+                        {suspended && (
+                          <Badge
+                            variant="destructive"
+                            className="text-[10px]"
+                            title={`Suspended ${new Date(user.suspendedAt!).toLocaleDateString()}`}
+                          >
+                            <Ban className="size-3" />
+                            suspended
+                          </Badge>
+                        )}
+                        {isMe && (
+                          <Badge variant="outline" className="text-[10px]">
+                            you
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span className="truncate">{user.email}</span>
+                        {!user.isEmailVerified && (
+                          <Badge variant="ghost" className="text-[10px]">
+                            unverified
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>{user.xp}</TableCell>
+                    <TableCell>{user.streak}</TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      {new Date(user.createdAt).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell className="text-right whitespace-nowrap">
+                      <div className="flex items-center justify-end gap-1">
                         <Button
                           variant="ghost"
                           size="icon-sm"
-                          aria-label={`Delete ${fullName(user)}`}
-                          className="text-muted-foreground hover:text-destructive"
+                          onClick={() => setEditing(user)}
+                          title="Edit name"
+                          aria-label={`Edit name of ${fullName(user)}`}
                         >
-                          <Trash2 className="size-4" />
+                          <Pencil className="size-4" />
                         </Button>
-                      </ConfirmDialog>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
+                        {!isMe &&
+                          (user.isAdmin ? (
+                            <ConfirmDialog
+                              title={`Remove admin access from ${fullName(user)}?`}
+                              description="They lose access to this console when their session next refreshes (within 15 minutes). Their learner account is unaffected."
+                              confirmLabel="Remove admin"
+                              variant="danger"
+                              icon={<ShieldOff className="size-4.5" />}
+                              onConfirm={() =>
+                                change(
+                                  user,
+                                  { isAdmin: false },
+                                  `${fullName(user)} is no longer an admin`
+                                )
+                              }
+                            >
+                              <Button
+                                variant="ghost"
+                                size="icon-sm"
+                                title="Remove admin access"
+                                aria-label={`Remove admin access from ${fullName(user)}`}
+                              >
+                                <ShieldOff className="size-4" />
+                              </Button>
+                            </ConfirmDialog>
+                          ) : (
+                            <ConfirmDialog
+                              title={`Make ${fullName(user)} an admin?`}
+                              description="Admins can edit all content, plans and users — including other admins. Access starts when their session next refreshes (within 15 minutes)."
+                              confirmLabel="Make admin"
+                              icon={<ShieldCheck className="size-4.5" />}
+                              onConfirm={() =>
+                                change(
+                                  user,
+                                  { isAdmin: true },
+                                  `${fullName(user)} is now an admin`
+                                )
+                              }
+                            >
+                              <Button
+                                variant="ghost"
+                                size="icon-sm"
+                                title="Make admin"
+                                aria-label={`Make ${fullName(user)} an admin`}
+                              >
+                                <ShieldCheck className="size-4" />
+                              </Button>
+                            </ConfirmDialog>
+                          ))}
+                        {!isMe &&
+                          (suspended ? (
+                            <ConfirmDialog
+                              title={`Reinstate ${fullName(user)}?`}
+                              description="They can sign in again straight away."
+                              confirmLabel="Reinstate"
+                              icon={<CircleCheck className="size-4.5" />}
+                              onConfirm={() =>
+                                change(
+                                  user,
+                                  { suspended: false },
+                                  `${fullName(user)} reinstated`
+                                )
+                              }
+                            >
+                              <Button
+                                variant="ghost"
+                                size="icon-sm"
+                                title="Reinstate"
+                                aria-label={`Reinstate ${fullName(user)}`}
+                              >
+                                <CircleCheck className="size-4" />
+                              </Button>
+                            </ConfirmDialog>
+                          ) : (
+                            <ConfirmDialog
+                              title={`Suspend ${fullName(user)}?`}
+                              description="They can't sign in until reinstated, and any open session ends within 15 minutes. Their progress, certificates and subscription are kept."
+                              confirmLabel="Suspend"
+                              variant="danger"
+                              icon={<Ban className="size-4.5" />}
+                              onConfirm={() =>
+                                change(
+                                  user,
+                                  { suspended: true },
+                                  `${fullName(user)} suspended`
+                                )
+                              }
+                            >
+                              <Button
+                                variant="ghost"
+                                size="icon-sm"
+                                title="Suspend"
+                                aria-label={`Suspend ${fullName(user)}`}
+                                className="text-muted-foreground hover:text-destructive"
+                              >
+                                <Ban className="size-4" />
+                              </Button>
+                            </ConfirmDialog>
+                          ))}
+                        <Button
+                          variant="ghost"
+                          size="icon-sm"
+                          onClick={() => setEntitlementsFor(user)}
+                          title="Entitlements"
+                          aria-label={`Entitlements for ${fullName(user)}`}
+                        >
+                          <KeyRound className="size-4" />
+                        </Button>
+                        {!isMe && (
+                          <ConfirmDialog
+                            title={`Delete ${fullName(user)}?`}
+                            description="Removes the account and everything attached to it — enrolments, progress and certificates. This cannot be undone."
+                            confirmLabel="Delete"
+                            variant="danger"
+                            icon={<Trash2 className="size-4.5" />}
+                            onConfirm={() => destroy(user)}
+                          >
+                            <Button
+                              variant="ghost"
+                              size="icon-sm"
+                              aria-label={`Delete ${fullName(user)}`}
+                              className="text-muted-foreground hover:text-destructive"
+                            >
+                              <Trash2 className="size-4" />
+                            </Button>
+                          </ConfirmDialog>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
             </TableBody>
           </Table>
 
@@ -434,6 +607,25 @@ export default function UsersPage() {
           )}
         </div>
       )}
+
+      <ResourceDialog
+        open={editing !== null}
+        onOpenChange={(open) => !open && setEditing(null)}
+        title="Edit name"
+        description={editing?.email}
+        fields={NAME_FIELDS}
+        initialValues={{
+          firstName: editing?.firstName ?? "",
+          lastName: editing?.lastName ?? "",
+        }}
+        submitLabel="Save"
+        onSubmit={async (payload) => {
+          if (!editing) return
+          await updateUser(editing.id, payload as IAdminUserUpdate)
+          toast.success("Name updated")
+          refresh()
+        }}
+      />
 
       {entitlementsFor && (
         <EntitlementsDialog
