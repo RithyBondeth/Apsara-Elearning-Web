@@ -86,6 +86,11 @@ export default function CertificatesPage() {
                     <p className="mt-0.5 font-mono text-xs tracking-wider text-muted-foreground">
                       {certificate.code}
                     </p>
+                    {certificate.revokedAt && certificate.revocationReason && (
+                      <p className="mt-1.5 text-xs text-red-700 dark:text-red-300">
+                        {t("revokedReason", { reason: certificate.revocationReason })}
+                      </p>
+                    )}
                   </div>
 
                   {certificate.revokedAt ? (

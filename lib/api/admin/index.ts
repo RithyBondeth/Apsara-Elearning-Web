@@ -19,6 +19,7 @@ import type {
   IAdminTestimonial,
   IAdminSubject,
   IAdminTestCase,
+  IAdminCertificate,
   IAdminUser,
   IAdminUserUpdate,
 } from "@/utils/interfaces/admin/api.interface"
@@ -284,3 +285,16 @@ export const createGrant = (
   )
 export const deleteGrant = (id: string) =>
   adminDelete(`/entitlements/grants/${id}`)
+
+/* ── Certificates ─────────────────────────────────────────────────────────── */
+
+/** Search by code, learner name or email, or course title (newest first). */
+export const listCertificates = (q?: string) =>
+  adminGet<IAdminCertificate[]>(
+    q?.trim() ? `/certificates?q=${encodeURIComponent(q.trim())}` : "/certificates"
+  )
+/** Public verification then reports it invalid; the reason reaches only the holder. */
+export const revokeCertificate = (id: string, reason: string) =>
+  adminPatch<IAdminCertificate>(`/certificates/${id}/revoke`, { reason })
+export const reinstateCertificate = (id: string) =>
+  adminPatch<IAdminCertificate>(`/certificates/${id}/reinstate`)

@@ -2,7 +2,10 @@ import { render } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, expect, it, vi } from "vitest"
 
-import { NotificationItem } from "@/components/utils/notification-bell/notification-item"
+import {
+  NotificationItem,
+  notificationHref,
+} from "@/components/utils/notification-bell/notification-item"
 import type { IApiNotification } from "@/utils/interfaces/notification/api.interface"
 
 function notification(over: Partial<IApiNotification> = {}): IApiNotification {
@@ -96,5 +99,19 @@ describe("NotificationItem", () => {
   it("stays a plain button for notifications with nowhere to go", () => {
     const { getByTestId } = render(<NotificationItem notification={notification()} />)
     expect(getByTestId("notification-item").tagName).toBe("BUTTON")
+  })
+})
+
+describe("notificationHref", () => {
+  it("sends certificate news to the learner's certificates", () => {
+    for (const type of ["certificate_issued", "certificate_revoked"] as const) {
+      expect(notificationHref(notification({ type, data: {} }))).toBe(
+        "/certificates"
+      )
+    }
+  })
+
+  it("leaves other notifications unlinked", () => {
+    expect(notificationHref(notification())).toBeNull()
   })
 })
