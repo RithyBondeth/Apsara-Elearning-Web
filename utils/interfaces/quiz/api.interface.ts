@@ -93,3 +93,10 @@ export interface IApiQuizResult {
   xpAwarded: number
   review: IApiQuizReviewItem[]
 }
+
+/**
+ * Shape of `GET /quiz/attempt/:id/review` — a submitted attempt re-opened
+ * from history. Same as the submit result minus `xpAwarded`, which only
+ * exists at submit time.
+ */
+export type IApiQuizAttemptReview = Omit<IApiQuizResult, "xpAwarded">
