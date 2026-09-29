@@ -1168,7 +1168,8 @@
     "deletePasswordLabel": "Enter your password to confirm",
     "deletePasswordWrong": "That password is incorrect.",
     "deleteConfirm": "Delete my account",
-    "deleteError": "Your account couldn't be scheduled for deletion. Please try again."
+    "deleteError": "Your account couldn't be scheduled for deletion. Please try again.",
+    "deletePointPayments": "Records of payments you've made are kept for accounting, without your name or email."
   },
   "learn": {
     "theory": "Theory",

@@ -146,6 +146,7 @@ function DeleteAccountDialog() {
           <li>{t("deletePointCancel", { days: GRACE_DAYS })}</li>
           <li>{t("deletePointSignOut")}</li>
           <li>{t("deletePointSubscription")}</li>
+          <li>{t("deletePointPayments")}</li>
           <li>{t("deletePointExport")}</li>
         </ul>
 
