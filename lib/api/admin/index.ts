@@ -20,6 +20,7 @@ import type {
   IAdminSubject,
   IAdminTestCase,
   IAdminUser,
+  IAdminUserUpdate,
 } from "@/utils/interfaces/admin/api.interface"
 
 /**
@@ -210,6 +211,10 @@ export const deleteTestCase = (id: string) => adminDelete(`/test-cases/${id}`)
 export const listUsers = () => adminGet<IAdminUser[]>("/users")
 export const getUser = (id: string) => adminGet<IAdminUser>(`/users/${id}`)
 export const deleteUser = (id: string) => adminDelete(`/users/${id}`)
+/** Role, suspension and name. The API refuses self-demotion/suspension and
+ *  anything that would leave no active admin. */
+export const updateUser = (id: string, body: IAdminUserUpdate) =>
+  adminPatch<IAdminUser>(`/users/${id}`, body)
 
 /* ── Reviews ──────────────────────────────────────────────────────────── */
 
