@@ -1153,7 +1153,22 @@
     "newPassword": "New password",
     "confirmNewPassword": "Confirm new password",
     "passwordChanged": "Password changed successfully.",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "dataTitle": "Your data",
+    "dataDesc": "Download a copy of everything we store about you, or delete your account.",
+    "downloadData": "Download my data",
+    "downloadError": "Your data couldn't be downloaded. Please try again.",
+    "deleteAccount": "Delete account",
+    "deleteTitle": "Delete your account?",
+    "deleteDesc": "Your account and everything in it — progress, certificates, quiz history and reviews — will be permanently deleted after {days} days.",
+    "deletePointCancel": "Changed your mind? Sign in any time in the next {days} days and the deletion is cancelled.",
+    "deletePointSignOut": "You'll be signed out on every device straight away.",
+    "deletePointSubscription": "Any subscription stops renewing. If you cancel the deletion, you can turn renewal back on from Billing.",
+    "deletePointExport": "Want a copy? Download your data before you continue.",
+    "deletePasswordLabel": "Enter your password to confirm",
+    "deletePasswordWrong": "That password is incorrect.",
+    "deleteConfirm": "Delete my account",
+    "deleteError": "Your account couldn't be scheduled for deletion. Please try again."
   },
   "learn": {
     "theory": "Theory",
@@ -1354,7 +1369,10 @@
     "resetButton": "Reset password",
     "resetFailed": "This reset token is invalid or has expired.",
     "resetSuccessTitle": "Password reset!",
-    "resetSuccessBody": "Your password has been changed. You can sign in with it now."
+    "resetSuccessBody": "Your password has been changed. You can sign in with it now.",
+    "deletionScheduled": "Your account will be deleted after {date}. Sign in before then to cancel.",
+    "deletionCancelled": "Welcome back — your account deletion has been cancelled.",
+    "accountSuspended": "This account has been suspended. Contact support if you think this is a mistake."
   },
   "pricing": {
     "title": "Choose your learning plan",

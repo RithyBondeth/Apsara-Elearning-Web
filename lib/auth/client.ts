@@ -10,6 +10,10 @@ export interface IAuthResult {
   message: string
   /** Set by the login endpoint when the gateway returned 403 'Email not verified'. */
   emailNotVerified?: boolean
+  /** Set by the login endpoint when an admin has suspended the account. */
+  accountSuspended?: boolean
+  /** Set by a successful login that cancelled a pending account deletion. */
+  deletionCancelled?: boolean
 }
 
 async function post(path: string, body?: unknown): Promise<IAuthResult> {
@@ -24,7 +28,12 @@ async function post(path: string, body?: unknown): Promise<IAuthResult> {
     return { ok: false, status: 0, message: "Cannot reach the server." }
   }
 
-  let data: { message?: string; emailNotVerified?: boolean } = {}
+  let data: {
+    message?: string
+    emailNotVerified?: boolean
+    accountSuspended?: boolean
+    deletionCancelled?: boolean
+  } = {}
   try {
     data = await res.json()
   } catch {
@@ -36,6 +45,8 @@ async function post(path: string, body?: unknown): Promise<IAuthResult> {
     status: res.status,
     message: data.message ?? "",
     emailNotVerified: data.emailNotVerified,
+    accountSuspended: data.accountSuspended,
+    deletionCancelled: data.deletionCancelled,
   }
 }
 

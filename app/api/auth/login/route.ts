@@ -10,7 +10,9 @@ import { setSessionCookies, type ISessionTokens } from "@/lib/auth/session"
 export async function POST(request: Request) {
   const credentials = await request.json()
 
-  const result = await callGateway<ISessionTokens>("/auth/login", {
+  const result = await callGateway<
+    ISessionTokens & { deletionCancelled?: boolean }
+  >("/auth/login", {
     body: credentials,
   })
 
@@ -18,14 +20,20 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         message: result.message,
-        /* The gateway returns 403 'Email not verified' for unverified accounts;
-           the login form keys its resend prompt off this flag. */
-        emailNotVerified: result.status === 403,
+        /* The gateway answers 403 both for an unverified email and for an
+           admin-suspended account; only the first gets the resend prompt. */
+        emailNotVerified:
+          result.status === 403 && result.message === "Email not verified",
+        accountSuspended:
+          result.status === 403 && result.message === "Account suspended",
       },
       { status: result.status }
     )
   }
 
-  await setSessionCookies(result.data)
-  return NextResponse.json({ ok: true })
+  const { deletionCancelled, ...tokens } = result.data
+  await setSessionCookies(tokens)
+  /* Signing in during the deletion grace period cancels the deletion; the
+     form tells the learner so they aren't left wondering. */
+  return NextResponse.json({ ok: true, deletionCancelled: !!deletionCancelled })
 }

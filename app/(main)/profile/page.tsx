@@ -35,6 +35,7 @@ import { SubscriptionSummary } from "@/components/subscription/subscription-summ
 import { Avatar } from "@/components/utils/avatar"
 import { ConfirmDialog } from "@/components/utils/confirm-dialog"
 import { ChangePasswordDialog } from "@/components/utils/change-password-dialog"
+import { AccountDataCard } from "@/components/account/account-data-card"
 import { AnimateIn } from "@/components/utils/animations/animate-in"
 import { CountUp } from "@/components/utils/animations/count-up"
 import { GrowBar } from "@/components/utils/animations/grow-bar"
@@ -598,6 +599,11 @@ export default function ProfilePage() {
               </ConfirmDialog>
             </div>
           </Card>
+        </AnimateIn>
+
+        {/* Your data: export and deletion */}
+        <AnimateIn animation="fade-up" delay={0.4}>
+          <AccountDataCard />
         </AnimateIn>
       </div>
     </AppShell>
