@@ -1,7 +1,14 @@
 import { NextResponse, type NextRequest } from "next/server"
 
-import { REFRESH_COOKIE } from "@/lib/auth/cookie-names"
+import { ACCESS_COOKIE, REFRESH_COOKIE } from "@/lib/auth/cookie-names"
+import {
+  ACCESS_MAX_AGE,
+  REFRESH_MAX_AGE,
+  SESSION_COOKIE_BASE,
+} from "@/lib/auth/cookie-options"
 import { NEXT_PARAM } from "@/lib/auth/next-param"
+import { renewSession } from "@/lib/auth/renew-session"
+import { isAccessTokenLive } from "@/lib/auth/token-expiry"
 
 /**
  * Routing-level session gating.
@@ -54,7 +61,7 @@ const AUTH_ROUTES = [
   "/reset-password",
 ]
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const hasSession = Boolean(request.cookies.get(REFRESH_COOKIE)?.value)
 
@@ -99,7 +106,60 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url))
   }
 
+  if (
+    PROTECTED.some((p) => pathname.startsWith(p)) &&
+    request.method === "GET"
+  ) {
+    const renewed = await renewBeforeRender(request)
+    if (renewed) return renewed
+  }
+
   return NextResponse.next()
+}
+
+/**
+ * Renews an expired access token before a protected page renders.
+ *
+ * Server components can't write cookies, so a page that checks the session
+ * server-side (the admin layout's `/user/me`) would see an expired token as
+ * "not signed in" — an admin idle for longer than the access token's lifetime
+ * was bounced to /dashboard. Middleware can write cookies: it rotates the pair
+ * here and hands the new access token both to this request's render and to
+ * the browser.
+ *
+ * Prefetches are skipped so a page full of links doesn't fire a burst of
+ * refreshes racing over one single-use refresh token; the real navigation
+ * renews. If renewal fails (session over, or a concurrent request rotated
+ * first) the request proceeds exactly as before.
+ */
+async function renewBeforeRender(
+  request: NextRequest
+): Promise<NextResponse | null> {
+  const refreshToken = request.cookies.get(REFRESH_COOKIE)?.value
+  if (!refreshToken) return null
+  if (isAccessTokenLive(request.cookies.get(ACCESS_COOKIE)?.value)) return null
+  const isPrefetch =
+    request.headers.get("next-router-prefetch") === "1" ||
+    request.headers.get("purpose") === "prefetch"
+  if (isPrefetch) return null
+
+  const renewed = await renewSession(refreshToken, request.headers)
+  if (!renewed) return null
+
+  /* Rewriting the request's cookies lets this render's server components read
+     the new access token; the response cookies persist it in the browser. */
+  request.cookies.set(ACCESS_COOKIE, renewed.accessToken)
+  request.cookies.set(REFRESH_COOKIE, renewed.refreshToken)
+  const response = NextResponse.next({ request: { headers: request.headers } })
+  response.cookies.set(ACCESS_COOKIE, renewed.accessToken, {
+    ...SESSION_COOKIE_BASE,
+    maxAge: ACCESS_MAX_AGE,
+  })
+  response.cookies.set(REFRESH_COOKIE, renewed.refreshToken, {
+    ...SESSION_COOKIE_BASE,
+    maxAge: REFRESH_MAX_AGE,
+  })
+  return response
 }
 
 export const config = {
