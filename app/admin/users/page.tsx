@@ -5,6 +5,7 @@ import {
   Ban,
   CircleCheck,
   KeyRound,
+  Receipt,
   Loader2,
   Pencil,
   Search,
@@ -13,6 +14,7 @@ import {
   Trash2,
   TriangleAlert,
 } from "lucide-react"
+import Link from "next/link"
 import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -583,10 +585,23 @@ export default function UsersPage() {
                         >
                           <KeyRound className="size-4" />
                         </Button>
+                        <Button
+                          asChild
+                          variant="ghost"
+                          size="icon-sm"
+                          title="Payments"
+                        >
+                          <Link
+                            href={`/admin/payments?userId=${user.id}&name=${encodeURIComponent(fullName(user))}`}
+                            aria-label={`Payments by ${fullName(user)}`}
+                          >
+                            <Receipt className="size-4" />
+                          </Link>
+                        </Button>
                         {!isMe && (
                           <ConfirmDialog
                             title={`Delete ${fullName(user)}?`}
-                            description="Removes the account and everything attached to it — enrolments, progress and certificates. This cannot be undone."
+                            description="Removes the account and everything attached to it — enrolments, progress and certificates. Payment records are kept for accounting, no longer linked to anyone. This cannot be undone."
                             confirmLabel="Delete"
                             variant="danger"
                             icon={<Trash2 className="size-4.5" />}

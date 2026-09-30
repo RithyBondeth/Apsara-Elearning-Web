@@ -275,6 +275,42 @@ export interface IAdminAnnouncement {
   createdAt: string
 }
 
+/** Mirrors AdminPaymentDTO — a payment with who paid and for which plan. */
+export interface IAdminPayment {
+  id: string
+  /** Null once the paying account has been deleted (the payment is kept). */
+  userId: string | null
+  learnerName: string | null
+  learnerEmail: string | null
+  planName: string | null
+  amount: number
+  currency: string
+  provider: string
+  status: string
+  refundedAmount: number
+  refundStatus: "partially_refunded" | "refunded" | null
+  transactionId: string | null
+  providerInvoiceId: string | null
+  createdAt: string
+}
+
+export interface IAdminPaymentRefund {
+  id: string
+  amount: number
+  currency: string
+  status: string
+  reason: string | null
+  failureReason: string | null
+  providerRefundId: string
+  createdAt: string
+}
+
+export interface IAdminPaymentDetail extends IAdminPayment {
+  refunds: IAdminPaymentRefund[]
+}
+
+export type TAdminPaymentFilter = "succeeded" | "failed" | "refunded"
+
 export interface IAdminBadge {
   id: string
   name: string
