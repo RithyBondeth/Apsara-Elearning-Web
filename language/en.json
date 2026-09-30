@@ -1475,7 +1475,8 @@
     "verifyPageSubtitle": "Enter the code printed on the certificate to confirm it's genuine.",
     "codeLabel": "Certificate code",
     "verifyAction": "Verify",
-    "revokedReason": "Withdrawn: {reason}"
+    "revokedReason": "Withdrawn: {reason}",
+    "revokedTitle": "Certificate withdrawn"
   },
   "leaderboard": {
     "pageTitle": "Leaderboard",
