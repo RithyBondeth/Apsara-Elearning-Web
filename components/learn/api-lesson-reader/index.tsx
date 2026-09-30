@@ -50,6 +50,22 @@ interface ApiLessonReaderProps {
   initialLessonSlug?: string
 }
 
+/**
+ * Which lesson a `/learn/<course>/<lesson>` URL opens. The segment is usually
+ * a lesson slug, but links built from API records (activity history, attempt
+ * reviews) carry the lesson id — accept either, and fall back to the first
+ * lesson only when neither matches.
+ */
+export function initialLessonOf(
+  lessons: { id: string; slug: string }[],
+  key?: string
+): string | null {
+  const match = key
+    ? lessons.find((l) => l.slug === key || l.id === key)
+    : undefined
+  return (match ?? lessons[0])?.id ?? null
+}
+
 export function ApiLessonReader({
   slug,
   initialLessonSlug,
@@ -95,10 +111,7 @@ export function ApiLessonReader({
         )
         setOpenSections(structure.map((_, i) => i))
         const lessons = structure.flatMap((m) => m.lessons)
-        const initial = initialLessonSlug
-          ? lessons.find((l) => l.slug === initialLessonSlug)
-          : lessons[0]
-        setCurrentLessonId((initial ?? lessons[0])?.id ?? null)
+        setCurrentLessonId(initialLessonOf(lessons, initialLessonSlug))
         setLoading(false)
       })
       .catch(() => setLoading(false))

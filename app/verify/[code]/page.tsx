@@ -75,7 +75,7 @@ export default function VerifyCertificatePage({
         {result && !result.valid && (
           <Status
             tone="invalid"
-            title={t("invalidTitle")}
+            title={result.revokedAt ? t("revokedTitle") : t("invalidTitle")}
             body={result.revokedAt ? t("revokedBody") : t("invalidBody")}
             code={result.code}
           />
