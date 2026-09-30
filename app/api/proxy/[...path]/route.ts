@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { getAccessToken } from "@/lib/auth/session"
 import { refreshSession } from "@/lib/auth/refresh"
+import { isAccessTokenLive } from "@/lib/auth/token-expiry"
 import { proxyIdentityHeaders } from "@/lib/api/proxy-headers"
 
 /**
@@ -10,9 +11,11 @@ import { proxyIdentityHeaders } from "@/lib/api/proxy-headers"
  * cannot attach a bearer token itself — every authenticated call is proxied here
  * so the server can read the cookie and set the Authorization header.
  *
- * A 401 triggers one silent refresh-and-retry. Doing it server-side keeps the
- * whole rotation invisible to the client: no interceptor, no retry bookkeeping,
- * and no window where two tabs race to refresh the same token.
+ * A 401 on a missing or expired token triggers one silent refresh-and-retry
+ * (see isAccessTokenLive for why a live token's 401 does not). Doing it
+ * server-side keeps the whole rotation invisible to the client: no
+ * interceptor, no retry bookkeeping, and no window where two tabs race to
+ * refresh the same token.
  */
 const GATEWAY_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL
 
@@ -57,7 +60,10 @@ async function proxy(request: NextRequest, segments: string[]) {
   try {
     res = await send(token)
 
-    if (res.status === 401) {
+    /* A 401 on a still-live token is the endpoint's own answer (e.g. a
+       wrong password) — pass it through instead of refreshing and asking
+       again. Only a missing or expired token warrants a refresh. */
+    if (res.status === 401 && !isAccessTokenLive(token)) {
       /* Do not delete cookies here: another concurrent request may already
          have rotated the same single-use refresh token successfully. */
       token = await refreshSession({ clearOnFailure: false })

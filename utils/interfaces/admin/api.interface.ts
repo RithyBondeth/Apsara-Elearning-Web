@@ -253,6 +253,28 @@ export interface IAdminCertificate {
   revokedBy: string | null
 }
 
+/** Mirrors AnnouncementAudienceDTO — who an announcement reaches. */
+export interface IAdminAnnouncementAudience {
+  audience: "all" | "course"
+  courseId?: string
+  subscribersOnly?: boolean
+}
+
+/** Mirrors AnnouncementResponseDTO — a sent announcement. */
+export interface IAdminAnnouncement {
+  id: string
+  title: string
+  body: string
+  audience: "all" | "course"
+  courseId: string | null
+  courseTitle: string | null
+  subscribersOnly: boolean
+  recipientCount: number
+  /** Null if the sending admin's account was since deleted. */
+  sentByName: string | null
+  createdAt: string
+}
+
 export interface IAdminBadge {
   id: string
   name: string
