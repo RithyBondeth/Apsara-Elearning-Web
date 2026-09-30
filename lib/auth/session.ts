@@ -3,6 +3,11 @@ import "server-only"
 import { cookies } from "next/headers"
 
 import { ACCESS_COOKIE, REFRESH_COOKIE } from "./cookie-names"
+import {
+  ACCESS_MAX_AGE,
+  REFRESH_MAX_AGE,
+  SESSION_COOKIE_BASE as baseCookie,
+} from "./cookie-options"
 
 /**
  * Session cookies are written only by the BFF route handlers under `app/api/auth`.
@@ -11,23 +16,10 @@ import { ACCESS_COOKIE, REFRESH_COOKIE } from "./cookie-names"
  */
 export { ACCESS_COOKIE, REFRESH_COOKIE }
 
-/** Mirrors JWT_ACCESS_EXPIRES=1d / JWT_REFRESH_EXPIRES=7d on the gateway. */
-const ACCESS_MAX_AGE = 60 * 60 * 24
-const REFRESH_MAX_AGE = 60 * 60 * 24 * 7
-
 export interface ISessionTokens {
   accessToken: string
   refreshToken: string
 }
-
-const baseCookie = {
-  httpOnly: true,
-  sameSite: "lax",
-  path: "/",
-  /* Secure breaks plain-http localhost, so it tracks NODE_ENV. */
-  secure: process.env.NODE_ENV === "production",
-  priority: "high",
-} as const
 
 /** Persist a freshly issued token pair. Called after login, register and refresh. */
 export async function setSessionCookies({
