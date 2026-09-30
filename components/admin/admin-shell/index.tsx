@@ -14,6 +14,7 @@ import {
   Megaphone,
   MessageSquareQuote,
   Quote,
+  Receipt,
   ScrollText,
   Users,
 } from "lucide-react"
@@ -46,6 +47,7 @@ const NAV_ITEMS = [
   { icon: MessageSquareQuote, label: "Reviews", href: "/admin/reviews" },
   { icon: Quote, label: "Testimonials", href: "/admin/testimonials" },
   { icon: CreditCard, label: "Plans", href: "/admin/plans" },
+  { icon: Receipt, label: "Payments", href: "/admin/payments" },
 ] as const
 
 export function AdminShell({ children }: IWithChildren) {

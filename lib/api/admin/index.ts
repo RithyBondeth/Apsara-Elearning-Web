@@ -22,6 +22,9 @@ import type {
   IAdminAnnouncement,
   IAdminAnnouncementAudience,
   IAdminCertificate,
+  IAdminPayment,
+  IAdminPaymentDetail,
+  TAdminPaymentFilter,
   IAdminUser,
   IAdminUserUpdate,
 } from "@/utils/interfaces/admin/api.interface"
@@ -312,3 +315,20 @@ export const previewAnnouncement = (audience: IAdminAnnouncementAudience) =>
 export const sendAnnouncement = (
   body: IAdminAnnouncementAudience & { title: string; body: string }
 ) => adminPost<IAdminAnnouncement>("/announcements", body)
+
+/* ── Payments (read-only; written by the Stripe webhook) ──────────────────── */
+
+export const listPayments = (params: {
+  q?: string
+  filter?: TAdminPaymentFilter
+  userId?: string
+} = {}) => {
+  const search = new URLSearchParams()
+  if (params.q?.trim()) search.set("q", params.q.trim())
+  if (params.filter) search.set("filter", params.filter)
+  if (params.userId) search.set("userId", params.userId)
+  const qs = search.toString()
+  return adminGet<IAdminPayment[]>(qs ? `/payments?${qs}` : "/payments")
+}
+export const getPayment = (id: string) =>
+  adminGet<IAdminPaymentDetail>(`/payments/${id}`)
