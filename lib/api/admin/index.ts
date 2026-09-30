@@ -19,6 +19,8 @@ import type {
   IAdminTestimonial,
   IAdminSubject,
   IAdminTestCase,
+  IAdminAnnouncement,
+  IAdminAnnouncementAudience,
   IAdminCertificate,
   IAdminUser,
   IAdminUserUpdate,
@@ -298,3 +300,15 @@ export const revokeCertificate = (id: string, reason: string) =>
   adminPatch<IAdminCertificate>(`/certificates/${id}/revoke`, { reason })
 export const reinstateCertificate = (id: string) =>
   adminPatch<IAdminCertificate>(`/certificates/${id}/reinstate`)
+
+/* ── Announcements ────────────────────────────────────────────────────────── */
+
+export const listAnnouncements = () =>
+  adminGet<IAdminAnnouncement[]>("/announcements")
+/** How many learners an audience reaches right now — nothing is sent. */
+export const previewAnnouncement = (audience: IAdminAnnouncementAudience) =>
+  adminPost<{ recipients: number }>("/announcements/preview", audience)
+/** Delivers to every learner in the audience; 400 if none match. */
+export const sendAnnouncement = (
+  body: IAdminAnnouncementAudience & { title: string; body: string }
+) => adminPost<IAdminAnnouncement>("/announcements", body)

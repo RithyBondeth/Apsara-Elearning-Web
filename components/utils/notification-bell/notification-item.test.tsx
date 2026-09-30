@@ -111,6 +111,13 @@ describe("notificationHref", () => {
     }
   })
 
+  it("links a course announcement to its course, and a general one nowhere", () => {
+    expect(
+      notificationHref(notification({ type: "announcement", data: { courseSlug: "biology" } }))
+    ).toBe("/courses/biology")
+    expect(notificationHref(notification({ type: "announcement", data: {} }))).toBeNull()
+  })
+
   it("leaves other notifications unlinked", () => {
     expect(notificationHref(notification())).toBeNull()
   })

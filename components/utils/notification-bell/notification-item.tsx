@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Award, BookCheck, CreditCard, GraduationCap, Code2, Bell, Star, ShieldX } from "lucide-react"
+import { Award, BookCheck, CreditCard, GraduationCap, Code2, Bell, Star, ShieldX, Megaphone } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { timeAgo } from "@/utils/functions/time"
 import type { IApiNotification } from "@/utils/interfaces/notification/api.interface"
@@ -16,17 +16,22 @@ const ICONS: Record<string, React.ElementType> = {
   certificate_revoked: ShieldX,
   subscription_updated: CreditCard,
   rating_requested: Star,
+  announcement: Megaphone,
 }
 
 /**
  * Where a notification leads, when it leads anywhere: a rating request to the
  * course's review form, and certificate news (issued, reinstated, withdrawn)
- * to the learner's certificates, where a withdrawn one shows why.
+ * to the learner's certificates, where a withdrawn one shows why. A course
+ * announcement links to its course; a general one leads nowhere.
  */
 export function notificationHref(notification: IApiNotification): string | null {
   const slug = notification.data?.courseSlug
   if (notification.type === "rating_requested" && typeof slug === "string" && slug) {
     return `/courses/${encodeURIComponent(slug)}#ratings`
+  }
+  if (notification.type === "announcement" && typeof slug === "string" && slug) {
+    return `/courses/${encodeURIComponent(slug)}`
   }
   if (notification.type === "certificate_issued" || notification.type === "certificate_revoked") {
     return "/certificates"
