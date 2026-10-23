@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import * as Sentry from "@sentry/nextjs"
 import { RefreshCw } from "lucide-react"
 
 interface GlobalErrorProps {
@@ -11,6 +12,10 @@ interface GlobalErrorProps {
 export default function GlobalError({ error, reset }: GlobalErrorProps) {
   useEffect(() => {
     console.error(error)
+    /* React caught this, so no global handler sees it; report it here.
+       A digest means it came from the server, where onRequestError already
+       reported the original — this copy is sanitized. */
+    if (!error.digest) Sentry.captureException(error)
   }, [error])
 
   return (
