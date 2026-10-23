@@ -21,4 +21,9 @@ jobs:
       # conflict that once forced `npm install` here is resolved by the
       # "@swc/helpers" override in package.json.
       - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
       - run: npm test
+      # Catches build-only failures (server/client boundaries, route config)
+      # before Vercel does. Needs no env: pages read the API at request time.
+      - run: npm run build
