@@ -7,6 +7,7 @@ import { LanguageProviderClient } from "@/components/utils/languages/language-pr
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { siteUrl } from "@/lib/site-url"
 
 const ubuntu = Ubuntu({
   subsets: ["latin"],
@@ -29,6 +30,8 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
+  /* Resolves relative metadata URLs (Open Graph, canonical) to the real site. */
+  metadataBase: new URL(siteUrl()),
   title: "Apsara Elearning — Learn Every Subject in Khmer",
   description:
     "The AI-powered learning platform for Cambodian students — BacII prep, English and coding, with a personal AI tutor that speaks Khmer.",
