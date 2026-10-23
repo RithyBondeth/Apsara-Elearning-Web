@@ -2,6 +2,7 @@
 
 import { useEffect } from "react"
 import Link from "next/link"
+import * as Sentry from "@sentry/nextjs"
 import { AlertTriangle, RefreshCw } from "lucide-react"
 
 interface ErrorProps {
@@ -12,6 +13,9 @@ interface ErrorProps {
 export default function Error({ error, reset }: ErrorProps) {
   useEffect(() => {
     console.error(error)
+    /* Same rule as app/global-error.tsx: report browser errors; server ones
+       (with a digest) were already reported by onRequestError. */
+    if (!error.digest) Sentry.captureException(error)
   }, [error])
 
   return (
