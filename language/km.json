@@ -1448,7 +1448,10 @@
     "errorAllowance": "អ្នកបានប្រើអស់ចំនួនកំណត់ Apsara AI សម្រាប់ ៣០ ថ្ងៃចុងក្រោយហើយ។ វានឹងអាចប្រើបានវិញ នៅពេលការប្រើប្រាស់ចាស់ៗហួស ៣០ ថ្ងៃ។",
     "errorTimeout": "Apsara AI ឆ្លើយតបយឺតពេក។ សូមព្យាយាមម្តងទៀត។",
     "creditsRemaining": "នៅសល់ {remaining}k តូខេន (៣០ ថ្ងៃចុងក្រោយ)",
-    "viewUsage": "មើលការប្រើប្រាស់"
+    "viewUsage": "មើលការប្រើប្រាស់",
+    "repliesRemaining": "នៅសល់ចម្លើយ {remaining} សម្រាប់វដ្តបង់ប្រាក់នេះ",
+    "errorReplies": "អ្នកបានប្រើចម្លើយ Apsara AI ទាំង {limit} ក្នុងគម្រោងរបស់អ្នកសម្រាប់វដ្តបង់ប្រាក់នេះហើយ។ វានឹងកំណត់ឡើងវិញនៅថ្ងៃទី {date}។",
+    "errorRepliesNoDate": "អ្នកបានប្រើចម្លើយ Apsara AI ទាំង {limit} ក្នុងគម្រោងរបស់អ្នកសម្រាប់វដ្តបង់ប្រាក់នេះហើយ។"
   },
   "certificates": {
     "pageTitle": "វិញ្ញាបនបត្រ",
@@ -1553,7 +1556,7 @@
   },
   "aiUsage": {
     "pageTitle": "ការប្រើប្រាស់ Apsara AI",
-    "pageSubtitle": "ចំនួនដែលអ្នកបានប្រើពីកំណត់គ្រូជំនួយរបស់អ្នក ក្នុងរយៈពេល ៣០ ថ្ងៃចុងក្រោយ។",
+    "pageSubtitle": "ចំនួនកំណត់ Apsara AI របស់អ្នក និងចម្លើយថ្មីៗបំផុត។",
     "allowanceTitle": "៣០ ថ្ងៃចុងក្រោយ",
     "usedOf": "បានប្រើ {used}k ក្នុងចំណោម {limit}k តូខេន",
     "remaining": "នៅសល់ {remaining}k តូខេន",
@@ -1563,6 +1566,12 @@
     "tokens": "{total} តូខេន",
     "tokensDetail": "ចូល {prompt} · ចេញ {completion}",
     "loadError": "មិនអាចផ្ទុកការប្រើប្រាស់របស់អ្នកបានទេ។ សូមផ្ទុកទំព័រឡើងវិញ។",
-    "backToTutor": "ត្រឡប់ទៅ Apsara AI"
+    "backToTutor": "ត្រឡប់ទៅ Apsara AI",
+    "repliesTitle": "វដ្តបង់ប្រាក់នេះ",
+    "repliesUsedOf": "បានប្រើ {used} ក្នុងចំណោម {limit} ចម្លើយ",
+    "repliesLeft": "នៅសល់ {remaining}",
+    "repliesResetOn": "កំណត់ឡើងវិញនៅ {date}",
+    "repliesExhausted": "អ្នកបានប្រើចម្លើយសម្រាប់វដ្តនេះអស់ហើយ។ វានឹងកំណត់ឡើងវិញនៅវដ្តបង់ប្រាក់បន្ទាប់។",
+    "tokenCapTitle": "ដែនកំណត់សុវត្ថិភាព (៣០ ថ្ងៃចុងក្រោយ)"
   }
 }

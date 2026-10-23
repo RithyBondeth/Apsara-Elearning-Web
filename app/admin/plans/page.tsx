@@ -3,12 +3,7 @@
 import { Badge } from "@/components/ui/badge"
 import { ResourceManager } from "@/components/admin/resource-manager"
 import type { IAdminField } from "@/components/admin/form-field"
-import {
-  createPlan,
-  deletePlan,
-  listPlans,
-  updatePlan,
-} from "@/lib/api/admin"
+import { createPlan, deletePlan, listPlans, updatePlan } from "@/lib/api/admin"
 import {
   BILLING_PERIODS,
   ENTITLEMENTS,
@@ -47,7 +42,7 @@ const PLAN_FIELDS: IAdminField[] = [
     label: "AI credits",
     type: "number",
     min: 0,
-    help: "Monthly tutor allowance granted by this plan.",
+    help: "Apsara AI tutor replies per billing period (a month or a year, matching the plan). Resets at each renewal. 0 = no per-reply limit.",
   },
   {
     name: "entitlements",
