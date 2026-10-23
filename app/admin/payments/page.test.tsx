@@ -7,6 +7,8 @@ import type {
 } from "@/utils/interfaces/admin/api.interface"
 
 const calls: Record<string, string | undefined>[] = []
+const refundCalls: { id: string; body: { amount?: number; reason: string } }[] =
+  []
 let rows: IAdminPayment[] = []
 let params = new URLSearchParams()
 
@@ -28,10 +30,31 @@ vi.mock("@/lib/api/admin", () => ({
           reason: "requested_by_customer",
           failureReason: null,
           providerRefundId: "re_1",
+          note: null,
+          requestedByName: null,
           createdAt: "2026-09-05T00:00:00Z",
         },
       ],
     }),
+  refundPayment: (id: string, body: { amount?: number; reason: string }) => {
+    refundCalls.push({ id, body })
+    const base = rows.find((r) => r.id === id)!
+    return Promise.resolve({
+      refundStatus: "succeeded",
+      subscriptionCanceled: body.amount === undefined,
+      payment: {
+        ...base,
+        refundedAmount: base.amount,
+        refundStatus: "refunded",
+        refunds: [],
+      },
+    })
+  },
+}))
+vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }))
+/* ConfirmDialog's own Cancel label comes from next-intl. */
+vi.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => key,
 }))
 
 import PaymentsPage from "./page"
@@ -56,6 +79,7 @@ const payment = (over: Partial<IAdminPayment>): IAdminPayment => ({
 
 beforeEach(() => {
   calls.length = 0
+  refundCalls.length = 0
   params = new URLSearchParams()
 })
 
@@ -114,5 +138,63 @@ describe("admin PaymentsPage", () => {
 
     expect(await screen.findByText("Refunds")).toBeInTheDocument()
     expect(screen.getByText(/requested by customer/)).toBeInTheDocument()
+  })
+
+  it("refunds what is left, warning that a full refund ends the subscription", async () => {
+    rows = [payment({ refundStatus: "partially_refunded", refundedAmount: 2 })]
+    render(<PaymentsPage />)
+    await userEvent.click(await screen.findByText("Sok Dara"))
+
+    const amount = await screen.findByDisplayValue("3.00")
+    expect(amount).toBeInTheDocument()
+    expect(
+      screen.getByText(/full refund also ends this learner/i)
+    ).toBeInTheDocument()
+
+    const refund = screen.getByRole("button", { name: "Refund…" })
+    expect(refund).toBeDisabled()
+    await userEvent.type(
+      screen.getByPlaceholderText("Charged twice by mistake"),
+      "Charged twice"
+    )
+    await userEvent.click(refund)
+    await userEvent.click(await screen.findByRole("button", { name: "Refund" }))
+
+    await waitFor(() => expect(refundCalls).toHaveLength(1))
+    /* Full refund: no amount, so the server refunds exactly what's left. */
+    expect(refundCalls[0]).toEqual({
+      id: "p1",
+      body: { amount: undefined, reason: "Charged twice" },
+    })
+  })
+
+  it("sends a partial amount and refuses more than what is left", async () => {
+    rows = [payment({ refundStatus: "partially_refunded", refundedAmount: 2 })]
+    render(<PaymentsPage />)
+    await userEvent.click(await screen.findByText("Sok Dara"))
+    const amount = await screen.findByDisplayValue("3.00")
+    await userEvent.type(
+      screen.getByPlaceholderText("Charged twice by mistake"),
+      "Goodwill credit"
+    )
+
+    await userEvent.clear(amount)
+    await userEvent.type(amount, "3.50")
+    expect(screen.getByRole("button", { name: "Refund…" })).toBeDisabled()
+
+    await userEvent.clear(amount)
+    await userEvent.type(amount, "1.25")
+    expect(
+      screen.queryByText(/full refund also ends this learner/i)
+    ).not.toBeInTheDocument()
+    await userEvent.click(screen.getByRole("button", { name: "Refund…" }))
+    await userEvent.click(await screen.findByRole("button", { name: "Refund" }))
+
+    await waitFor(() =>
+      expect(refundCalls[0]?.body).toEqual({
+        amount: 1.25,
+        reason: "Goodwill credit",
+      })
+    )
   })
 })

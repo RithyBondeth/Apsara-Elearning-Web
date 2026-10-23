@@ -302,11 +302,22 @@ export interface IAdminPaymentRefund {
   reason: string | null
   failureReason: string | null
   providerRefundId: string
+  /** The admin's note, for refunds issued from the console. */
+  note: string | null
+  /** Who issued it from the console; null when made in Stripe. */
+  requestedByName: string | null
   createdAt: string
 }
 
 export interface IAdminPaymentDetail extends IAdminPayment {
   refunds: IAdminPaymentRefund[]
+}
+
+/** Mirrors AdminRefundResponseDTO. */
+export interface IAdminRefundResult {
+  payment: IAdminPaymentDetail
+  refundStatus: string
+  subscriptionCanceled: boolean
 }
 
 export type TAdminPaymentFilter = "succeeded" | "failed" | "refunded"
@@ -381,4 +392,37 @@ export interface IAdminTestimonial {
   published: boolean
   createdAt: string
   updatedAt: string
+}
+
+/* ── Manual grading ──────────────────────────────────────────────────────── */
+
+export type TGradingStatus = "pending" | "graded"
+
+/** Mirrors GradingItemResponseDTO — one answer in the grading queue. */
+export interface IAdminGradingItem {
+  answerId: string
+  attemptId: string
+  submittedAt: string
+  learnerName: string | null
+  learnerEmail: string | null
+  courseTitle: string | null
+  lessonTitle: string | null
+  quizTitle: string | null
+  question: string
+  explanation: string | null
+  maxPoints: number
+  answerText: string | null
+  status: TGradingStatus
+  pointsAwarded: number
+  feedback: string | null
+  reviewedAt: string | null
+}
+
+/** Mirrors GradeAnswerResponseDTO — the graded answer and the attempt's new standing. */
+export interface IAdminGradeResult {
+  item: IAdminGradingItem
+  attemptScore: number
+  attemptPassed: boolean
+  stillPending: number
+  xpAwarded: number
 }

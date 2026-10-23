@@ -7,6 +7,7 @@ import {
   ArrowLeft,
   Award,
   BookOpen,
+  ClipboardCheck,
   CreditCard,
   LayoutGrid,
   Library,
@@ -39,6 +40,7 @@ import type { IWithChildren } from "@/utils/interfaces"
 const NAV_ITEMS = [
   { icon: LayoutGrid, label: "Overview", href: "/admin" },
   { icon: BookOpen, label: "Courses", href: "/admin/courses" },
+  { icon: ClipboardCheck, label: "Grading", href: "/admin/grading" },
   { icon: Library, label: "Taxonomy", href: "/admin/taxonomy" },
   { icon: Users, label: "Users", href: "/admin/users" },
   { icon: Award, label: "Badges", href: "/admin/badges" },

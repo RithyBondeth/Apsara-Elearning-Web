@@ -60,6 +60,8 @@ const review: IApiQuizAttemptReview = {
       yourAnswer: { selectedOptionId: "o1", answerData: null },
       isCorrect: false,
       requiresReview: false,
+      pointsAwarded: 0,
+      reviewFeedback: null,
     },
     {
       questionId: "qq2",
@@ -72,6 +74,8 @@ const review: IApiQuizAttemptReview = {
       yourAnswer: { selectedOptionId: null, answerData: { value: "4" } },
       isCorrect: true,
       requiresReview: false,
+      pointsAwarded: 0,
+      reviewFeedback: null,
     },
   ],
 }

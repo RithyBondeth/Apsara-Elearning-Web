@@ -24,9 +24,13 @@ import type {
   IAdminCertificate,
   IAdminPayment,
   IAdminPaymentDetail,
+  IAdminRefundResult,
   TAdminPaymentFilter,
   IAdminUser,
   IAdminUserUpdate,
+  IAdminGradingItem,
+  IAdminGradeResult,
+  TGradingStatus,
 } from "@/utils/interfaces/admin/api.interface"
 
 /**
@@ -332,3 +336,17 @@ export const listPayments = (params: {
 }
 export const getPayment = (id: string) =>
   adminGet<IAdminPaymentDetail>(`/payments/${id}`)
+/** Omitting `amount` refunds everything not yet refunded. */
+export const refundPayment = (
+  id: string,
+  body: { amount?: number; reason: string }
+) => adminPost<IAdminRefundResult>(`/payments/${id}/refund`, body)
+
+/* ── Manual grading ──────────────────────────────────────────────────────── */
+
+export const listGrading = (status: TGradingStatus) =>
+  adminGet<IAdminGradingItem[]>(`/grading?status=${status}`)
+export const gradeAnswer = (
+  answerId: string,
+  body: { points: number; feedback?: string }
+) => adminPatch<IAdminGradeResult>(`/grading/${answerId}`, body)

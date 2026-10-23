@@ -1229,7 +1229,11 @@
     "xpEarned": "+{xp} XP",
     "yourAnswer": "Your answer",
     "correctAnswer": "Correct answer",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "awaitingReview": "Waiting for a teacher to grade this answer.",
+    "pendingReviewNote": "{count, plural, one {# answer is} other {# answers are}} waiting for a teacher to grade — your score may go up.",
+    "pointsOf": "{awarded}/{total} pts",
+    "reviewerNote": "Teacher's note"
   },
   "challenge": {
     "title": "Coding challenge",
@@ -1444,7 +1448,10 @@
     "errorAllowance": "You've used your Apsara AI allowance for the last 30 days. It frees up as older usage passes 30 days.",
     "errorTimeout": "Apsara AI took too long to reply. Please try again.",
     "creditsRemaining": "{remaining}k tokens left (last 30 days)",
-    "viewUsage": "View usage"
+    "viewUsage": "View usage",
+    "repliesRemaining": "{remaining, plural, one {# reply} other {# replies}} left this billing period",
+    "errorReplies": "You've used all {limit} Apsara AI replies in your plan for this billing period. They reset on {date}.",
+    "errorRepliesNoDate": "You've used all {limit} Apsara AI replies in your plan for this billing period."
   },
   "certificates": {
     "pageTitle": "Certificates",
@@ -1549,7 +1556,7 @@
   },
   "aiUsage": {
     "pageTitle": "Apsara AI usage",
-    "pageSubtitle": "How much of your tutor allowance you've used in the last 30 days.",
+    "pageSubtitle": "Your Apsara AI allowance and your most recent replies.",
     "allowanceTitle": "Last 30 days",
     "usedOf": "{used}k of {limit}k tokens used",
     "remaining": "{remaining}k tokens left",
@@ -1559,6 +1566,12 @@
     "tokens": "{total} tokens",
     "tokensDetail": "{prompt} in · {completion} out",
     "loadError": "Your usage couldn't be loaded. Refresh to try again.",
-    "backToTutor": "Back to Apsara AI"
+    "backToTutor": "Back to Apsara AI",
+    "repliesTitle": "This billing period",
+    "repliesUsedOf": "{used} of {limit} replies used",
+    "repliesLeft": "{remaining} left",
+    "repliesResetOn": "Resets on {date}",
+    "repliesExhausted": "You've used this period's replies. They reset with your next billing period.",
+    "tokenCapTitle": "Safety limit (last 30 days)"
   }
 }
