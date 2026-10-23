@@ -29,14 +29,12 @@ export const deleteConversation = (id: string) =>
 export const listMessages = (conversationId: string) =>
   apiGet<IApiAiMessage[]>(`/ai/conversations/${conversationId}/messages`)
 
-export const sendMessage = (
-  conversationId: string,
-  content: string,
-  opts?: { provider?: string; model?: string }
-) =>
+/* The provider and model are server settings; the gateway rejects either
+   field in the body. */
+export const sendMessage = (conversationId: string, content: string) =>
   apiPost<IApiSendMessageResult>(
     `/ai/conversations/${conversationId}/messages`,
-    { content, ...opts }
+    { content }
   )
 
 export const getAiCredits = () => apiGet<IApiAiCredits>("/ai/credits")

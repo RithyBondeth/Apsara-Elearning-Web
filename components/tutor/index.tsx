@@ -12,6 +12,7 @@ import {
 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
+import { ApiError } from "@/lib/api/client"
 import { ConfirmDialog } from "@/components/utils/confirm-dialog"
 import {
   listConversations,
@@ -151,8 +152,15 @@ export function Tutor() {
       void getAiCredits()
         .then(setCredits)
         .catch(() => undefined)
-    } catch {
-      setError(t("errorSend"))
+    } catch (err) {
+      const status = err instanceof ApiError ? err.status : 0
+      setError(
+        status === 429
+          ? t("errorAllowance")
+          : status === 504
+            ? t("errorTimeout")
+            : t("errorSend")
+      )
       setMessages((prev) => prev.filter((m) => m.id !== optimistic.id))
       setInput(content)
     } finally {

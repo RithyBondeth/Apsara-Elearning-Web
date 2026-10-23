@@ -1448,7 +1448,9 @@
     "deleteDesc": "This conversation and its messages will be permanently removed.",
     "demoReply": "Demo reply",
     "errorSend": "Couldn't send your message. Please try again.",
-    "creditsRemaining": "{remaining}k tokens left this period"
+    "errorAllowance": "You've used your Apsara AI allowance for the last 30 days. It frees up as older usage passes 30 days.",
+    "errorTimeout": "Apsara AI took too long to reply. Please try again.",
+    "creditsRemaining": "{remaining}k tokens left (last 30 days)"
   },
   "certificates": {
     "pageTitle": "Certificates",
