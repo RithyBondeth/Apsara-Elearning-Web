@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { callGateway } from "@/lib/auth/gateway"
+import { malformedBodyResponse, readJsonBody } from "@/lib/auth/read-json-body"
 
 interface IRegisterResult {
   message: string
@@ -11,7 +12,8 @@ interface IRegisterResult {
  * only after verification succeeds.
  */
 export async function POST(request: Request) {
-  const payload = await request.json()
+  const payload = await readJsonBody(request)
+  if (!payload) return malformedBodyResponse()
 
   const result = await callGateway<IRegisterResult>("/auth/register", {
     body: payload,

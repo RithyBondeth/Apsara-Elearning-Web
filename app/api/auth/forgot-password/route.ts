@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { callGateway } from "@/lib/auth/gateway"
+import { malformedBodyResponse, readJsonBody } from "@/lib/auth/read-json-body"
 
 /**
  * Requests a password-reset email. The response is intentionally the same
@@ -7,7 +8,9 @@ import { callGateway } from "@/lib/auth/gateway"
  * accounts — the gateway already answers generically, and we flatten further.
  */
 export async function POST(request: Request) {
-  const { email } = await request.json()
+  const body = await readJsonBody(request)
+  if (!body) return malformedBodyResponse()
+  const { email } = body
 
   if (!email) {
     return NextResponse.json({ message: "Missing email" }, { status: 400 })

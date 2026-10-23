@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { callGateway } from "@/lib/auth/gateway"
+import { malformedBodyResponse, readJsonBody } from "@/lib/auth/read-json-body"
 import { setSessionCookies, type ISessionTokens } from "@/lib/auth/session"
 
 /**
@@ -8,7 +9,8 @@ import { setSessionCookies, type ISessionTokens } from "@/lib/auth/session"
  * that is the whole point of routing login through the BFF.
  */
 export async function POST(request: Request) {
-  const credentials = await request.json()
+  const credentials = await readJsonBody(request)
+  if (!credentials) return malformedBodyResponse()
 
   const result = await callGateway<
     ISessionTokens & { deletionCancelled?: boolean }

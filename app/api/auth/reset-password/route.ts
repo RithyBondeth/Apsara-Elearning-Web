@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { callGateway } from "@/lib/auth/gateway"
+import { malformedBodyResponse, readJsonBody } from "@/lib/auth/read-json-body"
 
 /**
  * Sets a new password from an emailed reset token. Unlike forgot-password,
@@ -7,7 +8,9 @@ import { callGateway } from "@/lib/auth/gateway"
  * gateway's status and message pass through.
  */
 export async function POST(request: Request) {
-  const { token, newPassword } = await request.json()
+  const body = await readJsonBody(request)
+  if (!body) return malformedBodyResponse()
+  const { token, newPassword } = body
 
   if (!token || !newPassword) {
     return NextResponse.json(
