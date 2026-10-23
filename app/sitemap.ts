@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next"
+import { fetchPublic } from "@/lib/api/public"
 import { siteUrl } from "@/lib/site-url"
 
 /** Rebuilt at most hourly; a newly published course appears within the hour. */
@@ -23,22 +24,15 @@ interface IPublishedCourse {
 }
 
 /**
- * Published course slugs straight from the gateway. Anonymous on purpose: the
- * sitemap must list only what anyone can see. If the API is unreachable the
- * sitemap still serves the static pages rather than failing.
+ * Published course slugs. Anonymous on purpose (see fetchPublic): the sitemap
+ * must list only what anyone can see. If the API is unreachable the sitemap
+ * still serves the static pages rather than failing.
  */
 async function publishedCourses(): Promise<IPublishedCourse[]> {
-  const gateway = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL
-  if (!gateway) return []
-  try {
-    const res = await fetch(`${gateway}/course/published`, {
-      next: { revalidate },
-    })
-    if (!res.ok) return []
-    return (await res.json()) as IPublishedCourse[]
-  } catch {
-    return []
-  }
+  return (
+    (await fetchPublic<IPublishedCourse[]>("/course/published", revalidate)) ??
+    []
+  )
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
