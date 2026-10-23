@@ -1229,7 +1229,11 @@
     "xpEarned": "+{xp} XP",
     "yourAnswer": "Your answer",
     "correctAnswer": "Correct answer",
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "awaitingReview": "Waiting for a teacher to grade this answer.",
+    "pendingReviewNote": "{count, plural, one {# answer is} other {# answers are}} waiting for a teacher to grade — your score may go up.",
+    "pointsOf": "{awarded}/{total} pts",
+    "reviewerNote": "Teacher's note"
   },
   "challenge": {
     "title": "Coding challenge",

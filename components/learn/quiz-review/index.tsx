@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, CheckCircle2, RotateCcw, Sparkles, Trophy, X, XCircle } from "lucide-react"
+import { Check, CheckCircle2, Clock, MessageSquareText, RotateCcw, Sparkles, Trophy, X, XCircle } from "lucide-react"
 import type { useTranslations } from "next-intl"
 import { MathText } from "@/components/learn/math-text"
 import type {
@@ -57,6 +57,12 @@ export function QuizScoreCard({
           )}
         </div>
       </div>
+      {result.needsReview > 0 && (
+        <p className="mt-3 flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-400">
+          <Clock className="size-3.5 shrink-0" />
+          {t("pendingReviewNote", { count: result.needsReview })}
+        </p>
+      )}
     </div>
   )
 }
@@ -72,23 +78,36 @@ export function QuizReviewCard({
 }) {
   const correctText = correctAnswerText(item, t)
   const yourText = yourAnswerText(item, t)
+  /* Waiting for a teacher: neither right nor wrong yet. */
+  const pending = item.requiresReview
+  /* A hand-graded short answer has no answer key to show. */
+  const hasKey = correctText !== "—"
 
   return (
     <div className={`card-surface rounded-2xl border p-4 sm:p-5 ${
-      item.isCorrect
-        ? "border-emerald-200 dark:border-emerald-500/25"
-        : "border-red-200 dark:border-red-500/25"
+      pending
+        ? "border-amber-200 dark:border-amber-500/25"
+        : item.isCorrect
+          ? "border-emerald-200 dark:border-emerald-500/25"
+          : "border-red-200 dark:border-red-500/25"
     }`}>
       <div className="mb-3 flex items-start gap-2">
         <span className="mt-0.5 shrink-0">
-          {item.isCorrect
-            ? <CheckCircle2 className="size-5 text-emerald-500" />
-            : <XCircle className="size-5 text-red-500" />}
+          {pending
+            ? <Clock className="size-5 text-amber-500" />
+            : item.isCorrect
+              ? <CheckCircle2 className="size-5 text-emerald-500" />
+              : <XCircle className="size-5 text-red-500" />}
         </span>
-        <p className="text-[15px] font-medium leading-7 text-foreground">
+        <p className="flex-1 text-[15px] font-medium leading-7 text-foreground">
           <span className="text-muted-foreground">{index + 1}. </span>
           <MathText>{item.question}</MathText>
         </p>
+        {item.points > 1 && !pending && (
+          <span className="shrink-0 rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+            {t("pointsOf", { awarded: item.pointsAwarded, total: item.points })}
+          </span>
+        )}
       </div>
 
       {/* For multiple choice, show every option with correctness. */}
@@ -119,16 +138,33 @@ export function QuizReviewCard({
         </div>
       ) : (
         <div className="space-y-1 pl-7 text-sm">
-          <div className={item.isCorrect ? "text-emerald-700 dark:text-emerald-400" : "text-red-700 dark:text-red-400"}>
+          <div className={
+            pending
+              ? "text-foreground"
+              : item.isCorrect ? "text-emerald-700 dark:text-emerald-400" : "text-red-700 dark:text-red-400"
+          }>
             <span className="text-muted-foreground">{t("yourAnswer")}: </span>
             <MathText>{yourText}</MathText>
           </div>
-          {!item.isCorrect && (
+          {pending && (
+            <div className="text-amber-700 dark:text-amber-400">{t("awaitingReview")}</div>
+          )}
+          {!pending && !item.isCorrect && hasKey && (
             <div className="text-emerald-700 dark:text-emerald-400">
               <span className="text-muted-foreground">{t("correctAnswer")}: </span>
               <MathText>{correctText}</MathText>
             </div>
           )}
+        </div>
+      )}
+
+      {item.reviewFeedback && (
+        <div className="mt-3 ml-7 flex gap-2 rounded-xl bg-amber-50/70 px-3.5 py-2.5 text-sm leading-6 text-foreground dark:bg-amber-500/10">
+          <MessageSquareText className="mt-1 size-4 shrink-0 text-amber-600 dark:text-amber-400" />
+          <div>
+            <span className="font-medium">{t("reviewerNote")}: </span>
+            {item.reviewFeedback}
+          </div>
         </div>
       )}
 
