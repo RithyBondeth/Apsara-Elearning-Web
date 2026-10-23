@@ -28,6 +28,11 @@ const summary = (
   limit: 1_000_000,
   remaining: 750_000,
   hasCredits: true,
+  repliesUsed: 12,
+  repliesLimit: null,
+  repliesRemaining: null,
+  periodEndsAt: null,
+  exhausted: null,
   recent: [
     {
       id: "r1",
@@ -60,7 +65,12 @@ describe("AiUsagePage", () => {
   it("explains when the allowance is used up", async () => {
     respond = () =>
       Promise.resolve(
-        summary({ used: 1_000_000, remaining: 0, hasCredits: false })
+        summary({
+          used: 1_000_000,
+          remaining: 0,
+          hasCredits: false,
+          exhausted: "tokens",
+        })
       )
     render(<AiUsagePage />)
 
@@ -80,5 +90,37 @@ describe("AiUsagePage", () => {
 
     expect(await screen.findByText("loadError")).toBeInTheDocument()
     expect(screen.queryByText("recentTitle")).not.toBeInTheDocument()
+  })
+
+  it("shows the plan's replies for this billing period and when they reset", async () => {
+    respond = () =>
+      Promise.resolve(
+        summary({
+          repliesUsed: 200,
+          repliesLimit: 200,
+          repliesRemaining: 0,
+          periodEndsAt: "2026-11-15T00:00:00Z",
+          hasCredits: false,
+          exhausted: "replies",
+        })
+      )
+    render(<AiUsagePage />)
+
+    expect(
+      await screen.findByText('repliesUsedOf:{"used":200,"limit":200}')
+    ).toBeInTheDocument()
+    expect(screen.getByText(/repliesResetOn/)).toBeInTheDocument()
+    expect(screen.getByText("repliesExhausted")).toBeInTheDocument()
+    /* The token cap is relabelled as the safety limit, and isn't the reason. */
+    expect(screen.getByText("tokenCapTitle")).toBeInTheDocument()
+    expect(screen.queryByText("exhausted")).not.toBeInTheDocument()
+  })
+
+  it("hides the replies card when the plan sets no per-reply limit", async () => {
+    respond = () => Promise.resolve(summary())
+    render(<AiUsagePage />)
+
+    expect(await screen.findByText("allowanceTitle")).toBeInTheDocument()
+    expect(screen.queryByText("repliesTitle")).not.toBeInTheDocument()
   })
 })

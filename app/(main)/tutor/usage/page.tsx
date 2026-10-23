@@ -6,6 +6,7 @@ import {
   ArrowLeft,
   Gauge,
   Loader2,
+  MessageCircle,
   Sparkles,
   TriangleAlert,
 } from "lucide-react"
@@ -51,6 +52,17 @@ export default function AiUsagePage() {
     usage && usage.limit > 0
       ? Math.min(100, Math.round((usage.used / usage.limit) * 100))
       : 0
+  const repliesLimit = usage?.repliesLimit ?? null
+  const repliesPercent =
+    usage && repliesLimit
+      ? Math.min(100, Math.round((usage.repliesUsed / repliesLimit) * 100))
+      : 0
+  const resetDate = usage?.periodEndsAt
+    ? new Date(usage.periodEndsAt).toLocaleDateString(
+        locale === "km" ? "km-KH" : "en-GB",
+        { day: "numeric", month: "long", year: "numeric" }
+      )
+    : null
 
   return (
     <AppShell>
@@ -86,10 +98,49 @@ export default function AiUsagePage() {
 
         {usage && (
           <>
+            {/* The plan's replies — shown only when the plan sets a limit. */}
+            {repliesLimit !== null && (
+              <section className="space-y-3">
+                <TypographyH4 className="flex items-center gap-2 text-foreground">
+                  <MessageCircle className="size-4 text-violet-600 dark:text-violet-400" />
+                  {t("repliesTitle")}
+                </TypographyH4>
+                <Card className="space-y-3 p-5">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <p className="font-medium text-foreground">
+                      {t("repliesUsedOf", {
+                        used: usage.repliesUsed,
+                        limit: repliesLimit,
+                      })}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {t("repliesLeft", {
+                        remaining: usage.repliesRemaining ?? 0,
+                      })}
+                      {resetDate &&
+                        ` · ${t("repliesResetOn", { date: resetDate })}`}
+                    </p>
+                  </div>
+                  <Progress
+                    value={repliesPercent}
+                    aria-label={t("repliesTitle")}
+                    className="h-2 rounded-full"
+                  />
+                  {usage.exhausted === "replies" && (
+                    <p className="text-sm text-amber-700 dark:text-amber-400">
+                      {t("repliesExhausted")}
+                    </p>
+                  )}
+                </Card>
+              </section>
+            )}
+
             <section className="space-y-3">
               <TypographyH4 className="flex items-center gap-2 text-foreground">
                 <Gauge className="size-4 text-violet-600 dark:text-violet-400" />
-                {t("allowanceTitle")}
+                {repliesLimit !== null
+                  ? t("tokenCapTitle")
+                  : t("allowanceTitle")}
               </TypographyH4>
               <Card className="space-y-3 p-5">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -110,7 +161,7 @@ export default function AiUsagePage() {
                   aria-label={t("allowanceTitle")}
                   className="h-2 rounded-full"
                 />
-                {!usage.hasCredits && (
+                {usage.exhausted === "tokens" && (
                   <p className="text-sm text-amber-700 dark:text-amber-400">
                     {t("exhausted")}
                   </p>

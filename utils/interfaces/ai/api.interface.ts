@@ -26,12 +26,22 @@ export interface IApiSendMessageResult {
   mock: boolean
 }
 
-/** Mirrors CreditsResponseDTO. */
+/** Mirrors CreditsResponseDTO: the plan's reply allowance and the token cap. */
 export interface IApiAiCredits {
+  /** Tokens in the last 30 days, against the safety cap. */
   used: number
   limit: number
   remaining: number
   hasCredits: boolean
+  /** Tutor replies in the current billing period. */
+  repliesUsed: number
+  /** Replies the plan allows per billing period; null = no per-reply limit. */
+  repliesLimit: number | null
+  repliesRemaining: number | null
+  /** When the reply allowance resets. */
+  periodEndsAt: string | null
+  /** Which allowance ran out, when hasCredits is false. */
+  exhausted: "replies" | "tokens" | null
 }
 
 /** Mirrors AiUsageResponseDTO: the tokens one tutor reply spent. */

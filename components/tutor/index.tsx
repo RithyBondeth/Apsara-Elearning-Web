@@ -11,7 +11,7 @@ import {
   MessageSquare,
   Bot,
 } from "lucide-react"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { ApiError } from "@/lib/api/client"
 import { ConfirmDialog } from "@/components/utils/confirm-dialog"
@@ -32,6 +32,22 @@ import type {
 /** Two-pane AI tutor: conversation list + message thread with a composer. */
 export function Tutor() {
   const t = useTranslations("tutor")
+  const locale = useLocale()
+
+  /** The 429 explanation for whichever allowance ran out. */
+  function allowanceMessage(latest: IApiAiCredits | null): string {
+    if (latest?.exhausted !== "replies") return t("errorAllowance")
+    if (!latest.periodEndsAt) {
+      return t("errorRepliesNoDate", { limit: latest.repliesLimit ?? 0 })
+    }
+    return t("errorReplies", {
+      limit: latest.repliesLimit ?? 0,
+      date: new Date(latest.periodEndsAt).toLocaleDateString(
+        locale === "km" ? "km-KH" : "en-GB",
+        { day: "numeric", month: "long" }
+      ),
+    })
+  }
   const [conversations, setConversations] = useState<IApiConversation[] | null>(
     null
   )
@@ -157,13 +173,15 @@ export function Tutor() {
         .catch(() => undefined)
     } catch (err) {
       const status = err instanceof ApiError ? err.status : 0
-      setError(
-        status === 429
-          ? t("errorAllowance")
-          : status === 504
-            ? t("errorTimeout")
-            : t("errorSend")
-      )
+      if (status === 429) {
+        /* Ask which allowance ran out: the plan's replies (reset at renewal)
+           or the 30-day token cap — the message and the date differ. */
+        const latest = await getAiCredits().catch(() => null)
+        if (latest) setCredits(latest)
+        setError(allowanceMessage(latest))
+      } else {
+        setError(status === 504 ? t("errorTimeout") : t("errorSend"))
+      }
       setMessages((prev) => prev.filter((m) => m.id !== optimistic.id))
       setInput(content)
     } finally {
@@ -235,9 +253,13 @@ export function Tutor() {
             <p className="text-xs leading-tight text-muted-foreground">
               {credits ? (
                 <>
-                  {t("creditsRemaining", {
-                    remaining: Math.round(credits.remaining / 1000),
-                  })}
+                  {credits.repliesRemaining !== null
+                    ? t("repliesRemaining", {
+                        remaining: credits.repliesRemaining,
+                      })
+                    : t("creditsRemaining", {
+                        remaining: Math.round(credits.remaining / 1000),
+                      })}
                   {" · "}
                   <Link
                     href="/tutor/usage"
