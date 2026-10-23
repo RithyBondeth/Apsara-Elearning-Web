@@ -418,20 +418,13 @@
   "footer": {
     "brand": "Cambodia's AI-powered learning platform — BacII prep, English and coding, with an AI tutor that speaks Khmer. Empowering the next generation of Khmer learners.",
     "platformCol": "Platform",
-    "companyCol": "Company",
     "supportCol": "Support",
     "courses": "Courses",
     "playground": "Exercises",
     "aiMentor": "AI Tutor",
     "leaderboard": "Leaderboard",
-    "about": "About",
-    "blog": "Blog",
-    "careers": "Careers",
-    "press": "Press",
     "helpCenter": "Help Center",
-    "community": "Community",
     "contact": "Contact",
-    "status": "Status",
     "copyright": "© 2026 Apsara Elearning. Built with ❤️ in Phnom Penh, Cambodia 🇰🇭",
     "privacy": "Privacy",
     "terms": "Terms",
@@ -1450,7 +1443,8 @@
     "errorSend": "Couldn't send your message. Please try again.",
     "errorAllowance": "You've used your Apsara AI allowance for the last 30 days. It frees up as older usage passes 30 days.",
     "errorTimeout": "Apsara AI took too long to reply. Please try again.",
-    "creditsRemaining": "{remaining}k tokens left (last 30 days)"
+    "creditsRemaining": "{remaining}k tokens left (last 30 days)",
+    "viewUsage": "View usage"
   },
   "certificates": {
     "pageTitle": "Certificates",
@@ -1552,5 +1546,19 @@
     "addReview": "Add a written review",
     "dismiss": "Not now",
     "error": "Couldn't save your rating. Please try again."
+  },
+  "aiUsage": {
+    "pageTitle": "Apsara AI usage",
+    "pageSubtitle": "How much of your tutor allowance you've used in the last 30 days.",
+    "allowanceTitle": "Last 30 days",
+    "usedOf": "{used}k of {limit}k tokens used",
+    "remaining": "{remaining}k tokens left",
+    "exhausted": "You've used your allowance. It frees up as older usage passes 30 days.",
+    "recentTitle": "Recent replies",
+    "noUsage": "You haven't asked Apsara AI anything yet.",
+    "tokens": "{total} tokens",
+    "tokensDetail": "{prompt} in · {completion} out",
+    "loadError": "Your usage couldn't be loaded. Refresh to try again.",
+    "backToTutor": "Back to Apsara AI"
   }
 }
