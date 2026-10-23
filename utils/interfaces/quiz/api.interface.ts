@@ -77,7 +77,12 @@ export interface IApiQuizReviewItem {
     answerData: Record<string, unknown> | null
   } | null
   isCorrect: boolean
+  /** True only while the answer is waiting for a teacher to grade it. */
   requiresReview: boolean
+  /** Points given — auto-graded, or by a reviewer. */
+  pointsAwarded: number
+  /** The reviewer's note on a hand-graded answer. */
+  reviewFeedback: string | null
 }
 
 /** Shape of `POST /quiz/attempt/:attemptId/submit`. */

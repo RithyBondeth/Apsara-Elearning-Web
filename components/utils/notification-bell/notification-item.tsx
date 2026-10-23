@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Award, BookCheck, CreditCard, GraduationCap, Code2, Bell, Star, ShieldX, Megaphone } from "lucide-react"
+import { Award, BookCheck, ClipboardCheck, CreditCard, GraduationCap, Code2, Bell, Star, ShieldX, Megaphone } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { timeAgo } from "@/utils/functions/time"
 import type { IApiNotification } from "@/utils/interfaces/notification/api.interface"
@@ -10,6 +10,7 @@ import type { IApiNotification } from "@/utils/interfaces/notification/api.inter
 const ICONS: Record<string, React.ElementType> = {
   badge_awarded: Award,
   quiz_passed: BookCheck,
+  quiz_graded: ClipboardCheck,
   challenge_solved: Code2,
   course_completed: GraduationCap,
   certificate_issued: GraduationCap,
@@ -23,7 +24,8 @@ const ICONS: Record<string, React.ElementType> = {
  * Where a notification leads, when it leads anywhere: a rating request to the
  * course's review form, and certificate news (issued, reinstated, withdrawn)
  * to the learner's certificates, where a withdrawn one shows why. A course
- * announcement links to its course; a general one leads nowhere.
+ * announcement links to its course; a general one leads nowhere. A graded
+ * quiz opens that attempt's review, where the teacher's points and notes are.
  */
 export function notificationHref(notification: IApiNotification): string | null {
   const slug = notification.data?.courseSlug
@@ -35,6 +37,10 @@ export function notificationHref(notification: IApiNotification): string | null 
   }
   if (notification.type === "certificate_issued" || notification.type === "certificate_revoked") {
     return "/certificates"
+  }
+  const attemptId = notification.data?.attemptId
+  if (notification.type === "quiz_graded" && typeof attemptId === "string" && attemptId) {
+    return `/activity/quiz/${encodeURIComponent(attemptId)}`
   }
   return null
 }
