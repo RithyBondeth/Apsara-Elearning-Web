@@ -17,6 +17,8 @@ export function LandingFooter() {
     { key: "cookies" as const, href: "/cookies" },
   ]
 
+  /* Only pages that exist. About, blog, careers, press, community and a status
+     page were `#` placeholders; add them back when there is a page to link. */
   const FOOTER_COLS = [
     {
       headingKey: "platformCol" as const,
@@ -28,21 +30,10 @@ export function LandingFooter() {
       ],
     },
     {
-      headingKey: "companyCol" as const,
-      links: [
-        { key: "about" as const,    href: "#" },
-        { key: "blog" as const,     href: "#" },
-        { key: "careers" as const,  href: "#" },
-        { key: "press" as const,    href: "#" },
-      ],
-    },
-    {
       headingKey: "supportCol" as const,
       links: [
         { key: "helpCenter" as const, href: "/support" },
-        { key: "community" as const,  href: "#" },
         { key: "contact" as const,    href: "/contact" },
-        { key: "status" as const,     href: "#" },
       ],
     },
   ]
@@ -64,7 +55,7 @@ export function LandingFooter() {
           </AnimateIn>
 
           <AnimateIn animation="fade-left">
-            <div className="grid grid-cols-3 gap-8">
+            <div className="grid grid-cols-2 gap-8">
               {FOOTER_COLS.map((col) => (
                 <div key={col.headingKey}>
                   <TypographySmall className="font-semibold text-muted-foreground uppercase tracking-wider block mb-4">
