@@ -4,6 +4,7 @@ import type {
   IApiAiMessage,
   IApiSendMessageResult,
   IApiAiCredits,
+  IApiAiUsageSummary,
 } from "@/utils/interfaces/ai/api.interface"
 
 /**
@@ -38,3 +39,7 @@ export const sendMessage = (conversationId: string, content: string) =>
   )
 
 export const getAiCredits = () => apiGet<IApiAiCredits>("/ai/credits")
+
+/** The 30-day allowance plus the most recent replies (the API caps limit at 100). */
+export const getAiUsage = (limit = 50) =>
+  apiGet<IApiAiUsageSummary>(`/ai/usage?limit=${limit}`)

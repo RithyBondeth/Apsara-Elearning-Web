@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import {
   Sparkles,
@@ -31,9 +32,9 @@ import type {
 /** Two-pane AI tutor: conversation list + message thread with a composer. */
 export function Tutor() {
   const t = useTranslations("tutor")
-  const [conversations, setConversations] = useState<
-    IApiConversation[] | null
-  >(null)
+  const [conversations, setConversations] = useState<IApiConversation[] | null>(
+    null
+  )
   const [activeId, setActiveId] = useState<string | null>(null)
   const [messages, setMessages] = useState<IApiAiMessage[]>([])
   const [input, setInput] = useState("")
@@ -124,7 +125,9 @@ export function Tutor() {
     let convId = activeId
     if (!convId) {
       try {
-        const created = await createConversation({ title: content.slice(0, 60) })
+        const created = await createConversation({
+          title: content.slice(0, 60),
+        })
         convId = created.id
         setActiveId(convId)
         setConversations((prev) => [created, ...(prev ?? [])])
@@ -171,14 +174,14 @@ export function Tutor() {
   return (
     <div className="flex h-full min-h-0 gap-4">
       {/* Conversation list */}
-      <aside className="hidden md:flex md:w-64 shrink-0 flex-col rounded-2xl border border-border bg-card/50">
+      <aside className="hidden shrink-0 flex-col rounded-2xl border border-border bg-card/50 md:flex md:w-64">
         <div className="p-3">
           <Button onClick={startNewChat} className="w-full gap-2">
             <Plus className="size-4" />
             {t("newChat")}
           </Button>
         </div>
-        <div className="flex-1 min-h-0 overflow-y-auto px-2 pb-2 space-y-1">
+        <div className="min-h-0 flex-1 space-y-1 overflow-y-auto px-2 pb-2">
           {conversations === null ? (
             <div className="flex justify-center py-6 text-muted-foreground">
               <Loader2 className="size-4 animate-spin" />
@@ -191,7 +194,7 @@ export function Tutor() {
             conversations.map((c) => (
               <div
                 key={c.id}
-                className={`group flex items-center gap-2 rounded-lg px-3 py-2 text-sm cursor-pointer transition-colors ${
+                className={`group flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
                   c.id === activeId
                     ? "bg-muted text-foreground"
                     : "text-muted-foreground hover:bg-muted/60"
@@ -209,7 +212,7 @@ export function Tutor() {
                   <button
                     type="button"
                     onClick={(e) => e.stopPropagation()}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
+                    className="text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:text-destructive"
                     aria-label={t("deleteTitle")}
                   >
                     <Trash2 className="size-3.5" />
@@ -222,19 +225,30 @@ export function Tutor() {
       </aside>
 
       {/* Thread + composer */}
-      <section className="flex-1 flex flex-col min-w-0 rounded-2xl border border-border bg-card/50">
+      <section className="flex min-w-0 flex-1 flex-col rounded-2xl border border-border bg-card/50">
         <header className="flex items-center gap-2 border-b border-border px-4 py-3">
-          <div className="flex size-8 items-center justify-center rounded-lg gradient-bg-primary text-white">
+          <div className="gradient-bg-primary flex size-8 items-center justify-center rounded-lg text-white">
             <Sparkles className="size-4" />
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-semibold leading-tight">{t("title")}</p>
-            <p className="text-xs text-muted-foreground leading-tight">
-              {credits
-                ? t("creditsRemaining", {
+            <p className="text-sm leading-tight font-semibold">{t("title")}</p>
+            <p className="text-xs leading-tight text-muted-foreground">
+              {credits ? (
+                <>
+                  {t("creditsRemaining", {
                     remaining: Math.round(credits.remaining / 1000),
-                  })
-                : t("subtitle")}
+                  })}
+                  {" · "}
+                  <Link
+                    href="/tutor/usage"
+                    className="underline-offset-4 hover:text-foreground hover:underline"
+                  >
+                    {t("viewUsage")}
+                  </Link>
+                </>
+              ) : (
+                t("subtitle")
+              )}
             </p>
           </div>
           <Button
@@ -248,18 +262,18 @@ export function Tutor() {
           </Button>
         </header>
 
-        <div ref={scrollRef} className="flex-1 min-h-0 overflow-y-auto p-4">
+        <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto p-4">
           {loadingThread ? (
             <div className="flex justify-center py-10 text-muted-foreground">
               <Loader2 className="size-5 animate-spin" />
             </div>
           ) : messages.length === 0 ? (
-            <div className="flex h-full flex-col items-center justify-center text-center gap-2 px-6">
-              <div className="flex size-12 items-center justify-center rounded-2xl gradient-bg-primary text-white">
+            <div className="flex h-full flex-col items-center justify-center gap-2 px-6 text-center">
+              <div className="gradient-bg-primary flex size-12 items-center justify-center rounded-2xl text-white">
                 <Sparkles className="size-6" />
               </div>
               <p className="text-sm font-medium">{t("emptyTitle")}</p>
-              <p className="text-xs text-muted-foreground max-w-xs">
+              <p className="max-w-xs text-xs text-muted-foreground">
                 {t("emptyDesc")}
               </p>
             </div>
@@ -278,7 +292,7 @@ export function Tutor() {
                     </div>
                   )}
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap break-words ${
+                    className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm break-words whitespace-pre-wrap ${
                       m.role === "user"
                         ? "gradient-bg-primary text-white"
                         : "bg-muted text-foreground"
@@ -324,7 +338,7 @@ export function Tutor() {
               }}
               rows={1}
               placeholder={t("placeholder")}
-              className="flex-1 resize-none rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring/40 max-h-32"
+              className="max-h-32 flex-1 resize-none rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring/40"
             />
             <Button
               onClick={() => void handleSend()}
