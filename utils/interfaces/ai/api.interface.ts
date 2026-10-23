@@ -33,3 +33,18 @@ export interface IApiAiCredits {
   remaining: number
   hasCredits: boolean
 }
+
+/** Mirrors AiUsageResponseDTO: the tokens one tutor reply spent. */
+export interface IApiAiUsageRecord {
+  id: string
+  feature?: string | null
+  promptTokens?: number | null
+  completionTokens?: number | null
+  totalTokens?: number | null
+  createdAt: string
+}
+
+/** Mirrors AiUsageSummaryResponseDTO: the allowance plus recent replies. */
+export interface IApiAiUsageSummary extends IApiAiCredits {
+  recent: IApiAiUsageRecord[]
+}
