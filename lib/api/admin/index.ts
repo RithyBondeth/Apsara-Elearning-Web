@@ -24,6 +24,7 @@ import type {
   IAdminCertificate,
   IAdminPayment,
   IAdminPaymentDetail,
+  IAdminRefundResult,
   TAdminPaymentFilter,
   IAdminUser,
   IAdminUserUpdate,
@@ -332,3 +333,8 @@ export const listPayments = (params: {
 }
 export const getPayment = (id: string) =>
   adminGet<IAdminPaymentDetail>(`/payments/${id}`)
+/** Omitting `amount` refunds everything not yet refunded. */
+export const refundPayment = (
+  id: string,
+  body: { amount?: number; reason: string }
+) => adminPost<IAdminRefundResult>(`/payments/${id}/refund`, body)

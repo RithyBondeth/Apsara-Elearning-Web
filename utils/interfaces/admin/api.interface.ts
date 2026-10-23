@@ -302,11 +302,22 @@ export interface IAdminPaymentRefund {
   reason: string | null
   failureReason: string | null
   providerRefundId: string
+  /** The admin's note, for refunds issued from the console. */
+  note: string | null
+  /** Who issued it from the console; null when made in Stripe. */
+  requestedByName: string | null
   createdAt: string
 }
 
 export interface IAdminPaymentDetail extends IAdminPayment {
   refunds: IAdminPaymentRefund[]
+}
+
+/** Mirrors AdminRefundResponseDTO. */
+export interface IAdminRefundResult {
+  payment: IAdminPaymentDetail
+  refundStatus: string
+  subscriptionCanceled: boolean
 }
 
 export type TAdminPaymentFilter = "succeeded" | "failed" | "refunded"
