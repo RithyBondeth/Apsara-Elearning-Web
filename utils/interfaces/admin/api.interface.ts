@@ -382,3 +382,36 @@ export interface IAdminTestimonial {
   createdAt: string
   updatedAt: string
 }
+
+/* ── Manual grading ──────────────────────────────────────────────────────── */
+
+export type TGradingStatus = "pending" | "graded"
+
+/** Mirrors GradingItemResponseDTO — one answer in the grading queue. */
+export interface IAdminGradingItem {
+  answerId: string
+  attemptId: string
+  submittedAt: string
+  learnerName: string | null
+  learnerEmail: string | null
+  courseTitle: string | null
+  lessonTitle: string | null
+  quizTitle: string | null
+  question: string
+  explanation: string | null
+  maxPoints: number
+  answerText: string | null
+  status: TGradingStatus
+  pointsAwarded: number
+  feedback: string | null
+  reviewedAt: string | null
+}
+
+/** Mirrors GradeAnswerResponseDTO — the graded answer and the attempt's new standing. */
+export interface IAdminGradeResult {
+  item: IAdminGradingItem
+  attemptScore: number
+  attemptPassed: boolean
+  stillPending: number
+  xpAwarded: number
+}

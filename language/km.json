@@ -1229,7 +1229,11 @@
     "xpEarned": "+{xp} XP",
     "yourAnswer": "ចម្លើយរបស់អ្នក",
     "correctAnswer": "ចម្លើយត្រឹមត្រូវ",
-    "tryAgain": "ព្យាយាមម្តងទៀត"
+    "tryAgain": "ព្យាយាមម្តងទៀត",
+    "awaitingReview": "កំពុងរង់ចាំគ្រូដាក់ពិន្ទុចម្លើយនេះ។",
+    "pendingReviewNote": "មានចម្លើយ {count} កំពុងរង់ចាំគ្រូដាក់ពិន្ទុ — ពិន្ទុរបស់អ្នកអាចកើនឡើង។",
+    "pointsOf": "{awarded}/{total} ពិន្ទុ",
+    "reviewerNote": "កំណត់សម្គាល់របស់គ្រូ"
   },
   "challenge": {
     "title": "លំហាត់សរសេរកូដ",

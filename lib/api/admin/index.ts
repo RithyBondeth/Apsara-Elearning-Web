@@ -27,6 +27,9 @@ import type {
   TAdminPaymentFilter,
   IAdminUser,
   IAdminUserUpdate,
+  IAdminGradingItem,
+  IAdminGradeResult,
+  TGradingStatus,
 } from "@/utils/interfaces/admin/api.interface"
 
 /**
@@ -332,3 +335,12 @@ export const listPayments = (params: {
 }
 export const getPayment = (id: string) =>
   adminGet<IAdminPaymentDetail>(`/payments/${id}`)
+
+/* ── Manual grading ──────────────────────────────────────────────────────── */
+
+export const listGrading = (status: TGradingStatus) =>
+  adminGet<IAdminGradingItem[]>(`/grading?status=${status}`)
+export const gradeAnswer = (
+  answerId: string,
+  body: { points: number; feedback?: string }
+) => adminPatch<IAdminGradeResult>(`/grading/${answerId}`, body)
