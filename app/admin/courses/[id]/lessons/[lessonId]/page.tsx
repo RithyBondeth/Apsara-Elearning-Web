@@ -22,6 +22,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ConfirmDialog } from "@/components/utils/confirm-dialog"
 import { ResourceDialog } from "@/components/admin/resource-dialog"
 import type { IAdminField, TFormValues } from "@/components/admin/form-field"
+import { MathText } from "@/components/learn/math-text"
+import { toDraft } from "@/lib/admin/answer-spec"
 import {
   createChallenge,
   createOption,
@@ -77,16 +79,6 @@ const QUIZ_FIELDS: IAdminField[] = [
   },
 ]
 
-/* The answer spec's shape depends on the question type, so the placeholder
-   below is the fastest way to get it right without leaving the form. */
-const ANSWER_HELP: Record<string, string> = {
-  numeric: '{ "value": 42, "tolerance": 0.5 }',
-  fill_blank: '{ "accepted": ["const"], "caseSensitive": false }',
-  short_answer: '{ "accepted": ["photosynthesis"], "caseSensitive": false }',
-  true_false: '{ "value": true }',
-  matching: '{ "pairs": [{ "left": "2+2", "right": "4" }] }',
-}
-
 const QUESTION_FIELDS: IAdminField[] = [
   {
     name: "type",
@@ -97,21 +89,42 @@ const QUESTION_FIELDS: IAdminField[] = [
       label: t.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
     })),
   },
-  { name: "question", label: "Question", type: "textarea", required: true, rows: 3 },
+  {
+    name: "question",
+    label: "Question",
+    type: "markdown",
+    preview: "inline",
+    required: true,
+    rows: 3,
+    help: "Inline math between $…$, e.g. $x^2 + 1$.",
+  },
   {
     name: "correctAnswer",
-    label: "Answer spec",
-    type: "json",
-    rows: 4,
-    help: "JSON. Not used for multiple choice — correctness lives on the options instead.",
+    label: "Correct answer",
+    type: "answer",
+    answerTypeField: "type",
     visible: (v) => v.type !== "multiple_choice",
   },
-  { name: "explanation", label: "Explanation", type: "textarea", rows: 3 },
+  {
+    name: "explanation",
+    label: "Explanation",
+    type: "markdown",
+    preview: "inline",
+    rows: 3,
+    help: "Shown to learners after they submit.",
+  },
   { name: "points", label: "Points", type: "number", min: 1 },
 ]
 
 const OPTION_FIELDS: IAdminField[] = [
-  { name: "answer", label: "Answer", type: "text", required: true },
+  {
+    name: "answer",
+    label: "Answer",
+    type: "markdown",
+    preview: "inline",
+    required: true,
+    rows: 2,
+  },
   { name: "isCorrect", label: "Correct", type: "switch" },
 ]
 
@@ -434,7 +447,7 @@ export default function LessonAssessmentsPage() {
                           <div key={question.id} className="px-3 py-2.5 pl-9">
                             <div className="flex items-start gap-2">
                               <span className="min-w-0 flex-1 text-sm">
-                                {question.question}
+                                <MathText>{question.question}</MathText>
                                 <Badge
                                   variant="ghost"
                                   className="ml-2 text-[10px]"
@@ -516,7 +529,7 @@ export default function LessonAssessmentsPage() {
                                       <X className="size-3.5 shrink-0 text-muted-foreground/50" />
                                     )}
                                     <span className="min-w-0 flex-1 truncate text-muted-foreground">
-                                      {option.answer}
+                                      <MathText>{option.answer}</MathText>
                                     </span>
                                     <Button
                                       variant="ghost"
@@ -780,19 +793,14 @@ export default function LessonAssessmentsPage() {
         open={questionDialog !== null}
         onOpenChange={(o) => !o && setQuestionDialog(null)}
         title={questionDialog?.question ? "Edit question" : "New question"}
-        description={
-          ANSWER_HELP[String(questionDialog?.question?.type ?? "")] &&
-          `Answer spec example: ${ANSWER_HELP[String(questionDialog?.question?.type)]}`
-        }
+        description="Multiple-choice answers are the options you add after saving — mark one correct."
         fields={QUESTION_FIELDS}
         initialValues={
           questionDialog?.question
             ? {
                 ...questionDialog.question,
-                /* The editor is text; the API takes an object. */
-                correctAnswer: questionDialog.question.correctAnswer
-                  ? JSON.stringify(questionDialog.question.correctAnswer, null, 2)
-                  : "",
+                /* The form edits a draft; the API stores the spec. */
+                correctAnswer: toDraft(questionDialog.question.correctAnswer),
               }
             : { type: "multiple_choice", points: 1 }
         }

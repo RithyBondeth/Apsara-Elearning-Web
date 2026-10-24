@@ -77,17 +77,18 @@ const LESSON_FIELDS: IAdminField[] = [
     visible: (v) => v.type === "video",
   },
   {
-    name: "content",
-    label: "Content",
-    type: "textarea",
-    rows: 12,
-    help: "Markdown. Indented formulas render as formula cards in the reader.",
-  },
-  {
     name: "estimatedMinutes",
     label: "Estimated minutes",
     type: "number",
     min: 0,
+  },
+  /* Last, because it is the one that grows: the preview sits beside it. */
+  {
+    name: "content",
+    label: "Content",
+    type: "markdown",
+    preview: "document",
+    help: "Markdown. Indented formulas render as formula cards; headings like និយមន័យ or ឧទាហរណ៍ become callout boxes.",
   },
 ]
 

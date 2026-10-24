@@ -10,6 +10,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { AnswerSpecEditor } from "@/components/admin/answer-spec-editor"
+import { MarkdownField } from "@/components/admin/markdown-field"
+import {
+  fromDraft,
+  validateDraft,
+  type IAnswerDraft,
+} from "@/lib/admin/answer-spec"
+import type { TQuestionType } from "@/utils/interfaces/admin/api.interface"
 
 /** Form values are heterogeneous by nature; each field coerces its own slot. */
 export type TFormValues = Record<string, unknown>
@@ -31,6 +39,10 @@ export interface IAdminField {
     | "multiselect"
     /** Free-form JSON object — edited as text, sent parsed. */
     | "json"
+    /** Markdown + KaTeX text with a live preview; sent as a string. */
+    | "markdown"
+    /** A question's answer spec, edited as an `IAnswerDraft`; see `answerTypeField`. */
+    | "answer"
   required?: boolean
   placeholder?: string
   /** Shown under the control — use it for format rules the API enforces. */
@@ -41,6 +53,10 @@ export interface IAdminField {
   /** Monospace + taller box, for code and content bodies. */
   mono?: boolean
   rows?: number
+  /** `markdown` only: full lesson preview beside the box, or a strip under it. */
+  preview?: "document" | "inline"
+  /** `answer` only: the field holding the question type that shapes the editor. */
+  answerTypeField?: string
   /** Conditional fields, e.g. course placement depends on programType. */
   visible?: (values: TFormValues) => boolean
 }
@@ -77,6 +93,12 @@ export function buildPayload(
 
     if (field.type === "multiselect") {
       payload[field.name] = Array.isArray(raw) ? raw : []
+      continue
+    }
+
+    if (field.type === "answer") {
+      const spec = fromDraft(answerType(field, values), (raw ?? {}) as IAnswerDraft)
+      if (spec) payload[field.name] = spec
       continue
     }
 
@@ -121,6 +143,14 @@ export function validateFields(
 
     if (field.required && isBlank(raw)) return `${field.label} is required`
 
+    if (field.type === "answer") {
+      const problem = validateDraft(
+        answerType(field, values),
+        (raw ?? {}) as IAnswerDraft
+      )
+      if (problem) return problem
+    }
+
     /* An unparseable object would be dropped silently by buildPayload, so it
        has to be caught while the author can still see what they typed. */
     if (field.type === "json" && !isBlank(raw)) {
@@ -135,6 +165,11 @@ export function validateFields(
     }
   }
   return null
+}
+
+function answerType(field: IAdminField, values: TFormValues): TQuestionType {
+  return (values[field.answerTypeField ?? "type"] as TQuestionType | undefined) ??
+    "multiple_choice"
 }
 
 /* ── Rendering ────────────────────────────────────────────────────────── */
@@ -173,6 +208,26 @@ export function AdminFormField({
           placeholder={field.placeholder}
           onChange={(e) => onChange(field.name, e.target.value)}
           className={`${CONTROL} ${field.mono || field.type === "json" ? "font-mono text-xs" : ""}`}
+        />
+      )}
+
+      {field.type === "markdown" && (
+        <MarkdownField
+          id={`field-${field.name}`}
+          value={(value as string) ?? ""}
+          onChange={(v) => onChange(field.name, v)}
+          rows={field.rows}
+          placeholder={field.placeholder}
+          variant={field.preview ?? "inline"}
+        />
+      )}
+
+      {field.type === "answer" && (
+        <AnswerSpecEditor
+          id={`field-${field.name}`}
+          type={answerType(field, values)}
+          draft={(value ?? {}) as IAnswerDraft}
+          onChange={(draft) => onChange(field.name, draft)}
         />
       )}
 
