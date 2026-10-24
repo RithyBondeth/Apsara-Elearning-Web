@@ -61,3 +61,52 @@ describe("QuizReviewCard for a hand-graded short answer", () => {
     expect(screen.queryByText(/correctAnswer/)).not.toBeInTheDocument()
   })
 })
+
+describe("QuizReviewCard for a matching question", () => {
+  const matching = (
+    pairs: { left: string; right: string }[],
+    isCorrect: boolean
+  ): IApiQuizReviewItem => ({
+    ...shortAnswer(),
+    type: "matching",
+    question: "Match each formula to its name.",
+    points: 1,
+    correctAnswer: {
+      pairs: [
+        { left: "H2O", right: "Water" },
+        { left: "NaCl", right: "Salt" },
+      ],
+    },
+    yourAnswer: { selectedOptionId: null, answerData: { pairs } },
+    isCorrect,
+  })
+
+  it("marks each pair and shows the right match only where it was missed", () => {
+    render(
+      <QuizReviewCard
+        item={matching(
+          [
+            /* Folded like the grader: case and spacing don't matter. */
+            { left: "h2o ", right: "water" },
+            { left: "NaCl", right: "Water" },
+          ],
+          false
+        )}
+        index={0}
+        t={t}
+      />
+    )
+
+    const rows = screen.getAllByTestId("match-row")
+    expect(rows).toHaveLength(2)
+    expect(rows[0]).toHaveTextContent("H2Owater")
+    expect(rows[0]).not.toHaveTextContent("correctAnswer")
+    expect(rows[1]).toHaveTextContent("NaClWater(correctAnswer: Salt)")
+  })
+
+  it("shows a dash for a left item that was never matched", () => {
+    render(<QuizReviewCard item={matching([], false)} index={0} t={t} />)
+
+    expect(screen.getAllByTestId("match-row")[0]).toHaveTextContent("H2O—")
+  })
+})
