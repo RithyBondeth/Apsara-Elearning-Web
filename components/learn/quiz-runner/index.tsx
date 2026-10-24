@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { MathText } from "@/components/learn/math-text"
 import { QuizReviewCard, QuizScoreCard } from "@/components/learn/quiz-review"
+import { MatchingInput, isMatchingComplete } from "./matching-input"
 import { useProfileStore } from "@/stores/profiles/profile-store"
 import { getLessonQuizzes, startQuiz, submitAttempt } from "@/lib/api/quiz"
 import type {
@@ -94,7 +95,7 @@ export function QuizRunner({ lessonId, onResult }: QuizRunnerProps) {
   )
 
   const answeredCount = useMemo(
-    () => questions.filter((q) => isAnswered(answers[q.id])).length,
+    () => questions.filter((q) => isAnswered(q, answers[q.id])).length,
     [questions, answers]
   )
   const allAnswered = questions.length > 0 && answeredCount === questions.length
@@ -201,8 +202,11 @@ export function QuizRunner({ lessonId, onResult }: QuizRunnerProps) {
 
 /* ── Answer state helpers ───────────────────────────────────────────────── */
 
-function isAnswered(ans: IQuizAnswerInput | undefined): boolean {
+function isAnswered(question: IApiQuizQuestion, ans: IQuizAnswerInput | undefined): boolean {
   if (!ans) return false
+  if (question.type === "matching") {
+    return isMatchingComplete(question.prompt?.lefts ?? [], ans.answerData)
+  }
   if (ans.selectedOptionId) return true
   const data = ans.answerData
   if (!data) return false
@@ -302,6 +306,17 @@ function QuestionCard({
             value={typeof answer?.answerData?.text === "string" ? answer.answerData.text : ""}
             onChange={(e) => onAnswer({ answerData: { text: e.target.value } })}
             className="max-w-sm"
+          />
+        )}
+
+        {question.type === "matching" && question.prompt && (
+          <MatchingInput
+            lefts={question.prompt.lefts}
+            rights={question.prompt.rights}
+            value={answer?.answerData}
+            disabled={disabled}
+            onChange={(answerData) => onAnswer({ answerData })}
+            t={t}
           />
         )}
       </div>

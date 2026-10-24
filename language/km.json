@@ -1220,6 +1220,8 @@
     "false": "មិនពិត",
     "numericPlaceholder": "បញ្ចូលលេខ",
     "textPlaceholder": "វាយចម្លើយរបស់អ្នក",
+    "matchPlaceholder": "ជ្រើសរើសគូ",
+    "matchFor": "គូសម្រាប់ {item}",
     "answeredOf": "បានឆ្លើយ {done} ក្នុងចំណោម {total}",
     "submit": "ដាក់ស្នើចម្លើយ",
     "error": "មានបញ្ហាកើតឡើង សូមព្យាយាមម្តងទៀត។",

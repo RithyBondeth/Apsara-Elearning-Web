@@ -1220,6 +1220,8 @@
     "false": "False",
     "numericPlaceholder": "Enter a number",
     "textPlaceholder": "Type your answer",
+    "matchPlaceholder": "Choose a match",
+    "matchFor": "Match for {item}",
     "answeredOf": "{done} of {total} answered",
     "submit": "Submit answers",
     "error": "Something went wrong. Please try again.",

@@ -1,6 +1,6 @@
 "use client"
 
-import { Plus, TriangleAlert, X } from "lucide-react"
+import { Plus, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -194,13 +194,6 @@ export function AnswerSpecEditor({
           <Plus className="size-3" />
           Add pair
         </Button>
-        {/* The quiz runner has no matching input yet (components/learn/quiz-runner),
-            so a learner can only leave it blank. Say so where it's authored. */}
-        <p className="flex items-start gap-1.5 text-xs text-amber-700 dark:text-amber-400">
-          <TriangleAlert className="mt-px size-3.5 shrink-0" />
-          Learners can&apos;t answer matching questions yet — the quiz shows no
-          input, so they&apos;re always marked wrong. Use another type for now.
-        </p>
       </div>
     )
   }
