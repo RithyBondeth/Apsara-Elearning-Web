@@ -85,9 +85,16 @@ export function ResourceDialog({
     }
   }
 
+  /* A side-by-side lesson preview needs room; every other form stays narrow. */
+  const wide = fields.some(
+    (f) => f.type === "markdown" && f.preview === "document"
+  )
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
+      <DialogContent
+        className={`max-h-[85vh] overflow-y-auto ${wide ? "sm:max-w-5xl" : "sm:max-w-lg"}`}
+      >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}

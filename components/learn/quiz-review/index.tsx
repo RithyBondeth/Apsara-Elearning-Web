@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, CheckCircle2, Clock, MessageSquareText, RotateCcw, Sparkles, Trophy, X, XCircle } from "lucide-react"
+import { ArrowRight, Check, CheckCircle2, Clock, MessageSquareText, RotateCcw, Sparkles, Trophy, X, XCircle } from "lucide-react"
 import type { useTranslations } from "next-intl"
 import { MathText } from "@/components/learn/math-text"
 import type {
@@ -136,6 +136,8 @@ export function QuizReviewCard({
             )
           })}
         </div>
+      ) : item.type === "matching" ? (
+        <MatchingReview item={item} t={t} />
       ) : (
         <div className="space-y-1 pl-7 text-sm">
           <div className={
@@ -173,6 +175,56 @@ export function QuizReviewCard({
           <MathText>{item.explanation}</MathText>
         </div>
       )}
+    </div>
+  )
+}
+
+/* ── Matching: one row per left item ────────────────────────────────────── */
+
+/* Same folding as the grader (trim, collapse spaces, lowercase). */
+const fold = (s: string) => s.trim().replace(/\s+/g, " ").toLowerCase()
+
+function pairsOf(data: Record<string, unknown> | null | undefined): { left: string; right: string }[] {
+  if (!Array.isArray(data?.pairs)) return []
+  return (data.pairs as { left?: unknown; right?: unknown }[])
+    .filter((p) => typeof p?.left === "string" && typeof p?.right === "string")
+    .map((p) => ({ left: p.left as string, right: p.right as string }))
+}
+
+function MatchingReview({ item, t }: { item: IApiQuizReviewItem; t: TQuizT }) {
+  const expected = pairsOf(item.correctAnswer)
+  const given = new Map(
+    pairsOf(item.yourAnswer?.answerData).map((p) => [fold(p.left), p.right])
+  )
+  return (
+    <div className="space-y-1.5 pl-7">
+      {expected.map((pair, i) => {
+        const yours = given.get(fold(pair.left))
+        const right = yours != null && fold(yours) === fold(pair.right)
+        return (
+          <div
+            key={i}
+            data-testid="match-row"
+            className={`flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg px-3 py-2 text-sm ${
+              right
+                ? "bg-emerald-50 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300"
+                : "bg-red-50 text-red-800 dark:bg-red-500/10 dark:text-red-300"
+            }`}
+          >
+            {right ? <Check className="size-3.5 shrink-0" /> : <X className="size-3.5 shrink-0" />}
+            <span className="text-foreground"><MathText>{pair.left}</MathText></span>
+            <ArrowRight className="size-3.5 shrink-0 text-muted-foreground" aria-hidden />
+            <span><MathText>{yours ?? "—"}</MathText></span>
+            {!right && (
+              <span className="text-emerald-700 dark:text-emerald-400">
+                <span className="text-muted-foreground">({t("correctAnswer")}: </span>
+                <MathText>{pair.right}</MathText>
+                <span className="text-muted-foreground">)</span>
+              </span>
+            )}
+          </div>
+        )
+      })}
     </div>
   )
 }
