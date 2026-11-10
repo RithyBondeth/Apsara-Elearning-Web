@@ -14,6 +14,24 @@
 
 </div>
 
+<!-- product-images:start -->
+
+## Product preview
+
+<p align="center">
+  <img src="docs/product-images/hero.png" alt="Apsara Elearning — Bilingual lessons and an AI tutor for Cambodian learners." width="100%">
+</p>
+
+<table>
+<tr>
+  <td width="33%"><img src="docs/product-images/feature-01.png" alt="A place to keep learning. — Courses, lessons, and Apsara AI in English and Khmer." width="100%"></td>
+  <td width="33%"><img src="docs/product-images/feature-02.png" alt="Learn. Practice. Review. — Move from lessons into quizzes and coding challenges, then review attempts." width="100%"></td>
+  <td width="33%"><img src="docs/product-images/feature-03.png" alt="Progress you can come back to. — Learning activity, badges, and certificates give progress a visible place." width="100%"></td>
+</tr>
+</table>
+
+<!-- product-images:end -->
+
 ---
 
 ## Overview
@@ -36,17 +54,17 @@ It is a Next.js 16 App Router app that talks to the [Apsara Elearning API](https
 
 ## Tech Stack
 
-| Area | Technology |
-| --- | --- |
-| Framework | Next.js 16 (App Router, Turbopack), React 19 |
-| Language | TypeScript |
-| Styling | Tailwind CSS 4, shadcn/ui |
-| State management | Zustand |
-| Internationalization | next-intl (English and Khmer) |
-| Forms and validation | React Hook Form, Zod |
-| Content | react-markdown, remark-gfm, KaTeX |
-| Animation | GSAP |
-| Testing | Vitest |
+| Area                 | Technology                                   |
+| -------------------- | -------------------------------------------- |
+| Framework            | Next.js 16 (App Router, Turbopack), React 19 |
+| Language             | TypeScript                                   |
+| Styling              | Tailwind CSS 4, shadcn/ui                    |
+| State management     | Zustand                                      |
+| Internationalization | next-intl (English and Khmer)                |
+| Forms and validation | React Hook Form, Zod                         |
+| Content              | react-markdown, remark-gfm, KaTeX            |
+| Animation            | GSAP                                         |
+| Testing              | Vitest                                       |
 
 ## Architecture
 
@@ -82,24 +100,24 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### Environment Variables
 
-| Variable | Purpose |
-| --- | --- |
-| `NEXT_PUBLIC_API_URL` | Public api-gateway base URL, e.g. `http://localhost:1111/api/v1/internal` |
-| `ADMIN_API_URL` | Admin-gateway base URL (server-only) |
-| `APP_ORIGIN` | Public web origin used for the CSRF check (production) |
-| `INTERNAL_PROXY_SECRET` | Shared secret with the gateway, for real-IP rate limiting (production) |
-| `NEXT_PUBLIC_SUPPORT_EMAIL` | Inbox used by the contact page |
+| Variable                    | Purpose                                                                   |
+| --------------------------- | ------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_URL`       | Public api-gateway base URL, e.g. `http://localhost:1111/api/v1/internal` |
+| `ADMIN_API_URL`             | Admin-gateway base URL (server-only)                                      |
+| `APP_ORIGIN`                | Public web origin used for the CSRF check (production)                    |
+| `INTERNAL_PROXY_SECRET`     | Shared secret with the gateway, for real-IP rate limiting (production)    |
+| `NEXT_PUBLIC_SUPPORT_EMAIL` | Inbox used by the contact page                                            |
 
 ### Scripts
 
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the development server |
-| `npm run build` | Create a production build |
-| `npm run start` | Serve the production build |
-| `npm run lint` | Run ESLint |
+| Command             | Description                    |
+| ------------------- | ------------------------------ |
+| `npm run dev`       | Start the development server   |
+| `npm run build`     | Create a production build      |
+| `npm run start`     | Serve the production build     |
+| `npm run lint`      | Run ESLint                     |
 | `npm run typecheck` | Type-check with `tsc --noEmit` |
-| `npm test` | Run the Vitest suite |
+| `npm test`          | Run the Vitest suite           |
 
 ## Project Structure
 
